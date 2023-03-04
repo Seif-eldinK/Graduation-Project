@@ -1,0 +1,97 @@
+{% load static %}
+{% load custom_tags %}
+<nav class="navbar navbar-expand-xxl fixed-top navbar-style rounded" style="width: 90%;margin-left: 5%;">
+    <div class="container-fluid">
+        <a class="navbar-brand active Algerian-font" href="{% url "home" %}"
+           style="font-size:x-large">
+            <img class="rounded-circle" src="{% static 'logo.png' %}" alt="logo"
+                 style="width: 45px; height: 50px;">
+            MEMORIZERS
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#main_nav"
+                aria-controls="main_nav" aria-expanded="false">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="main_nav">
+            <ul class="navbar-nav me-auto mb-2 mb-xl-0 Times-New-Roman-font">
+                <li class="nav-item">
+                    <a class="nav-link {% active request.path "home" %}" aria-current="page" href="{% url "home" %}">
+                        <i class='fas fa-home icon-style'></i> Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {% active request.path "home" %}" href="{% url "home" %}#About">
+                        <i class='fa-solid fa-circle-info icon-style'></i> About</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {% active request.path "home" %}" href="{% url "home" %}#Contacts">
+                        <i class='fa fa-comment icon-style'></i> Contacts</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {% active request.path "image_generation" %}"
+                       href="{% url "image_generation" %}">
+                        <i class="fa fa-image icon-style"></i> Image Generation</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {% active request.path "text_simplification" %}"
+                       href="{% url "text_simplification" %}">
+                        <i class='fa fa-file-lines icon-style'></i> Text Simplification</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {% active request.path "home" %}"
+                       href="{% url "home" %}">
+                        <i class='fa fa-video icon-style'></i> Video Generation</a>
+                </li>
+            </ul>
+        </div>
+        <ul class="navbar-nav">
+            {% if user.is_authenticated %}
+                {% load socialaccount %}
+                {% get_social_accounts user as accounts %}
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="" role="button" data-bs-toggle="dropdown">
+                        <img src="{% if user.picture %}
+                                        {{ user.picture.url }}
+                                  {% elif accounts.google.0.extra_data.picture %}
+                                        {{ accounts.google.0.extra_data.picture }}
+                                  {% else %}
+                                        https://img.icons8.com/material/48/000000/user-male-circle--v1.png
+                                  {% endif %}"
+                             class="rounded-circle me-2" height="40" width="40"
+                             loading="lazy"
+                             style="background-color:white;"/>
+                        <strong class="text-capitalize">{{ user.get_username }}</strong>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end end-0">
+                        <li><a class="dropdown-item" href="{% url "profile" %}">
+                            <i class='fa fa-user icon-style'></i> Profile</a></li>
+                        <li><a class="dropdown-item" href="{% url "settings" %}">
+                            <i class="fa fa-gear icon-style"></i> Settings</a></li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        <li>
+                            <a class="dropdown-item" href="{% url "logout" %}">
+                                <i class='fa fa-sign-out icon-style'></i> <strong>Log Out</strong>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            {% else %}
+                <li class="nav-item">
+                    <a class="nav-link {% active request.path "signup" %}"
+                       href="{% url "signup" %}">
+                        <i class='fa fa-user-plus icon-style'></i> Sign Up</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="dropdown" data-bs-toggle="dropdown">
+                        <i class='fa fa-sign-in icon-style'></i> Login</a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item " href="{% url "login" %}">
+                            As User</a></li>
+                        <li><a class="dropdown-item" href="{% url "admin:login" %}">As Admin</a></li>
+                    </ul>
+                </li>
+            {% endif %}
+        </ul>
+    </div>
+</nav>

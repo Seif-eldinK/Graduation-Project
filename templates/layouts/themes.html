@@ -1,0 +1,6 @@
+{% load static %}
+{% if request.COOKIES.Theme == "Light" %}
+    <link rel="stylesheet" type="text/css"  href="{% static '/css/Light_theme_style.css' %}">
+{% elif request.COOKIES.Theme == "Dark" %}
+    <link rel="stylesheet" type="text/css"  href="{% static '/css/Dark_theme_style.css' %}">
+{% endif %}

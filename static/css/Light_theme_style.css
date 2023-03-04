@@ -1,0 +1,21 @@
+.navbar-style {
+    background-color: #f8f9fa!important;
+
+    --bs-navbar-color: rgba(0, 0, 0, 0.55);
+    --bs-navbar-hover-color: rgba(0, 0, 0, 0.75);
+    --bs-navbar-disabled-color: rgba(0, 0, 0, 0.25);
+    --bs-navbar-active-color: #000;
+    --bs-navbar-brand-color: var(--bs-navbar-active-color);
+    --bs-navbar-brand-hover-color: var(--bs-navbar-active-color);
+    --bs-navbar-toggler-border-color: rgba(0, 0, 0, 0.1);
+    --bs-navbar-toggler-icon-bg: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'><path stroke='#{$navbar-light-color}' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/></svg>");
+}
+
+.icon-style {
+    color: black;
+}
+
+.footer-style {
+    background-color: #f8f9fa!important;
+    color: black;
+}

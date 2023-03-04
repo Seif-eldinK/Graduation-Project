@@ -1,0 +1,76 @@
+{% extends 'layouts/base.html' %}
+{% block content %}
+    <h1 class="text-center mb-4">Text Simplification</h1>
+    <div class="container-fluid">
+        <div class="row justify-content-center">
+            <div class="col-5">
+                <label for="text-to-simplify" class="form-label h4 d-flex justify-content-center">Input Text</label>
+                <textarea class="form-control" placeholder="Enter your text:" rows="8"
+                          id="text-to-simplify" name="text-to-simplify" autofocus required></textarea>
+            </div>
+            <div class="col-5">
+                <label for="simplified-text" class="form-label h4 d-flex justify-content-center">Simplified Text</label>
+                <textarea class="form-control" rows="8" id="simplified-text" readonly></textarea>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid p-4">
+        <div class="row">
+            <div class="col-5"></div>
+            <div class="col-2">
+                <div class="text-center">
+                    <button type="button" id="button" class="btn btn-lg"> Simplify </button>
+                </div>
+            </div>
+            <div class="col-1 p-0">
+                <div class="container h-100 d-flex align-items-center">
+                    <div id="loading" style="display: none">
+                        <div class="spinner-border"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let $button = $("#button");
+        let $loading = $("#loading");
+
+        function loading(isLoading) {
+            if (isLoading) {
+                // display loading indicator
+                $button.text('Loading');
+                $button.prop('disabled', true);
+            } else {
+                // hide loading indicator
+                $button.text('Simplify');
+                $button.prop('disabled', false);
+            }
+            $loading.toggle();
+        }
+
+        $button.click(function (e) {
+            loading(true);
+            $.ajax({
+                type: "POST",
+                url: '{% url "text_simplification_api" %}',
+                contentType: 'application/json; charset=utf-8',
+                data: JSON.stringify({
+                    'input_text': $("#text-to-simplify").val(),
+                    csrfmiddlewaretoken: '{{ csrf_token }}'
+                }),
+                success: function (result) {
+                    $("#simplified-text").text(result['simplified_text']);
+                },
+                error: function (result) {
+                    alert('error');
+                },
+                complete: function() {
+                    // this block will be executed after success or error block
+                    loading(false);
+                }
+            });
+        });
+    </script>
+{% endblock content %}

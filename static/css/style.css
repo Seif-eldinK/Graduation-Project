@@ -1,0 +1,29 @@
+/* nav style */
+@media all and (min-width: 992px) {
+    .navbar .nav-item .dropdown-menu {
+        display: none;
+    }
+
+    .navbar .nav-item:hover .dropdown-menu {
+        display: block;
+    }
+
+    .navbar .nav-item .dropdown-menu {
+        margin-top: 0;
+    }
+}
+/* end nav style */
+
+/* fonts */
+.Times-New-Roman-font {
+    font-family: "Times New Roman", Times, serif;
+}
+
+.Algerian-font {
+    font-family: Algerian, Times, serif;
+}
+/* end fonts */
+
+textarea {
+  resize: none;
+}

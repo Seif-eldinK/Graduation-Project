@@ -1,0 +1,70 @@
+{% extends 'layouts/base.html' %}
+{% block content %}
+    <h1 class="text-center mb-3">Image Generation</h1>
+    <div class="container-fluid mb-3">
+        <div class="container-fluid mb-3">
+            <div class="row justify-content-center">
+                <div class="col-8 form-floating">
+                    <input type="text" id="text-prompt" name="text-prompt"
+                           class="form-control" placeholder="Enter your text:" autofocus>
+                    <label for="text-prompt" class="ps-4">Input text</label>
+                </div>
+                <div class="col-auto d-flex align-items-center">
+                    <button type="button" id="button" class="btn btn-lg">Generate</button>
+                </div>
+                <div class="col-auto align-items-center" id="loading" style="display: none">
+                    <div class="spinner-border"></div>
+                </div>
+            </div>
+        </div>
+        <div class="container-fluid d-flex align-items-center justify-content-center">
+            <img id="generated-image" src="" alt="" width="512" height="512" style="display: none">
+        </div>
+    </div>
+
+    <script>
+        let $button = $("#button");
+        let $loading = $("#loading");
+
+        function loading(isLoading) {
+            if (isLoading) {
+                // display loading indicator
+                $button.text('Loading');
+                $button.prop('disabled', true);
+            } else {
+                // hide loading indicator
+                $button.text('Generate');
+                $button.prop('disabled', false);
+            }
+            $loading.toggle().toggleClass('d-flex');
+        }
+
+        function show_image() {
+            $("#generated-image").show();
+        }
+
+        $button.click(function (e) {
+            loading(true);
+            $.ajax({
+                type: "POST",
+                url: '{% url "image_generation_api" %}',
+                contentType: 'application/json; charset=utf-8',
+                data: JSON.stringify({
+                    'text_prompt': $("#text-prompt").val(),
+                    csrfmiddlewaretoken: '{{ csrf_token }}'
+                }),
+                success: function (result) {
+                    $("#generated-image").attr('src', result['image_base64']);
+                    show_image();
+                },
+                error: function (result) {
+                    alert('error');
+                },
+                complete: function() {
+                    // this block will be executed after success or error block
+                    loading(false);
+                }
+            });
+        });
+    </script>
+{% endblock content %}
