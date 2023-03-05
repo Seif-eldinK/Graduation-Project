@@ -1,20 +1,19 @@
 {% load static %}
 {% load custom_tags %}
-<header class="navbar navbar-expand-xxl bg-navbar sticky-top rounded-bottom bg-body-tertiary"
-        style="width: 90%; margin-left: 5%;">
-    <nav class="container-fluid flex-wrap flex-xxl-nowrap">
+<header class="navbar navbar-expand-xl bg-navbar sticky-top rounded-bottom bg-body-tertiary">
+    <nav class="container-fluid flex-wrap flex-xl-nowrap">
         <a class="navbar-brand active Algerian-font fs-4" href="{% url "home" %}">
             <img class="d-inline-block align-text-middle rounded-circle" src="{% static 'logo.png' %}" alt="logo"
                  style="width: 45px; height: 50px;">
             MEMORIZERS
         </a>
         <div class="d-flex">
-            <button class="navbar-toggler d-flex d-xxl-none order-3 p-2" type="button" data-bs-toggle="offcanvas"
+            <button class="navbar-toggler d-flex d-xl-none order-3 p-2" type="button" data-bs-toggle="offcanvas"
                     data-bs-target="#Navbar">
                 <span class="navbar-toggler-icon"></span>
             </button>
         </div>
-        <div class="offcanvas-xxl offcanvas-end flex-grow-1" tabindex="-1" id="Navbar" data-bs-scroll="true">
+        <div class="offcanvas-xl offcanvas-end flex-grow-1" tabindex="-1" id="Navbar" data-bs-scroll="true">
             <div class="offcanvas-header px-4 pb-0">
                 <h4 class="offcanvas-title Algerian-font">
                     MEMORIZERS
@@ -22,47 +21,47 @@
                 <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#Navbar"></button>
             </div>
 
-            <div class="offcanvas-body p-4 pt-0 p-xxl-0">
-                <hr class="d-xxl-none opacity-50">
+            <div class="offcanvas-body p-4 pt-0 p-xl-0">
+                <hr class="d-xl-none opacity-50">
                 <ul class="navbar-nav flex-row flex-wrap Times-New-Roman-font align-items-center">
-                    <li class="nav-item col-6 col-xxl-auto">
-                        <a class="nav-link py-2 px-0 px-xxl-2 {% active request.path "home" %}"
+                    <li class="nav-item col-6 col-xl-auto">
+                        <a class="nav-link py-2 px-0 px-xl-2 {% active request.path "home" %}"
                            href="{% url "home" %}">
                             <i class='fas fa-home icon-style'></i> Home
                         </a>
                     </li>
-                    <li class="nav-item col-6 col-xxl-auto">
-                        <a class="nav-link py-2 px-0 px-xxl-2 {% active request.path "home" %}"
+                    <li class="nav-item col-6 col-xl-auto">
+                        <a class="nav-link py-2 px-0 px-xl-2 {% active request.path "home" %}"
                            href="{% url "home" %}#About">
                             <i class='fa-solid fa-circle-info icon-style'></i> About
                         </a>
                     </li>
-                    <li class="nav-item col-6 col-xxl-auto">
-                        <a class="nav-link py-2 px-0 px-xxl-2 {% active request.path "home" %}"
+                    <li class="nav-item col-6 col-xl-auto">
+                        <a class="nav-link py-2 px-0 px-xl-2 {% active request.path "home" %}"
                            href="{% url "home" %}#Contacts">
                             <i class='fa fa-comment icon-style'></i> Contacts
                         </a>
                     </li>
-                    <li class="nav-item col-6 col-xxl-auto">
-                        <a class="nav-link py-2 px-0 px-xxl-2 {% active request.path "image_generation" %}"
+                    <li class="nav-item col-6 col-xl-auto">
+                        <a class="nav-link py-2 px-0 px-xl-2 {% active request.path "image_generation" %}"
                            href="{% url "image_generation" %}">
                             <i class="fa fa-image icon-style"></i> Image Generation
                         </a>
                     </li>
-                    <li class="nav-item col-6 col-xxl-auto">
-                        <a class="nav-link py-2 px-0 px-xxl-2 {% active request.path "text_simplification" %}"
+                    <li class="nav-item col-6 col-xl-auto">
+                        <a class="nav-link py-2 px-0 px-xl-2 {% active request.path "text_simplification" %}"
                            href="{% url "text_simplification" %}">
                             <i class='fa fa-file-lines icon-style'></i> Text Simplification
                         </a>
                     </li>
-                    <li class="nav-item col-6 col-xxl-auto">
-                        <a class="nav-link py-2 px-0 px-xxl-2 {% active request.path "home" %}"
+                    <li class="nav-item col-6 col-xl-auto">
+                        <a class="nav-link py-2 px-0 px-xl-2 {% active request.path "home" %}"
                            href="{% url "home" %}">
                             <i class='fa fa-video icon-style'></i> Video Generation
                         </a>
                     </li>
                 </ul>
-                <hr class="d-xxl-none opacity-50">
+                <hr class="d-xl-none opacity-50">
                 <ul class="navbar-nav flex-row flex-wrap ms-md-auto align-items-center">
                     {% if user.is_authenticated %}
                         {% load socialaccount %}
@@ -106,28 +105,28 @@
                             </ul>
                         </li>
                     {% else %}
-                        <li class="nav-item col-6 col-xxl-auto">
-                            <a class="nav-link py-2 px-0 px-xxl-2 {% active request.path "login" %}"
+                        <li class="nav-item col-6 col-xl-auto">
+                            <a class="nav-link py-2 px-0 px-xl-2 {% active request.path "login" %}"
                                href="{% url "login" %}">
                                 <i class='fa fa-sign-in icon-style'></i> Login
                             </a>
                         </li>
-                        <li class="nav-item col-6 col-xxl-auto">
-                            <a class="nav-link py-2 px-0 px-xxl-2 {% active request.path "signup" %}"
+                        <li class="nav-item col-6 col-xl-auto">
+                            <a class="nav-link py-2 px-0 px-xl-2 {% active request.path "signup" %}"
                                href="{% url "signup" %}">
                                 <i class='fa fa-user-plus icon-style'></i> Sign Up
                             </a>
                         </li>
                     {% endif %}
-                    <li class="nav-item py-2 py-xxl-1 col-12 col-xxl-auto">
-                        <div class="vr d-none d-xxl-flex h-100 mx-xxl-2"></div>
-                        <hr class="d-xxl-none my-2 opacity-50">
+                    <li class="nav-item py-2 py-xl-1 col-12 col-xl-auto">
+                        <div class="vr d-none d-xl-flex h-100 mx-xl-2"></div>
+                        <hr class="d-xl-none my-2 opacity-50">
                     </li>
                     <li class="nav-item dropdown">
-                        <button class="btn btn-link nav-link py-2 px-0 px-xxl-2 dropdown-toggle d-flex align-items-center"
+                        <button class="btn btn-link nav-link py-2 px-0 px-xl-2 dropdown-toggle d-flex align-items-center"
                                 type="button" data-bs-toggle="dropdown" data-bs-display="static">
                             <i class="bi bi-moon-stars-fill my-1 theme-icon-active"></i>
-                            <span class="d-xxl-none ms-2">Toggle theme</span>
+                            <span class="d-xl-none ms-2">Toggle theme</span>
                         </button>
                         <ul class="dropdown-menu dropdown-menu-end" style="--bs-dropdown-min-width: 8rem;">
                             <li>
