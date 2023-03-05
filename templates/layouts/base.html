@@ -1,20 +1,19 @@
 {% load static %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-bs-theme="dark">
     <head>
         <meta charset="UTF-8">
         <title>{{ title }}</title>
         <link rel="shortcut icon" href="{%  static 'favicon.ico' %}">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         {% include "layouts/required_library.html" %}
-        <script src="{% static '/js/script.js' %}"></script>
-        <script>get_theme("{% url "get_theme" %}");</script>
+        <script src="{% static '/js/themes.js' %}"></script>
         {% block head %}
         {% endblock head %}
         <link rel="stylesheet" type="text/css" href="{% static '/css/style.css' %}">
         {% include "layouts/themes.html" %}
     </head>
-    <body class="d-flex flex-column min-vh-100" style="padding-top: 85px; max-width: 100%; overflow-x: hidden;">
+    <body class="d-flex flex-column min-vh-100 overflow-hidden bg-body text-body">
         {% block nav %}
             {% include "layouts/nav.html" %}
         {% endblock nav %}

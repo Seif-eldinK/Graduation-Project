@@ -12,6 +12,7 @@
         margin-top: 0;
     }
 }
+
 /* end nav style */
 
 /* fonts */
@@ -22,8 +23,13 @@
 .Algerian-font {
     font-family: Algerian, Times, serif;
 }
+
 /* end fonts */
 
 textarea {
-  resize: none;
+    resize: none;
+}
+
+.active >.bi {
+    display: block!important; /* for add ✔ to theme dropdown-menu nav */
 }
