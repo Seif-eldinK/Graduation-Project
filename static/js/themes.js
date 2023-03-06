@@ -2,22 +2,34 @@
 (() => {
     'use strict'
 
-    const storedTheme = localStorage.getItem('theme')
+    const THEMES = ['auto', 'dark', 'light']
+
+    function isUserPreferringDarkMode() {
+        return window.matchMedia('(prefers-color-scheme: dark)').matches
+    }
+
+    function getThemeFromLocalStorage() {
+        return localStorage.getItem('theme');
+    }
 
     function getPreferredTheme() {
-        if (storedTheme) {
+        let storedTheme = getThemeFromLocalStorage()
+        if (storedTheme && THEMES.includes(storedTheme)) {
             return storedTheme
         }
 
-        return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
+        return 'auto'
     }
 
     function setTheme(theme) {
-        if (theme === 'auto' && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        if (theme === 'auto' && isUserPreferringDarkMode()) {
             document.documentElement.setAttribute('data-bs-theme', 'dark')
+        } else if (theme === 'auto') {
+            document.documentElement.setAttribute('data-bs-theme', 'light')
         } else {
             document.documentElement.setAttribute('data-bs-theme', theme)
         }
+        localStorage.setItem('theme', theme)
     }
 
     setTheme(getPreferredTheme())
@@ -37,9 +49,8 @@
     }
 
     window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
-        if (storedTheme !== 'light' || storedTheme !== 'dark') {
-            setTheme(getPreferredTheme())
-        }
+        let storedTheme = getThemeFromLocalStorage()
+        if (storedTheme === 'auto' || !THEMES.includes(storedTheme)) setTheme(getPreferredTheme())
     })
 
     window.addEventListener('DOMContentLoaded', () => {
@@ -49,7 +60,6 @@
             .forEach(toggle => {
                 toggle.addEventListener('click', () => {
                     const theme = toggle.getAttribute('data-bs-theme-value')
-                    localStorage.setItem('theme', theme)
                     setTheme(theme)
                     showActiveTheme(theme)
                 })

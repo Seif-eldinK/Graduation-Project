@@ -14,9 +14,7 @@
         {% include "layouts/themes.html" %}
     </head>
     <body class="d-flex flex-column min-vh-100 overflow-hidden bg-body text-body">
-        {% block nav %}
-            {% include "layouts/nav.html" %}
-        {% endblock nav %}
+        {% include "layouts/nav.html" %}
         <main>
             {% block content %}
             {% endblock content %}
