@@ -22,10 +22,12 @@
     }
 
     function setTheme(theme) {
-        if (theme === 'auto' && isUserPreferringDarkMode()) {
-            document.documentElement.setAttribute('data-bs-theme', 'dark')
-        } else if (theme === 'auto') {
-            document.documentElement.setAttribute('data-bs-theme', 'light')
+        if (theme === 'auto') {
+            if (isUserPreferringDarkMode()) {
+                document.documentElement.setAttribute('data-bs-theme', 'dark')
+            } else {
+                document.documentElement.setAttribute('data-bs-theme', 'light')
+            }
         } else {
             document.documentElement.setAttribute('data-bs-theme', theme)
         }
@@ -49,8 +51,7 @@
     }
 
     window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
-        let storedTheme = getThemeFromLocalStorage()
-        if (storedTheme === 'auto' || !THEMES.includes(storedTheme)) setTheme(getPreferredTheme())
+        setTheme(getPreferredTheme())
     })
 
     window.addEventListener('DOMContentLoaded', () => {
