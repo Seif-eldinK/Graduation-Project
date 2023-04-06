@@ -21,7 +21,7 @@ Graduation project of for the Bachelor of Computer Science, Canadian Internation
 This is the source code for the graduation project of 2022-2023 academic year in the School of Computer Science, Canadian International College (CIC) - New Cairo, Cairo, Egypt.
 It is a web application that helps you to Create a Creative and unique design PowerPoint Presentation for your next presentation.
 
-### the project is divided into 4 applications:
+### the project is divided into 5 applications:
 
 - core: The core application is the main application that contains the main logic of the project.
 
