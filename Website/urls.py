@@ -29,6 +29,7 @@ urlpatterns = [
     path('', include('apps.text_simplification.urls')),
     path('', include('apps.image_generation.urls')),
     path('', include('apps.video_generation.urls')),
+    path('', include('apps.hand_controlled_presentation.urls')),
 
     path('', include(router.urls)),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),

@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'apps.text_simplification',
     'apps.image_generation',
     'apps.video_generation',
+    'apps.hand_controlled_presentation',
 
     # The following apps are required:
     'django.contrib.sites', 'allauth', 'allauth.account', 'allauth.socialaccount',
