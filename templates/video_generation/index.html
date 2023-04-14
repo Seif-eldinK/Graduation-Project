@@ -75,14 +75,19 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body">
-                    {% for character, name in characters.items %}
-                        <input type="radio" class="btn-check" name="Character" autocomplete="off"
-                               id="character_{{ forloop.counter }}" value="character_{{ forloop.counter }}">
-                        <label class="btn btn-outline-primary" for="character_{{ forloop.counter }}">
-                            <div class="text-center text-capitalize">{{ name }}</div>
-                            <img src="{% static character %}" class="img-fluid" alt="{{ name }}">
-                        </label>
-                    {% endfor %}
+                    <div class="row">
+                        {% for character, name in characters.items %}
+                            <div class="col-4 mb-2">
+                                <input type="radio" class="btn-check" name="Character" autocomplete="off"
+                                       id="character_{{ forloop.counter }}" value="character_{{ forloop.counter }}">
+                                <label class="btn btn-outline-primary character-img-container"
+                                       for="character_{{ forloop.counter }}">
+                                    <div class="text-center text-capitalize">{{ name }}</div>
+                                    <img src="{% static character %}" class="img-fluid character-img" alt="{{ name }}">
+                                </label>
+                            </div>
+                        {% endfor %}
+                    </div>
                 </div>
                 <div class="modal-footer justify-content-center">
                     <button type="button" id="character-selected-button" class="btn btn-outline-info"
@@ -98,7 +103,17 @@
         const $button = $("#button");
         const $video = $("#uploaded-video");
         const $generated_video = $("#generated-video");
+        const $upload_btn = $("#upload-btn");
         let $character;
+
+        {# Enable Tooltip #}
+        const $tooltipsList = $('[data-bs-toggle="tooltip"]');
+        $tooltipsList.each(function () {
+                new bootstrap.Tooltip(this, {
+                    trigger: 'hover'
+                })
+            }
+        )
 
         function show_uploaded_video() {
             const reader = new FileReader();
@@ -109,7 +124,7 @@
                 let base64String = reader.result;
                 $video.attr('src', base64String);
                 $video.show();
-                $('#upload-btn').hide();
+                $upload_btn.hide();
             };
             if (file) {
                 // read video file as base64 string
