@@ -43,7 +43,7 @@ def profile(request):
 
 
 @login_required
-def settings(request, template):
+def settings(request, template="personal_information"):
     context = {"title": "Settings"}
     root = "core/settings/"
     if template == "personal_information":

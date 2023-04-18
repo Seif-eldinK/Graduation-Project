@@ -10,6 +10,7 @@ urlpatterns = [
     path('profile', views.profile, name='profile'),
     path('get_inpired', views.get_inspired, name='get_inspired'),
     path('settings/<str:template>', views.settings, name='settings'),
+    path('settings/', views.settings, name='settings'),
     path('get_theme', views.get_theme, name='get_theme'),
     path('set_theme', views.set_theme, name='set_theme'),
 ]
