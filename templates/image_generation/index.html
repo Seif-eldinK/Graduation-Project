@@ -1,30 +1,53 @@
 {% extends 'layouts/base.html' %}
 {% block content %}
-    <h1 class="text-center mb-3">Image Generation</h1>
-    <div class="container-fluid mb-3">
-        <div class="container-fluid mb-3">
-            <div class="row">
-                <div class="col-9 offset-1 form-floating">
-                    <input type="text" id="text-prompt" name="text-prompt"
-                           class="form-control" placeholder="Enter your text:" autofocus>
-                    <label for="text-prompt" class="ps-4">Input text</label>
+    <h1 class="text-center my-4 title-style">Image Generation</h1>
+    <div class="container-fluid">
+        <div class="row justify-content-center">
+            <div class="col-5">
+                <label for="text-prompt" class="form-label h4 d-flex justify-content-center">The Input Text</label>
+                <div class="position-relative">
+                    <textarea class="form-control" placeholder="Enter your text:" rows="13"
+                              id="text-prompt" name="text-prompt" autofocus required></textarea>
+                    <div class="position-absolute bottom-0 start-0 p-2">
+                        <button type="button" id="mic-btn" class="btn btn-outline-secondary"
+                                style="border-color: transparent">
+                            <i class="bi bi-mic"></i>
+                        </button>
+                    </div>
                 </div>
-                <div class="col-1 d-flex align-items-center justify-content-center">
-                    <button type="button" id="button" class="btn btn-outline-primary h-100">Generate</button>
-                </div>
-                <div class="col-1 align-items-center" id="loading" style="display: none">
-                    <div class="spinner-border"></div>
+            </div>
+            <div class="col-5">
+                <label class="form-label h4 d-flex justify-content-center">
+                    The Generated Image
+                </label>
+                <div class="position-relative">
+                    <div class="form-control d-flex justify-content-center" style="height: 325px">
+                        <img id="generated-image" class="h-100" src="" alt="" style="display: none;">
+                    </div>
+                    <div class="position-absolute top-0 end-0 p-2">
+                        <a id="download" class="btn btn-outline-success" href="" download="output"
+                           data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Download"
+                           style="display: none">
+                            <i class="bi bi-download"></i>
+                        </a>
+                    </div>
+                    <div class="position-absolute bottom-0 end-0 p-2">
+                        <button id="full-screen" class="btn btn-outline-success" style="display: none">
+                            <i class="bi bi-arrows-fullscreen"></i>
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
-        <div class="container-fluid d-flex align-items-center justify-content-center">
-            <div id="output" class="position-relative" style="display: none">
-                <img id="generated-image" src="" alt="" width="488" height="488">
-                <div class="position-absolute top-0 end-0 p-2">
-                    <a id="download" class="btn btn-outline-success" href="" download="output"
-                       data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Download">
-                        <i class="bi bi-download"></i>
-                    </a>
+        <div class="container-fluid p-4">
+            <div class="row justify-content-center">
+                <div class="col-2">
+                    <div class="text-center">
+                        <button type="button" id="button" class="btn btn-lg btn-outline-primary main-btn"
+                                style="width: 140px;">
+                            Generate
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -32,8 +55,19 @@
 
     <script>
         let $button = $("#button");
-        let $loading = $("#loading");
+        let $generated_image = $("#generated-image");
         const $download = $("#download");
+        const $full_screen = $("#full-screen");
+
+        {# Enable Full Screen when image pressed #}
+        $generated_image.click(function () {
+            this.requestFullscreen();
+        });
+
+        {# Enable Full Screen when button pressed #}
+        $full_screen.click(function (){
+            $generated_image[0].requestFullscreen();
+        });
 
         {# Enable Tooltip #}
         const $tooltip = new bootstrap.Tooltip('[data-bs-toggle="tooltip"]', {
@@ -42,7 +76,7 @@
 
         {# download the image when the icon is clicked #}
         $download.click(function (e) {
-            let image_src = $('#generated-image').attr('src');
+            let image_src = $generated_image.attr('src');
             $(this).attr('href', image_src);
             $tooltip.setContent({'.tooltip-inner': 'Downloading!'})
         });
@@ -54,18 +88,19 @@
         function loading(isLoading) {
             if (isLoading) {
                 // display loading indicator
-                $button.text('Loading');
+                $button[0].innerHTML = 'Loading... <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>';
                 $button.prop('disabled', true);
             } else {
                 // hide loading indicator
                 $button.text('Generate');
                 $button.prop('disabled', false);
             }
-            $loading.toggle().toggleClass('d-flex');
         }
 
         function show_image() {
-            $("#output").show();
+            $generated_image.show();
+            $full_screen.show();
+            $download.show();
         }
 
         $button.click(function (e) {
@@ -79,11 +114,11 @@
                     'text_prompt': $("#text-prompt").val(),
                 }),
                 success: function (result) {
-                    $("#generated-image").attr('src', result['image_base64']);
+                    $generated_image.attr('src', result['image_base64']);
                     show_image();
                 },
                 error: function (result) {
-                    alert('error');
+                    show_alert("error", "Error");
                 },
                 complete: function () {
                     // this block will be executed after success or error block
