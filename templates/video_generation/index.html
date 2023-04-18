@@ -1,7 +1,7 @@
 {% extends "layouts/base.html" %}
 {% load static %}
 {% block content %}
-    <h1 class="text-center mb-4">Video Conversion</h1>
+    <h1 class="text-center my-4 title-style">Video Conversion</h1>
     <div class="container-fluid">
         <div class="row justify-content-center">
             <div class="col-5">
@@ -9,7 +9,7 @@
                     Upload Your Video
                 </label>
                 <div class="position-relative">
-                    <div class="form-control" style="height: 320px">
+                    <div class="form-control" style="height: 325px">
                         <video id="uploaded-video" class="w-100" controls style="display: none; height: 300px">
                             Your browser does not support HTML video.
                         </video>
@@ -29,7 +29,7 @@
                     Converted Video
                 </label>
                 <div class="position-relative">
-                    <div class="form-control" style="height: 320px">
+                    <div class="form-control" style="height: 325px">
                         <video id="generated-video" class="w-100" controls style="display: none; height: 300px">
                             Your browser does not support HTML video.
                         </video>
@@ -48,20 +48,15 @@
     <div class="container-fluid p-4">
         <div class="row justify-content-center">
             <div class="col-auto">
-                <button type="button" id="character-button" class="btn btn-lg btn-outline-primary"
+                <button type="button" id="character-button" class="btn btn-lg btn-outline-primary secondary-btn"
                         data-bs-toggle="modal" data-bs-target="#CharacterModal">
                     Choose Character
                 </button>
             </div>
             <div class="col-auto">
-                <button type="button" id="button" class="btn btn-lg btn-outline-primary">Convert</button>
-            </div>
-            <div class="">
-                <div class="container h-100 d-flex align-items-center">
-                    <div id="loading" style="display: none">
-                        <div class="spinner-border"></div>
-                    </div>
-                </div>
+                <button type="button" id="button" class="btn btn-lg btn-outline-primary main-btn"
+                        style="width: 140px;">Convert
+                </button>
             </div>
         </div>
     </div>
@@ -71,8 +66,10 @@
         <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="CharacterModalLabel">Choose Character</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    <h1 class="modal-title fs-5 title-style" id="CharacterModalLabel">Choose A Character</h1>
+                    <button type="button" class="button-close-modal" data-bs-dismiss="modal">
+                        <i class="bi bi-x-lg button-close-modal-icon"></i>
+                    </button>
                 </div>
                 <div class="modal-body">
                     <div class="row">
@@ -90,7 +87,7 @@
                     </div>
                 </div>
                 <div class="modal-footer justify-content-center">
-                    <button type="button" id="character-selected-button" class="btn btn-outline-info"
+                    <button type="button" id="character-selected-button" class="btn btn-outline-success success-btn"
                             data-bs-dismiss="modal">Ok
                     </button>
                 </div>
@@ -115,6 +112,18 @@
             }
         )
 
+        function loading(isLoading) {
+            if (isLoading) {
+                // display loading indicator
+                $button[0].innerHTML = 'Loading... <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>';
+                $button.prop('disabled', true);
+            } else {
+                // hide loading indicator
+                $button.text('Convert');
+                $button.prop('disabled', false);
+            }
+        }
+
         function show_uploaded_video() {
             const reader = new FileReader();
             // get video file from input element
@@ -135,6 +144,7 @@
         $button.click(function () {
             let base64String = $video.attr('src');
             if (base64String && $character) {
+                loading(true);
                 // send video file as string base 64 and character as string in json data to server using ajax
                 $.ajax({
                     type: "POST",
@@ -169,16 +179,22 @@
                     },
                     complete: function () {
                         // this block will be executed after success or error block
+                        loading(false);
                     }
                 });
             }
-            if (!base64String) {
+            if (!base64String && !$character) {
                 // show warning alert if no video is uploaded
-                show_alert("warning", "Please upload a video!");
-            }
-            if (!$character) {
-                // show warning alert if no character is selected
-                show_alert("warning", "Please select a character!");
+                show_alert("warning", "Please upload a video and select a character!");
+            } else {
+                if (!base64String) {
+                    // show warning alert if no video is uploaded
+                    show_alert("warning", "Please upload a video!");
+                }
+                if (!$character) {
+                    // show warning alert if no character is selected
+                    show_alert("warning", "Please select a character!");
+                }
             }
         });
         // get selected character from radio button on change

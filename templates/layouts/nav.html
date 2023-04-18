@@ -62,6 +62,12 @@
                         </a>
                     </li>
                     <li class="nav-item col-6 col-xl-auto">
+                        <a class="nav-link py-2 px-0 px-xl-2 {% active request.path "get_inspired"%}"
+                           href="{% url "get_inspired" %}">
+                            <i class="bi bi-file-earmark-ppt-fill icon-style" style="display: inline!important;"></i> Get Inspired
+                        </a>
+                    </li>
+                    <li class="nav-item col-6 col-xl-auto">
                         <a class="nav-link py-2 px-0 px-xl-2 {% active request.path "hand_controlled_presentation" %}"
                            href="{% url "hand_controlled_presentation" %}">
                             <i class='fa fa-video icon-style'></i> Hand
@@ -96,7 +102,7 @@
                                     </a>
                                 </li>
                                 <li>
-                                    <a class="dropdown-item {% active request.path "settings" %}"
+                                    <a class="dropdown-item {% active_in request.path "settings" %}"
                                        href="{% url "settings" %}">
                                         <i class="fa fa-gear icon-style"></i> Settings
                                     </a>
