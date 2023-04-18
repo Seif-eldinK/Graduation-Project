@@ -1,0 +1,84 @@
+.main-btn {
+    --bs-btn-color: black;
+    --bs-btn-disabled-color: #ffffff;
+    --bs-btn-disabled-bg: red;
+    --bs-btn-disabled-border-color: #E61A1A;
+    --bs-btn-disabled-opacity: 1;
+    border-color: #E61A1A;
+    transition: all 0.3s ease-in-out;
+    border-radius: var(--bs-border-radius-xl) !important;
+}
+
+.main-btn:hover {
+    box-shadow: 0 0 10px 2px #E61A1A;
+    transform: translateY(-5px);
+}
+
+.secondary-btn {
+    --bs-btn-color: black;
+    transition: all 0.3s ease-in-out;
+    border-radius: var(--bs-border-radius-xl) !important;
+}
+
+.secondary-btn:hover {
+    box-shadow: 0 0 10px 2px var(--bs-primary);
+    transform: translateY(-5px);
+}
+
+.success-btn {
+    --bs-btn-color: #71D456;
+    border-color: #71D456;
+    --bs-btn-hover-color: #fff;
+    --bs-btn-hover-bg: #71D456
+}
+
+.btn-social-media {
+    font-size: 18px;
+}
+
+.social-media-icon {
+    width: 25px;
+    font-size: 25px;
+}
+
+.input-group-text:has(.social-media-icon) {
+    padding: 0.1rem 0.5rem;
+}
+
+/* Home Page Style */
+.cards-style {
+    background-color: #E61A1A;
+    transition: all 0.3s ease-in-out;
+    --bs-border-color: #fde8e8;
+    height: 200px;
+}
+
+.cards-style:hover {
+    box-shadow: 0 0 40px 10px rgba(255, 255, 255, 0.8);
+    transform: translateY(-5px);
+}
+
+.about-card-style {
+    color: black;
+    background-color: rgba(255, 255, 255, 0.34);
+    border-color: red;
+}
+
+.contacts-icon-style {
+    color: red;
+    background-color: rgba(250, 180, 180, 30%);
+}
+
+.contacts-title-style {
+    color: red;
+}
+/* End Home Page Style */
+
+.title-style {
+    -webkit-text-stroke: 1px #E61A1A;
+    color: black;
+}
+
+.button-close-modal-icon {
+    color: #E61A1A;
+}

@@ -1,0 +1,50 @@
+
+<h3 class="text-left text-capitalize mb-1" style="-webkit-text-stroke: 1px #e61a1a; color: black;">language
+</h3>
+<div class="form-control mt-3 px-5 py-3" style="box-shadow: 0 0 10px red;" id="settings">
+  {% comment %}<select class="js-example-basic-single" style="width: 400px; font-size: 20px" name="state">
+        <option value="ab">Abkhaz</option>
+        <option value="aa">Afar</option>
+    </select>
+</div>
+<script>
+    $(document).ready(function() {
+        $('.js-example-basic-single').select2();
+    });
+</script>{% endcomment %}
+   <select class="js-example-basic-single" style="width: 400px; font-size: 20px">
+  <option value="ab">Abkhaz</option>
+  <option value="aa">Afar</option>
+</select>
+
+<script>
+$(document).ready(function() {
+  $('.js-example-basic-single').select2({
+    dropdownCssClass: "select2-with-icon"
+  });
+});
+</script>
+
+<style>
+.select2-container--default.select2-with-icon .select2-search__field {
+  background-image: url("https://cdn4.iconfinder.com/data/icons/feather/24/search-16.png");
+  background-repeat: no-repeat;
+  background-position: center left;
+  background-size: 16px 16px;
+  padding-left: 24px;
+}
+
+.select2-container--default.select2-with-icon .select2-search__field:focus {
+  background-color: #fff;
+  outline: none;
+  border-color: #aaa;
+}
+
+.select2-container--default.select2-with-icon .select2-search--dropdown .select2-search__field {
+  padding-left: 8px;
+}
+</style>
+
+</div>
+
+
