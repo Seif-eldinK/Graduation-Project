@@ -66,7 +66,7 @@ python manage.py runserver
 ## 6. Team Members
 - [NourEldin Osama](https://www.linkedin.com/in/noureldin-osama-saad/) - Team Leader
 - [Yousr Ahmed](https://www.linkedin.com/in/yousr-ahmed/)
-- [Seif Eldin Hesham](https://www.linkedin.com/in/seif-eldin-hesham-8a1367197/)
+- [Seif Eldin Hesham](https://www.linkedin.com/in/SeifEldinIsamil/)
 - [Hussein Mohamed](https://www.linkedin.com/in/hussein-elwakeel/)
 - [Youssef Ahmed]()
 
