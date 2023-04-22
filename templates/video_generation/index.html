@@ -35,9 +35,16 @@
                         </video>
                     </div>
                     <div class="position-absolute top-0 end-0 p-2">
-                        <button type="button" id="download" class="btn btn-outline-secondary"
-                                data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Download">
+                        <a id="download" class="btn btn-outline-secondary" href="" download="output"
+                           data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Download"
+                           style="display: none">
                             <i class="bi bi-download"></i>
+                        </a>
+                    </div>
+                    <div class="position-absolute bottom-0 end-0 p-2">
+                        <button id="full-screen" class="btn btn-outline-success" style="display: none"
+                                data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Full Screen">
+                            <i class="bi bi-arrows-fullscreen"></i>
                         </button>
                     </div>
                 </div>
@@ -102,15 +109,33 @@
         const $generated_video = $("#generated-video");
         const $upload_btn = $("#upload-btn");
         let $character;
+        const $full_screen = $("#full-screen");
+        const $download = $("#download");
 
         {# Enable Tooltip #}
-        const $tooltipsList = $('[data-bs-toggle="tooltip"]');
-        $tooltipsList.each(function () {
-                new bootstrap.Tooltip(this, {
-                    trigger: 'hover'
-                })
-            }
-        )
+        $('[data-bs-toggle="tooltip"]').each(function () {
+            new bootstrap.Tooltip(this, {
+                trigger: 'hover'
+            });
+        });
+        {# Initiatalize all tooltips #}
+        const download_tooltip = bootstrap.Tooltip.getInstance($download);
+
+        {# Enable Full Screen when button pressed #}
+        $full_screen.click(function () {
+            $generated_video[0].requestFullscreen();
+        });
+
+        {# download the image when the icon is clicked #}
+        $download.click(function (e) {
+            let video_src = $generated_video.attr('src');
+            $(this).attr('href', video_src);
+            download_tooltip.setContent({'.tooltip-inner': 'Downloading!'})
+        });
+
+        $download.on('hidden.bs.tooltip', () => {
+            download_tooltip.setContent({'.tooltip-inner': 'Download'});
+        })
 
         function loading(isLoading) {
             if (isLoading) {
@@ -164,14 +189,10 @@
                         $generated_video.attr('src', result["generated_video"]);
                         $generated_video.show();
 
-                        {% comment %}
+                        // show full screen button
+                        $full_screen.show();
                         // show download button
-                        $("#download").show();
-                        // set generated video as source of download button
-                        $("#download").attr('href', result.video);
-                        // hide loading spinner
-                        $("#loading").hide();
-                        {% endcomment %}
+                        $download.show();
                     },
                     error: function () {
                         // show error alert if error occurs
