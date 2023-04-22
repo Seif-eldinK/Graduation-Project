@@ -10,6 +10,7 @@
                               id="text-prompt" name="text-prompt" autofocus required></textarea>
                     <div class="position-absolute bottom-0 start-0 p-2">
                         <button type="button" id="mic-btn" class="btn btn-outline-secondary"
+                                data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Voice typing"
                                 style="border-color: transparent">
                             <i class="bi bi-mic"></i>
                         </button>
@@ -32,7 +33,8 @@
                         </a>
                     </div>
                     <div class="position-absolute bottom-0 end-0 p-2">
-                        <button id="full-screen" class="btn btn-outline-success" style="display: none">
+                        <button id="full-screen" class="btn btn-outline-success" style="display: none"
+                                data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Full Screen">
                             <i class="bi bi-arrows-fullscreen"></i>
                         </button>
                     </div>
@@ -59,30 +61,34 @@
         const $download = $("#download");
         const $full_screen = $("#full-screen");
 
+        {# Enable All Tooltips #}
+        $('[data-bs-toggle="tooltip"]').each(function () {
+            new bootstrap.Tooltip(this, {
+                trigger: 'hover'
+            });
+        });
+        {# Initiatalize all tooltips #}
+        const download_tooltip = bootstrap.Tooltip.getInstance($download);
+
         {# Enable Full Screen when image pressed #}
         $generated_image.click(function () {
             this.requestFullscreen();
         });
 
         {# Enable Full Screen when button pressed #}
-        $full_screen.click(function (){
+        $full_screen.click(function () {
             $generated_image[0].requestFullscreen();
-        });
-
-        {# Enable Tooltip #}
-        const $tooltip = new bootstrap.Tooltip('[data-bs-toggle="tooltip"]', {
-            trigger: 'hover'
         });
 
         {# download the image when the icon is clicked #}
         $download.click(function (e) {
             let image_src = $generated_image.attr('src');
             $(this).attr('href', image_src);
-            $tooltip.setContent({'.tooltip-inner': 'Downloading!'})
+            download_tooltip.setContent({'.tooltip-inner': 'Downloading!'})
         });
 
         $download.on('hidden.bs.tooltip', () => {
-            $tooltip.setContent({'.tooltip-inner': 'Download'});
+            download_tooltip.setContent({'.tooltip-inner': 'Download'});
         })
 
         function loading(isLoading) {
