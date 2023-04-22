@@ -7,10 +7,10 @@
                 <label for="text-to-simplify" class="form-label h4 d-flex justify-content-center">The Input Text</label>
                 <div class="position-relative">
                     <textarea class="form-control" placeholder="Enter your text:" rows="13"
-                              id="text-to-simplify" name="text-to-simplify" autofocus required>
-                    </textarea>
+                              id="text-to-simplify" name="text-to-simplify" autofocus required></textarea>
                     <div class="position-absolute bottom-0 start-0 p-2">
                         <button type="button" id="mic-btn" class="btn btn-outline-secondary"
+                                data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Voice typing"
                                 style="border-color: transparent">
                             <i class="bi bi-mic"></i>
                         </button>
@@ -50,20 +50,24 @@
         const $button = $("#button");
         const $copy_to_clipboard = $("#copy-to-clipboard");
 
-        {# Enable Tooltip #}
-        const $tooltip = new bootstrap.Tooltip('[data-bs-toggle="tooltip"]', {
-            trigger: 'hover'
+        {# Enable All Tooltips #}
+        $('[data-bs-toggle="tooltip"]').each(function () {
+            new bootstrap.Tooltip(this, {
+                trigger: 'hover'
+            });
         });
+        {# Initiatalize all tooltips #}
+        const clipboard_tooltip = bootstrap.Tooltip.getInstance($copy_to_clipboard);
 
         {# Copy to clipboard when the icon is clicked #}
         $copy_to_clipboard.click(function (e) {
             let $text = $("#simplified-text").val();
             navigator.clipboard.writeText($text);
-            $tooltip.setContent({'.tooltip-inner': 'Copied!'})
+            clipboard_tooltip.setContent({'.tooltip-inner': 'Copied!'})
         });
 
         $copy_to_clipboard.on('hidden.bs.tooltip', () => {
-            $tooltip.setContent({'.tooltip-inner': 'Copy to clipboard'});
+            clipboard_tooltip.setContent({'.tooltip-inner': 'Copy to clipboard'});
         })
 
         function loading(isLoading) {
