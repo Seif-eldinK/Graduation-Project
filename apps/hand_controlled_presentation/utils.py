@@ -58,7 +58,8 @@ class PowerPointApplication:
 # Handle the uploaded file
 def handle_uploaded_file(file, filename):
     # get the number of folders in the upload folder
-    num_folders = len(os.listdir(UPLOAD_ROOT))
+    folders = os.listdir(UPLOAD_ROOT)
+    num_folders = len(folders) if ".gitkeep" not in folders else (len(folders) - folders.count('.gitkeep'))
 
     # Create a folder for the uploaded file
     folder = UPLOAD_ROOT / f"presentation_{num_folders + 1}"
