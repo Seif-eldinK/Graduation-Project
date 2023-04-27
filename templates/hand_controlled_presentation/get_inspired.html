@@ -1,0 +1,220 @@
+{% extends 'layouts/base.html' %}
+{% block head %}
+    <style>
+        .select2-search__field {
+            background: url("https://cdn4.iconfinder.com/data/icons/feather/24/search-16.png") right top no-repeat;
+            background-position: right;
+        }
+    </style>
+{% endblock %}
+{% block content %}
+    <div class="container-fluid mt-4">
+        <div class="row justify-content-center">
+            <div class="col-auto">
+                <h3 class="">
+                    <b>Get a quick peek at Memorizers' jaw-dropping presentations!</b>
+                </h3>
+            </div>
+        </div>
+        <div class="row justify-content-end">
+            <div class="col-auto me-2">
+                <button type="button" id="button" class="col-auto btn btn-outline-primary rounded-4"
+                        data-bs-toggle="modal" data-bs-target="#add_model" style="top: -40px;position: relative;">
+                    Add your work
+                </button>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="container-fluid">
+        <div class="row justify-content-left">
+            <div class="col-5 ms-2">
+                <label for="medical-field" class="form-label h4 d-flex justify-content-left"
+                       style="-webkit-text-stroke: 1px #e61a1a; color: black;">Education field</label>
+            </div>
+        </div>
+    </div>
+    <div class="d-flex flex-row" style="padding-left: 7px; padding-top: 5px">
+        <div class="p-2 presentations-grid "></div>
+        <div class="p-2 presentations-grid"></div>
+        <div class="p-2 presentations-grid"></div>
+        <div class="p-2 presentations-grid"></div>
+        <div class="p-2 presentations-grid"
+             style="background-image: linear-gradient(to right, transparent , grey, grey), url(https://www.w3schools.com/css/img_flwr.gif); background-blend-mode: multiply; background-position: center center; background-size: cover; display: flex; align-items: center; justify-content: center;">
+
+            <button type="button" id="button"
+                    style="font-size: 40px;height: 40px; display: flex; align-items: center; justify-content: center;color: #e61a1a; background-color: white"
+                    class="btn btn-lg btn-outline-primary rounded-4"><b>+</b>
+            </button>
+
+        </div>
+    </div>
+    <br>
+
+    <div class="container-fluid">
+        <div class="row justify-content-left">
+            <div class="col-5 ms-2">
+                <label for="medical-field" class="form-label h4 d-flex justify-content-left"
+                       style="-webkit-text-stroke: 1px #e61a1a; color: black;">Healthcare field</label>
+            </div>
+        </div>
+    </div>
+
+    <div class="d-flex flex-row" style="padding-left: 7px; padding-top: 5px">
+        <div class="p-2 presentations-grid "></div>
+        <div class="p-2 presentations-grid"></div>
+        <div class="p-2 presentations-grid"></div>
+        <div class="p-2 presentations-grid"></div>
+        <div class="p-2 presentations-grid"
+             style="background-image: linear-gradient(to right, transparent , grey, grey), url(https://www.w3schools.com/css/img_flwr.gif); background-blend-mode: multiply; background-position: center center; background-size: cover; display: flex; align-items: center; justify-content: center;">
+            <button type="button" id="button"
+                    style="font-size: 40px;height: 40px; display: flex; align-items: center; justify-content: center;color: #e61a1a; background-color: white"
+                    class="btn btn-lg btn-outline-primary rounded-4"><b>+</b>
+            </button>
+        </div>
+
+    </div>
+    <br>
+
+    <div class="container-fluid">
+        <div class="row justify-content-left">
+            <div class="col-5 ms-2">
+                <label for="medical-field" class="form-label h4 d-flex justify-content-left"
+                       style="-webkit-text-stroke: 1px #e61a1a; color: black;">Business field</label>
+            </div>
+        </div>
+    </div>
+    <div class="d-flex flex-row" style="padding-left: 7px; padding-top: 5px; padding-bottom: 20px">
+        <div class="p-2 presentations-grid "></div>
+        <div class="p-2 presentations-grid"></div>
+        <div class="p-2 presentations-grid"></div>
+        <div class="p-2 presentations-grid"></div>
+        <div class="p-2 presentations-grid"
+             style="background-image: linear-gradient(to right, transparent , grey, grey), url(https://www.w3schools.com/css/img_flwr.gif); background-blend-mode: multiply; background-position: center center; background-size: cover; display: flex; align-items: center; justify-content: center;">
+            <button type="button" id="button"
+                    style="font-size: 40px;height: 40px; display: flex; align-items: center; justify-content: center; color: #e61a1a; background-color: white"
+                    class="btn btn-lg btn-outline-primary rounded-4"><b>+</b>
+            </button>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="add_model" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5 title-style">
+                        Add your work
+                    </h1>
+                    <button type="button" class="button-close-modal" data-bs-dismiss="modal">
+                        <i class="bi bi-x-lg button-close-modal-icon"></i>
+                    </button>
+                </div>
+                <div class="modal-body" style="font-size: 18px">
+                    <div class="row justify-content-center">
+                        <div class="col-9">
+                            <form action="{% url "upload_presentation" %}" method="post" id="form"
+                                  enctype="multipart/form-data">
+                                {% csrf_token %}
+                                <input type="file" name="presentation_file" id="upload-presentation-element"
+                                       accept="application/pdf,
+                                   application/vnd.ms-powerpoint,
+                                   application/vnd.openxmlformats-officedocument.presentationml.slideshow,
+                                   application/vnd.openxmlformats-officedocument.presentationml.presentation"
+                                       onchange="show_file_name()" hidden/>
+                                <label id="upload-btn" class="btn btn-outline-secondary w-100"
+                                       for="upload-presentation-element"
+                                       data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Upload">
+                                    <i class="bi bi-upload"></i> Upload your presentation file
+                                </label>
+                                <div class="form-floating mt-3">
+                                    <select id="field" class="select2"
+                                            style="background-color: #e61a1a;border-color: transparent">
+                                        <option></option>
+                                        <option value="Education">Education</option>
+                                        <option value="Healthcare">Healthcare</option>
+                                        <option value="Business">Business</option>
+                                        <option value="Other">Other</option>
+                                    </select>
+                                </div>
+                                <div class="form-floating mt-3" id="add_field" style="display: none;">
+                                    <input type="text" class="form-control" style="height: 45px" placeholder="add"
+                                           id="add" name="add" autofocus required>
+                                    <label for="add" style="font-size: 16px;top:-7px; left:-7px;">
+                                        Add A New Field
+                                    </label>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer justify-content-center">
+                    <button type="button" id="upload-presentation-button" class="btn btn-outline-primary"
+                            data-bs-dismiss="modal">Upload
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        let $field = $('#field');
+        let $add_field = $('#add_field');
+        let $form = $('#form');
+        $(document).ready(function () {
+            $('.select2').select2({
+                placeholder: 'Choose a field',
+                dropdownParent: $('#add_model'),
+                width: '100%',
+                dropdownCssClass: "select2-with-icon"
+            });
+        });
+
+        function show_file_name() {
+            let file = get_presentation_file();
+            // check if a file is selected
+            if (!file) {
+                $('#upload-btn')[0].innerHTML = 'Upload your presentation file';
+            } else {
+                // show selected file name
+                $('#upload-btn')[0].innerHTML = "File: " + file.name;
+            }
+        }
+
+        function get_presentation_file() {
+            return $('#upload-presentation-element')[0].files[0];
+        }
+
+        function get_field_value() {
+            return $field.find(':selected').val();
+        }
+
+        $field.on('change', function () {
+            if (get_field_value() === 'Other') {
+                $add_field.show();
+            } else {
+                $add_field.hide();
+            }
+        })
+
+        // when the upload button is clicked, send the file and the field to the server
+        $('#upload-presentation-button').on('click', function () {
+            let file = get_presentation_file();
+            let field = get_field_value();
+            let add = $('#add').val();
+            if (file && field) {
+                if (field === 'Other' && add) {
+                    field = add;
+                }
+                // send the form
+                // create a hidden input field and append it to the form to send the field value
+                let hidden_field = $("<input>").attr("type", "hidden").attr("name", "field").val(field);
+                $form.append(hidden_field);
+                $form.submit();
+            }
+            else {
+                alert('Please select a file and a field');
+            }
+        });
+    </script>
+{% endblock %}

@@ -1,52 +1,44 @@
-// Copyright 2022 The MediaPipe Authors.
-// Licensed under the Apache License, Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
-//      http://www.apache.org/licenses/LICENSE-2.0
-// Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an "AS IS" BASIS,
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
-// limitations under the License.
-import {FilesetResolver, GestureRecognizer} from "https://cdn.skypack.dev/@mediapipe/tasks-vision@0.1.0-alpha-11";
+import {FilesetResolver, HandLandmarker} from "https://cdn.skypack.dev/@mediapipe/tasks-vision@latest";
 
-const demosSection = document.getElementById("demos");
-let gestureRecognizer;
-let runningMode = "VIDEO";  // "VIDEO" for streaming video from webcam.
-let enableWebcamButton;
-let webcamRunning = false;
-const videoHeight = "360px";
-const videoWidth = "480px";
-// Before we can use HandLandmarker class we must wait for it to finish
-// loading. Machine Learning models can be large and take a moment to
-// get everything needed to run.
-const createGestureRecognizer = async () => {
-    const vision = await FilesetResolver.forVisionTasks(
-        "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@latest/wasm"
-    );
-    gestureRecognizer = await GestureRecognizer.createFromOptions(vision, {
-        baseOptions: {
-            modelAssetPath: "https://storage.googleapis.com/mediapipe-tasks/gesture_recognizer/gesture_recognizer.task"
-        },
-        numHands: 2,
-        runningMode: runningMode,
-    });
-    demosSection.classList.remove("invisible");
-};
-createGestureRecognizer();
-/********************************************************************
- // Continuously grab image from webcam stream and detect it.
- ********************************************************************/
+let handLandmarker = undefined;
+let running_mode = "VIDEO";  // "VIDEO" for streaming video from webcam.
+const [videoWidth, videoHeight] = ["300px", "225px"];
+let num_hands = 4;  // Maximum number of hands to detect.
+let flip_handedness = true;  // Flip handedness for front-facing camera.
+let delay = 1000;  // Minimum number of milliseconds between screen updates.
+let last_time = 0;  // Timestamp of last screen update.
+const right_hand_landmarks_color = "#65d1f9";
+const right_hand_connectors_color = "white";
+const left_hand_landmarks_color = "#f9a165";
+const left_hand_connectors_color = "white";
+let carousel = bootstrap.Carousel.getOrCreateInstance("#carousel");
 const video = document.getElementById("webcam");
 const canvasElement = document.getElementById("output_canvas");
 const canvasCtx = canvasElement.getContext("2d");
-const gestureOutput = document.getElementById("gesture_output");
 
+const touchless_control_webcam = document.getElementById("touchless-control-webcam");
+let enableWebcamButton;
+let webcamRunning = false;
+// Before we can use HandLandmarker class, we must wait for it to finish
+// loading. Machine Learning models can be large and take a moment to
+// get everything needed to run.
+const createHandLandmarker = async () => {
+    const vision = await FilesetResolver.forVisionTasks("https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@latest/wasm");
+    handLandmarker = await HandLandmarker.createFromOptions(vision, {
+        baseOptions: {
+            modelAssetPath: `https://storage.googleapis.com/mediapipe-tasks/hand_landmarker/hand_landmarker.task`,
+        }, runningMode: running_mode, numHands: num_hands,
+    });
+    // need edit.
+    touchless_control_webcam.classList.remove("invisible");
+    // end edit.
+};
+createHandLandmarker();
 // Check if webcam access is supported.
-function hasGetUserMedia() {
-    return !!(navigator.mediaDevices && navigator.mediaDevices.getUserMedia);
-}
-
+const hasGetUserMedia = () => {
+    let _a;
+    return !!((_a = navigator.mediaDevices) === null || _a === void 0 ? void 0 : _a.getUserMedia);
+};
 // If webcam supported, add event listener to button for when user
 // wants to activate it.
 if (hasGetUserMedia()) {
@@ -58,8 +50,8 @@ if (hasGetUserMedia()) {
 
 // Enable the live webcam view and start detection.
 function enableCam(event) {
-    if (!gestureRecognizer) {
-        alert("Please wait for gestureRecognizer to load");
+    if (!handLandmarker) {
+        console.log("Wait! objectDetector not loaded yet.");
         return;
     }
     if (webcamRunning === true) {
@@ -67,51 +59,102 @@ function enableCam(event) {
         enableWebcamButton.innerText = "ENABLE PREDICTIONS";
     } else {
         webcamRunning = true;
-        enableWebcamButton.innerText = "DISABLE PREDICITONS";
+        enableWebcamButton.innerText = "DISABLE PREDICTIONS";
     }
     // getUsermedia parameters.
-    const constraints = {
-        video: true
-    };
+    const constraints = {video: true};
     // Activate the webcam stream.
-    navigator.mediaDevices.getUserMedia(constraints).then(function (stream) {
+    navigator.mediaDevices.getUserMedia(constraints).then((stream) => {
         video.srcObject = stream;
         video.addEventListener("loadeddata", predictWebcam);
     });
 }
 
-async function predictWebcam() {
-    const webcamElement = document.getElementById("webcam");
-    // Now let's start detecting the stream.
-    await gestureRecognizer.setOptions({runningMode: "VIDEO"});
+// Create a function to flip the handedness of the detected hand.
+function reverse_handedness(handedness) {
+    if (handedness === "Right") {
+        handedness = "Left";
+    } else {
+        handedness = "Right";
+    }
+    return handedness;
+}
 
-    let nowInMs = Date.now();
-    const results = gestureRecognizer.recognizeForVideo(video, nowInMs);
+// Select the color of the hand landmarks and hand connections based on the handedness.
+function select_color(handedness) {
+    if (handedness === "Right") {
+        return [right_hand_landmarks_color, right_hand_connectors_color];
+    } else {
+        return [left_hand_landmarks_color, left_hand_connectors_color];
+    }
+}
+
+function hand_gesture_recognizer(handedness, landmarks) {
+    // if last_time + delay >= current_time then ignore the gesture
+    if (last_time + delay >= performance.now()) {
+        console.log("Gesture ignored");
+        return;
+    }
+
+    let THUMB_TIP = landmarks[4];
+    let MIDDLE_FINGER_TIP = landmarks[12];
+    // y-axis is inverted in mediapipe, the higher the y value, the lower the point is on the screen.
+    if (THUMB_TIP['y'] < MIDDLE_FINGER_TIP['y']) {
+        if (handedness === "Right") {
+            // waving right hand
+            console.log("Move forward");
+            carousel.next();  // move to the next slide
+        }
+        else if (handedness === "Left") {
+            // waving left hand
+            console.log("Move backward");
+            carousel.prev();  // move to the previous slide
+        }
+        last_time = performance.now();
+    }
+}
+
+// Continuously grab an image from webcam stream and detect it.
+async function predictWebcam() {
+    video.style.width = videoWidth;
+    video.style.height = videoHeight;
+    canvasElement.style.width = videoWidth;
+    canvasElement.style.height = videoHeight;
+    // show the video and canvas elements
+    video.classList.remove("d-none");
+    canvasElement.classList.remove("d-none");
+    // Now let's start detecting the stream.
+    let startTimeMs = performance.now();
+    const results = handLandmarker.detectForVideo(video, startTimeMs);
     canvasCtx.save();
     canvasCtx.clearRect(0, 0, canvasElement.width, canvasElement.height);
-    canvasElement.style.height = videoHeight;
-    webcamElement.style.height = videoHeight;
-    canvasElement.style.width = videoWidth;
-    webcamElement.style.width = videoWidth;
     if (results.landmarks) {
-        for (const landmarks of results.landmarks) {
+        // iterate through all detected hands
+        for (let iteration = 0; iteration < results.landmarks.length; iteration++) {
+            const landmarks = results.landmarks[iteration];
+            let handedness = results.handednesses[iteration][0]['categoryName'];
+
+            // flip the handedness if the camera is front-facing
+            if (flip_handedness) {
+                handedness = reverse_handedness(handedness);
+            }
+            // select the color of the hand landmarks and hand connections based on the handedness
+            const [hand_landmarks_color, hand_connectors_color] = select_color(handedness);
+
+            hand_gesture_recognizer(handedness, landmarks);
+
+            // draw the hand landmarks and connectors on the canvas
             drawConnectors(canvasCtx, landmarks, HAND_CONNECTIONS, {
-                color: "#00FF00",
-                lineWidth: 5
+                color: hand_connectors_color,  // line color, default color #00FF00
+                lineWidth: 5,
             });
-            drawLandmarks(canvasCtx, landmarks, {color: "#FF0000", lineWidth: 2});
+            drawLandmarks(canvasCtx, landmarks, {
+                color: hand_landmarks_color,  // outer circle color, default color #FF0000
+                lineWidth: 5, fillColor: hand_connectors_color,  // inner circle color
+            });
         }
     }
     canvasCtx.restore();
-    if (results.gestures.length > 0) {
-        gestureOutput.style.display = "block";
-        gestureOutput.style.width = videoWidth;
-        const categoryName = results.gestures[0][0].categoryName;
-        const categoryScore = parseFloat(results.gestures[0][0].score * 100).toFixed(2);
-        gestureOutput.innerText = `GestureRecognizer: ${categoryName}\n Confidence: ${categoryScore} %`;
-    } else {
-        gestureOutput.style.display = "none";
-    }
     // Call this function again to keep predicting when the browser is ready.
     if (webcamRunning === true) {
         window.requestAnimationFrame(predictWebcam);

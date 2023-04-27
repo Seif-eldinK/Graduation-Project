@@ -1,31 +1,47 @@
 {% extends 'layouts/base.html' %}
 {% block head %}
-    <link href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css" rel="stylesheet">
-    <script src="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@mediapipe/drawing_utils/drawing_utils.js"
             crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js" crossorigin="anonymous"></script>
-
 {% endblock head %}
 {% block content %}
-    <section id="demos" class="invisible">
-        <h2><br>Demo: Webcam continuous hand gesture detection</h2>
-        <p>Use your hand to make gestures in front of the camera to get gesture classification. </br>Click <b>enable
-            webcam</b> below and grant access to the webcam if prompted.</p>
-
-        <div id="liveView" class="videoView">
-            <button id="webcamButton" class="mdc-button mdc-button--raised">
-                <span class="mdc-button__ripple"></span>
-                <span class="mdc-button__label">ENABLE WEBCAM</span>
-            </button>
-            <div style="position: relative;">
-                <video id="webcam" autoplay playsinline></video>
-                <canvas class="output_canvas" id="output_canvas" width="1280" height="720"
-                        style="position: absolute; left: 0px; top: 0px;"></canvas>
-                <p id='gesture_output' class="output">
+    {% load static %}
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div id="carousel" class="carousel slide carousel-dark">
+                    <div class="carousel-inner">
+                        {% for page in pages_range %}
+                            <div class="carousel-item text-center{% if forloop.first %} active{% endif %}">
+                                <img src="{% get_media_prefix %}presentation_files/{{ presentation.path }}/images/page_{{ forloop.counter }}.png"
+                                     width="1000px">
+                                <h5 class="carousel-caption" style="display: contents!important;">
+                                    <div>Slide {{ forloop.counter }} / {{ number_pages }}</div>
+                                </h5>
+                            </div>
+                        {% endfor %}
+                    </div>
+                    <button class="carousel-control-prev" type="button" data-bs-target="#carousel" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon"></span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#carousel" data-bs-slide="next">
+                        <span class="carousel-control-next-icon"></span>
+                    </button>
+                </div>
             </div>
         </div>
-    </section>
-    {% load static %}
+    </div>
+    <div class="z-2 position-absolute bottom-0 end-0 m-2">
+        <section id="touchless-control-webcam" class="invisible">
+            <button id="webcamButton" class="btn btn-primary">
+                ENABLE WEBCAM
+            </button>
+            <div class="position-relative">
+                <video id="webcam" class="d-none" autoplay playsinline></video>
+                <canvas class="output_canvas position-absolute top-0 start-0 d-none" id="output_canvas"
+                        width="1280" height="720"></canvas>
+            </div>
+        </section>
+    </div>
     <script type="module" src="{% static 'js/script.js' %}"></script>
 {% endblock content %}
