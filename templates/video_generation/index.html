@@ -73,7 +73,7 @@
         <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5 title-style" id="CharacterModalLabel">Choose A Character</h1>
+                    <h1 class="modal-title fs-5 title-style">Choose A Character</h1>
                     <button type="button" class="button-close-modal" data-bs-dismiss="modal">
                         <i class="bi bi-x-lg button-close-modal-icon"></i>
                     </button>
@@ -151,10 +151,10 @@
 
         function show_uploaded_video() {
             const reader = new FileReader();
-            // get video file from input element
+            // get video file from an input element
             const file = $("#upload-video-input-element")[0].files[0];
             reader.onload = function () {
-                // read video file as base64 string and set it as source of video element
+                // read video file as base64 string and set it as a source of a video element
                 let base64String = reader.result;
                 $video.attr('src', base64String);
                 $video.show();
