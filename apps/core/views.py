@@ -10,7 +10,7 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
 # Create your views here.
-print(f"LOCAL_IP: {django_settings.LOCAL_IP}")
+print(f"LOCAL_IP: http://{django_settings.LOCAL_IP}:8000/")
 DEFAULT_THEME = 'Light'
 AVAILABLE_THEMES = ["Light", "Dark"]
 
@@ -83,8 +83,3 @@ def set_theme(request):
         theme_value = DEFAULT_THEME
     response.set_cookie(key='Theme', value=theme_value, max_age=datetime.timedelta(days=365))
     return response
-
-
-def get_inspired(request):
-    context = {"title": "Get Inspired"}
-    return render(request, 'core/get_inspired.html', context)

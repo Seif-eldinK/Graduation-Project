@@ -1,7 +1,9 @@
 /db.sqlite3
 /.idea/
 **/__pycache__/
-/media/
+/media/*
+!/media/presentation_files/
+/media/presentation_files/*
 **/migrations/*
 !**/migrations/__init__.py
 /static/fonts
