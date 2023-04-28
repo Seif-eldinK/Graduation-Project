@@ -185,3 +185,16 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     width: 270px;
     height: 152px;
 }
+
+/* Dark */
+/*
+[data-bs-theme="dark"] {
+  --bs-tertiary-bg-rgb:255,255,0!important;
+    .card-body {
+        background-color: black;
+    }
+    .about-card-style{
+        background-color: black!important;
+    }
+}
+*/
