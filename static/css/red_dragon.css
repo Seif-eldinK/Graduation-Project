@@ -128,7 +128,6 @@ footer {
     color: white
 }
 
-/* Check */
 .form-control {
     border-color: var(--red);
 }
@@ -137,7 +136,6 @@ footer {
     border-color: var(--red);
     box-shadow: 0 0 0 0.25rem var(--dark-red);
 }
-/* End Check*/
 
 input::file-selector-button {
     background-color: var(--pink);
@@ -187,14 +185,28 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 }
 
 /* Dark */
-/*
 [data-bs-theme="dark"] {
-  --bs-tertiary-bg-rgb:255,255,0!important;
-    .card-body {
-        background-color: black;
+    --bs-tertiary-bg-rgb: var(--red-rgb) !important;
+
+    .bg-body {
+        background-color: black !important;
     }
-    .about-card-style{
-        background-color: black!important;
+
+    .form-control {
+        background-color: #1b1b1b !important;
+    }
+
+    .title-style {
+        color: white;
+    }
+
+    .main-btn, .secondary-btn , .btn-outline-primary {
+        --bs-btn-color: white;
+    }
+
+    .Account-Management-btn {
+        --bs-btn-color: white;
+        --bs-btn-hover-color: white;
+        --bs-btn-active-color: white;
     }
 }
-*/
