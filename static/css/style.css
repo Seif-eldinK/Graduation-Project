@@ -6,6 +6,7 @@
 .Algerian-font {
     font-family: Algerian, Times, serif;
 }
+
 /* end fonts */
 
 textarea {
@@ -42,4 +43,14 @@ textarea {
 .button-close-modal {
     background-color: transparent;
     border: 0;
+}
+
+.carousel-control-prev-icon, .carousel-control-next-icon {
+    filter: invert(1) grayscale(100);
+}
+
+[data-bs-theme="dark"] {
+    .carousel-control-prev-icon, .carousel-control-next-icon {
+        filter: none !important;
+    }
 }
