@@ -184,6 +184,10 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     height: 152px;
 }
 
+.setting-radio-button > input[type="radio"] {
+    border-color: var(--red);
+}
+
 /* Dark */
 [data-bs-theme="dark"] {
     --bs-tertiary-bg-rgb: var(--red-rgb) !important;

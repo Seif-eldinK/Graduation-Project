@@ -10,6 +10,6 @@ urlpatterns = [
     path('profile', views.profile, name='profile'),
     path('settings/<str:template>', views.settings, name='settings'),
     path('settings/', views.settings, name='settings'),
-    path('get_theme', views.get_theme, name='get_theme'),
-    path('set_theme', views.set_theme, name='set_theme'),
+    path('get_design_mode', views.get_design_mode, name='get_design_mode'),
+    path('set_design_mode', views.set_design_mode, name='set_design_mode'),
 ]

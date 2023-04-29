@@ -11,8 +11,8 @@ from rest_framework.response import Response
 
 # Create your views here.
 print(f"LOCAL_IP: http://{django_settings.LOCAL_IP}:8000/")
-DEFAULT_THEME = 'Light'
-AVAILABLE_THEMES = ["Light", "Dark"]
+DEFAULT_DESIGN_MODE = "Red_Dragon"
+AVAILABLE_DESIGN_MODES = ["Red_Dragon", "Blue_Diamond", "Lavender_Love"]
 
 
 def home(request):
@@ -64,22 +64,48 @@ def settings(request, template="personal_information"):
 
 
 @api_view(['POST'])
-def get_theme(request):
-    if 'Theme' not in request.COOKIES or request.COOKIES['Theme'] not in AVAILABLE_THEMES:
-        response = Response({'theme_value': DEFAULT_THEME, 'first_time': 'Y'}, status=200)
-        response.set_cookie(key='Theme', value=DEFAULT_THEME, max_age=datetime.timedelta(days=365))
-        return response
+def get_design_mode(request):
+    """
+    This function retrieves the current design mode from a cookie in the request,
+    or sets a default value if it is not present or invalid.
+    It returns a JSON response with the current design mode and a flag
+    indicating whether it is the first time the user has accessed the page.
+    If it is the first time, it sets a cookie with the design mode value that will expire in one year.
+    """
+    if 'design_mode' not in request.COOKIES or request.COOKIES['design_mode'] not in AVAILABLE_DESIGN_MODES:
+        design_mode = DEFAULT_DESIGN_MODE
+        first_time = 'Y'
     else:
-        return Response({'theme_value': request.COOKIES['Theme'], 'first_time': 'N'}, status=200)
+        design_mode = request.COOKIES.get('design_mode', DEFAULT_DESIGN_MODE)
+        first_time = 'N'
+    response = Response({'design_mode': design_mode, 'first_time': first_time, }, status=200)
+    if first_time == "Y":
+        response.set_cookie(
+            key='design_mode',
+            value=design_mode,
+            max_age=datetime.timedelta(days=365)
+        )
+    return response
 
 
 @api_view(['POST'])
-def set_theme(request):
-    # theme_value = request.POST.get("theme_value", DEFAULT_THEME)  # form-encoded data
-    data = json.loads(request.body.decode("utf-8"))  # JSON-Encoded data
-    theme_value = data.get('theme_value', DEFAULT_THEME)
-    response = Response({'message': 'Success'}, status=200)
-    if theme_value not in AVAILABLE_THEMES:
-        theme_value = DEFAULT_THEME
-    response.set_cookie(key='Theme', value=theme_value, max_age=datetime.timedelta(days=365))
+def set_design_mode(request):
+    """
+    This function set the design mode of the website.
+    It retrieves the design mode value from the request body,
+    sets it to the default value if not provided, and ensures that it has a proper title case format.
+    It then sets a cookie with the design mode value
+    and returns a response object with a success message and the design mode value.
+    """
+    design_mode = request.data.get('design_mode', DEFAULT_DESIGN_MODE).strip().title()
+    design_mode = design_mode if design_mode in AVAILABLE_DESIGN_MODES else DEFAULT_DESIGN_MODE
+    response = Response({
+        'message': 'Success',
+        'design_mode': design_mode,
+    }, status=200)
+    response.set_cookie(
+        key='design_mode',
+        value=design_mode,
+        max_age=datetime.timedelta(days=365)
+    )
     return response
