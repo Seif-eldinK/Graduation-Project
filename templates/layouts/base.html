@@ -18,7 +18,7 @@
         {% include "layouts/success.html" %}
         {% include "layouts/error.html" %}
         <div id="alerts"></div>
-        {% include "layouts/alerts.html" %}
+        <script src="{% static '/js/alerts.js' %}"></script>
         <main>
             {% block content %}
             {% endblock content %}
