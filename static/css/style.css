@@ -13,7 +13,7 @@ textarea {
     resize: none;
 }
 
-.active > .bi {
+.dropdown-item.active > .bi {
     display: block !important; /* for add ✔ to theme dropdown-menu nav */
 }
 
