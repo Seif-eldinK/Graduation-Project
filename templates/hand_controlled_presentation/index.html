@@ -9,14 +9,14 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-12">
-                <div id="carousel" class="carousel slide">
+                <div id="carousel" class="carousel slide positive-relative">
                     <div class="carousel-inner">
                         {% for page in pages_range %}
                             <div class="carousel-item text-center{% if forloop.first %} active{% endif %}">
                                 <img src="{% get_media_prefix %}presentation_files/{{ presentation.path }}/images/page_{{ forloop.counter }}.png"
                                      width="980px">
-                                <h5 class="carousel-caption" style="display: contents!important;">
-                                    <div>Slide {{ forloop.counter }} / {{ number_pages }}</div>
+                                <h5 class="carousel-caption d-none">
+                                    <div id="page">Slide {{ forloop.counter }} / {{ number_pages }}</div>
                                 </h5>
                             </div>
                         {% endfor %}
@@ -27,6 +27,7 @@
                     <button class="carousel-control-next" type="button" data-bs-target="#carousel" data-bs-slide="next">
                         <span class="carousel-control-next-icon"></span>
                     </button>
+                    <div class="position-absolute top-100 start-50 translate-middle h5" id="page_number">Slide 1 / 21</div>
                 </div>
             </div>
         </div>
@@ -43,5 +44,16 @@
             </div>
         </section>
     </div>
+    <script>
+        function get_current_page() {
+            let page = $("div.carousel-item.text-center.active #page").html();
+            return page;
+        }
+        $('#carousel').on('slid.bs.carousel', function () {
+            let page = get_current_page();
+            console.log(page);
+            $("#page_number").html(page);
+        });
+    </script>
     <script type="module" src="{% static 'js/Hand_Landmarker_Detection.js' %}"></script>
 {% endblock content %}

@@ -188,6 +188,10 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     border-color: var(--red);
 }
 
+#page_number {
+    color: black;
+}
+
 /* Dark */
 [data-bs-theme="dark"] {
     --bs-tertiary-bg-rgb: var(--red-rgb) !important;
@@ -212,5 +216,9 @@ input[type="date"]::-webkit-calendar-picker-indicator {
         --bs-btn-color: white;
         --bs-btn-hover-color: white;
         --bs-btn-active-color: white;
+    }
+
+    #page_number {
+        color: white;
     }
 }

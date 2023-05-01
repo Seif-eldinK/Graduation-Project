@@ -49,6 +49,10 @@ textarea {
     filter: invert(1) grayscale(100);
 }
 
+#page_number {
+    margin-top: 12px;
+}
+
 [data-bs-theme="dark"] {
     .carousel-control-prev-icon, .carousel-control-next-icon {
         filter: none !important;
