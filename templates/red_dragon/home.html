@@ -1,0 +1,150 @@
+{% load static %}
+<div data-bs-spy="scroll" data-bs-target="#Navbar" data-offset="76">
+    <div class="container-fluid p-0" id="Home">
+        <img src="{% static 'images/red_dragon/Home.png' %}" class="img-fluid" alt="image">
+        <div class="row justify-content-center m-0 position-relative" style="bottom: 100px">
+            <div class="col-12">
+                <div class="container">
+                    <div class="row justify-content-center align-items-center">
+                        <div class="col-md-4">
+                            <div class="card cards-style border border-5">
+                                <div class="card-body d-flex flex-column justify-content-center align-items-center">
+                                    <h1 class="text-white text-capitalize">IMAGE</h1>
+                                    <p class="text-white text-center">Make an image of your text</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card cards-style border border-5">
+                                <div class="card-body d-flex flex-column justify-content-center align-items-center">
+                                    <h1 class="text-white text-capitalize">TEXT</h1>
+                                    <p class="text-white text-center">Simplify your text by another text</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card cards-style border border-5">
+                                <div class="card-body d-flex flex-column justify-content-center align-items-center">
+                                    <h1 class="text-white text-capitalize">VIDEO</h1>
+                                    <p class="text-white text-center">Exchange your video by a video with another
+                                        character</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% comment %}
+                <div class="col-6">
+                    <div id="carousel" class="carousel slide carousel-fade" data-bs-ride="true">
+                        <div class="carousel-indicators">
+                            <button type="button" data-bs-target="#carousel" data-bs-slide-to="0"
+                                    class="active"></button>
+                            <button type="button" data-bs-target="#carousel" data-bs-slide-to="1"></button>
+                            <button type="button" data-bs-target="#carousel" data-bs-slide-to="2"></button>
+                        </div>
+                        <div class="carousel-inner">
+                            <div class="carousel-item active" data-bs-interval="2000">
+                                <div class="text-center">
+                                    <div class="d-flex flex-column justify-content-center cards-style border border-5">
+                                        <div class="h1 text-white text-capitalize">TEXT</div>
+                                        <div class="text-white">Simplify your text by other text</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="carousel-item" data-bs-interval="2000">
+                                <div class="text-center">
+                                    <div class="d-flex flex-column justify-content-center cards-style border border-5">
+                                        <div class="h1 text-white text-capitalize">IMAGE</div>
+                                        <div class="text-white">Make an image of your speech or your text</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="carousel-item" data-bs-interval="2000">
+                                <div class="text-center">
+                                    <div class="d-flex flex-column justify-content-center cards-style border border-5">
+                                        <div class="h1 text-white text-capitalize">VIDEO</div>
+                                        <div class="text-white">Exchange your video by a video with another
+                                            character
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <button class="carousel-control-prev" type="button" data-bs-target="#carousel"
+                                data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon"></span>
+                        </button>
+                        <button class="carousel-control-next" type="button" data-bs-target="#carousel"
+                                data-bs-slide="next">
+                            <span class="carousel-control-next-icon"></span>
+                        </button>
+                    </div>
+                </div>
+                {% endcomment %}
+        </div>
+    </div>
+    <div class="container-fluid p-0 pb-5" id="About">
+        <div class="row justify-content-center m-0">
+            <div class="col-10 position-relative py-5">
+                <img src="{% static 'images/red_dragon/About.png' %}" class="w-100" alt="image">
+                <div class="position-absolute top-50 start-50 translate-middle">
+                    <div class="h1 text-capitalize about-card-style m-0">
+                        About us
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row justify-content-center m-0 py-5">
+            <div class="col-8">
+                <div class="text-center h4">
+                    We are a team of five people working to develop the best products
+                    to help our customers build their presentations effectively.
+                    Our goal at a buffer has always been to do things a little differently.<br>
+                    Since our beginnings, we have strived to create the most unique systems possible.
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid p-0" id="Contacts">
+        <div class="row justify-content-center m-0">
+            <div class="col-10 position-relative">
+                <img src="{% static 'images/red_dragon/Contacts.png' %}" class="w-100" alt="image">
+                <div class="position-absolute top-50 start-50 translate-middle">
+                    <div class="h1 text-capitalize about-card-style m-0">
+                        CONTACT US
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row justify-content-evenly m-0 pt-4 pb-4 text-center">
+            <div class="col-3">
+                <i class="bi bi-geo-alt-fill contacts-icon-style rounded-5"></i>
+                <div class="contacts-title-style">Address</div>
+                <div>
+                    7 Memorizers Buildings,<br>
+                    90th Street,<br>
+                    Fifth Settlement,<br>
+                    New Cairo, Egypt<br>
+                </div>
+            </div>
+            <div class="col-3">
+                <i class="bi bi-telephone-fill contacts-icon-style rounded-5"></i>
+                <div class="contacts-title-style">Phone</div>
+                <div>
+                    Hotline: 1111111<br>
+                    Number: +02 111 256 1721
+                </div>
+            </div>
+            <div class="col-3">
+                <i class="bi bi-envelope contacts-icon-style rounded-5"></i>
+                <div class="contacts-title-style">Email</div>
+                <div>
+                    <a class="link-primary" href="mailto:MemorizersGroup@gmail.com">
+                        MemorizersGroup@gmail.com
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
