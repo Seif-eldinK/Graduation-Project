@@ -1,8 +1,8 @@
 {% if messages %}
     {% for message in messages %}
         {% if message.tags == "success" %}
-            <success class="alert alert-success alert-dismissible fade show d-flex justify-content-center" role="alert"
-                     data-filter-title="{{ message.tags }}">
+            <success class="alert alert-success alert-dismissible fade show d-flex justify-content-center m-0"
+                     role="alert" data-filter-title="{{ message.tags }}">
                 <i class="bi bi-check-circle-fill me-2 flex-shrink-0"></i>
                 <div>
                     {{ message }}
