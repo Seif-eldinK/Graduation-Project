@@ -51,6 +51,7 @@ python manage.py makemigrations
 ```bash
 python manage.py migrate
 python manage.py sqlmigrate core 0001
+python manage.py sqlmigrate hand_controlled_presentation 0001
 ```
 - Create a superuser
 ```bash
