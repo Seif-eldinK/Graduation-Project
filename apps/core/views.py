@@ -1,13 +1,13 @@
 import datetime
-import json
 
-from django.shortcuts import render, redirect
+from django.conf import settings as django_settings
 from django.contrib import auth, messages
 from django.contrib.auth.decorators import login_required, user_passes_test
-from django.contrib.auth.hashers import make_password, check_password
-from django.conf import settings as django_settings
+from django.shortcuts import render, redirect
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
+
+from .models import User
 
 # Create your views here.
 print(f"LOCAL_IP: http://{django_settings.LOCAL_IP}:8000/")
@@ -15,19 +15,104 @@ DEFAULT_DESIGN_MODE = "Red_Dragon"
 AVAILABLE_DESIGN_MODES = ["Red_Dragon", "Blue_Diamond", "Lavender_Love"]
 
 
-def home(request):
-    context = {"title": "Home"}
-    return render(request, 'core/home.html', context)
+def anonymous_required(function=None, redirect_url=None):
+    """
+    Decorator for views that checks that the user isn't logged in, redirecting
+    to the home page if necessary.
+    """
+    if not redirect_url:
+        redirect_url = django_settings.LOGIN_REDIRECT_URL
+    actual_decorator = user_passes_test(lambda u: u.is_anonymous, login_url=redirect_url)
+
+    if function:
+        return actual_decorator(function)
+    return actual_decorator
 
 
+@anonymous_required
 def signup(request):
     context = {"title": "Sign Up"}
+    if request.method == "POST":
+        password = request.POST.get("password", "")
+        confirm_password = request.POST.get("confirm_password", "")
+
+        if password != confirm_password:
+            messages.error(request, "Password and Confirm Password doesn't match")
+            return redirect('signup')
+
+        username = request.POST.get("username", "")
+        email = request.POST.get("email", "")
+
+        # check if username or email already exists
+        if User.objects.filter(username=username).exists() or User.objects.filter(username=email).exists():
+            messages.error(request, "Username already exists")
+            return redirect('signup')
+        elif User.objects.filter(email=email).exists() or User.objects.filter(email=username).exists():
+            messages.error(request, "Email already exists")
+            return redirect('signup')
+
+        # get user data
+        first_name = request.POST.get("first_name", "")
+        last_name = request.POST.get("last_name", "")
+        phone_number = request.POST.get("phone_number", "")
+        gender = request.POST.get("gender", "")
+        country = request.POST.get("country", "")
+        city = request.POST.get("city", "")
+        birthdate = request.POST.get("birthdate", "")
+
+        # convert birthdate to YYYY-MM-DD format
+        try:
+            birthdate = datetime.datetime.strptime(birthdate, "%Y-%m-%d").strftime("%Y-%m-%d")
+        except ValueError:
+            birthdate = datetime.datetime.strptime(birthdate, "%d-%b-%Y").strftime("%Y-%m-%d")
+
+        # create user
+        user = User.objects.create_user(username=username, email=email, password=password,
+                                        first_name=first_name, last_name=last_name, phone=phone_number,
+                                        gender=gender, country=country, city=city, birthdate=birthdate)
+
+        # save profile picture
+        picture = request.FILES.get("picture", False)
+        if picture:
+            user.picture = picture
+        user.save()
+        messages.success(request, "Account created successfully")
+        return redirect('login')
+
     return render(request, 'core/signup.html', context)
 
 
+@anonymous_required
 def login(request):
     context = {"title": "Login"}
+    if request.method == "POST":
+        username_email = request.POST.get("username_email", "")
+        password = request.POST.get("password", "")
+
+        # check if user with username or email exists
+        user = auth.authenticate(
+            username=username_email,
+            password=password
+        ) or auth.authenticate(
+            email=username_email,
+            password=password
+        )
+        if user:
+            # login user and redirect to home page
+            auth.login(request, user)
+            messages.success(request, f"Logged in successfully")
+            return redirect('home')
+
+        # if user doesn't exist, show error message
+        messages.error(request, "Invalid username/email or password")
+        return redirect('login')
+
     return render(request, 'core/login.html', context)
+
+
+def home(request):
+    context = {"title": "Home"}
+    return render(request, 'core/home.html', context)
 
 
 @login_required

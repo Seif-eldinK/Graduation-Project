@@ -12,6 +12,8 @@ class User(AbstractUser):
     gender = models.CharField(max_length=1, choices=TEMP_CHOICES, default=MALE)
     birthdate = models.DateField(blank=True, null=True)
     phone = models.CharField(max_length=15, default="")
+    country = models.CharField(max_length=50, default="")
+    city = models.CharField(max_length=50, default="")
     picture = models.ImageField(default="", null=True)
     facial_login = models.BooleanField(default=False)
 
