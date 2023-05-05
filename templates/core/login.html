@@ -17,37 +17,42 @@
                         <div class="col-9">
                             <div class="row justify-content-center mb-4" style="margin-top: -10px;">
                                 <div class="col">
-                                    <div class="form-floating mb-3">
-                                        <input type="text" class="form-control" style="height: 45px"
-                                               placeholder="Email address or username"
-                                               id="email" name="email" autofocus required>
-                                        <label for="email" style="font-size: 16px;top:-7px; left:-7px;">Email address or
-                                            username</label>
-                                    </div>
-                                    <div class="form-floating">
-                                        <input class="form-control" style="height: 45px" placeholder="Password"
-                                               id="password" name="password" autofocus required>
-                                        <label for="email" style="font-size: 16px;top:-7px; left:-7px;">Password</label>
-                                    </div>
-                                    <div class="text-end">
-                                        <a href="#" class="text-center" style="color: #3379E1;">Forgot password?</a>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" style="border-color: #e61a1a"
-                                               type="checkbox" value=""
-                                               id="exampleCheckbox">
-                                        <label class="form-check-label" for="exampleCheckbox">
-                                            Remember me
-                                        </label>
-                                    </div>
-                                    <div class="row justify-content-center">
-
-                                        <button type="button" id="button"
-                                                class="btn btn-lg col-auto btn-outline-primary main-btn">
-                                            Login
-                                        </button>
-
-                                    </div>
+                                    <form action="{% url "login" %}" method="post" id="form">
+                                        {% csrf_token %}
+                                        <div class="form-floating mb-3">
+                                            <input id="username_email" name="username_email" type="text"
+                                                   class="form-control" style="height: 45px"
+                                                   placeholder="Email address or username" autofocus required>
+                                            <label for="username_email" style="font-size: 16px;top:-7px; left:-7px;">
+                                                Email address or username
+                                            </label>
+                                        </div>
+                                        <div class="form-floating">
+                                            <input id="password" name="password" type="password"
+                                                   class="form-control" style="height: 45px"
+                                                   placeholder="Password" required>
+                                            <label for="password" style="font-size: 16px;top:-7px; left:-7px;">
+                                                Password
+                                            </label>
+                                        </div>
+                                        <div class="text-end">
+                                            <a href="#" class="text-center" style="color: #3379E1;">Forgot password?</a>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" style="border-color: #e61a1a"
+                                                   type="checkbox" value=""
+                                                   id="exampleCheckbox">
+                                            <label class="form-check-label" for="exampleCheckbox">
+                                                Remember me
+                                            </label>
+                                        </div>
+                                        <div class="row justify-content-center">
+                                            <button type="submit" id="button"
+                                                    class="btn btn-lg col-auto btn-outline-primary main-btn">
+                                                Login
+                                            </button>
+                                        </div>
+                                    </form>
                                     <div class="row my-2">
                                         <div class="col d-inline-flex justify-content-end align-items-center">
                                             <hr class="opacity-50" style="width: 150px">
