@@ -1,10 +1,10 @@
 <h3 class="text-left mb-1 title-style">
     Personal Information
 </h3>
-<div class="form-control mt-3 px-5 py-3" style="box-shadow: 0 0 10px red;" id="settings">
+<div class="form-control mt-3 px-5 py-3 container" id="settings">
     <div class="row">
         <div class="col">
-            <div class="form-floating mb-3">
+            <div class="form-floating mt-2 mb-3">
                 <input class="form-control" style="height: 45px"
                        placeholder="First Name"
                        id="first_name" name="first_name" autofocus required></input>
@@ -13,8 +13,8 @@
             </div>
         </div>
         <div class="col">
-            <div class="form-floating">
-                <input class="form-control" style="height: 45px" placeholder="Last Name"
+            <div class="form-floating mt-2">
+                <input class="form-control" style="height: 45px;" placeholder="Last Name"
                        id="last_name" name="last_name" autofocus required></input>
                 <label for="last_name" style="font-size: 16px;top:-7px; left:-7px;">Last
                     Name</label>
@@ -36,7 +36,7 @@
                        placeholder="Email address or username"
                        id="email" name="email" autofocus required></input>
                 <label for="email" style="font-size: 16px;top:-7px; left:-7px;">Email
-                    address</label>
+                    Address</label>
             </div>
         </div>
     </div>
@@ -85,11 +85,10 @@
             <div class="form-floating mb-3">
                 <div class="input-group">
                     <label class="me-3 d-flex justify-content-center align-items-center">Country</label>
-                    <select class="form-select form-select-md"
+                    <select class="form-select form-select-md personal-information"
                             aria-label=".form-select-lg example" id="country"
                             name="country"
-                            form="form"
-                            style="border-color: #e61a1a">
+                            form="form" >
                         <option value="Egypt" selected>Egypt</option>
                     </select>
                 </div>
@@ -99,11 +98,10 @@
             <div class="form-floating mb-3">
                 <div class="input-group">
                     <label class="me-3 d-flex justify-content-center align-items-center">City</label>
-                    <select class="form-select form-select-md"
+                    <select class="form-select form-select-md personal-information"
                             aria-label=".form-select-lg example" id="city"
                             name="city"
-                            form="form"
-                            style="border-color: #e61a1a">
+                            form="form">
                         <option value="Cairo" selected>Cairo</option>
                     </select>
                 </div>
@@ -118,7 +116,7 @@
                        style="border-color: #e61a1a" size="10"
                        id="birthdate"
                        placeholder="Birthdate" autocomplete="bday" required>
-                <div class="input-group-text">
+                <div class="input-group-text personal-information">
                     <label class="fas fa-calendar" style="color: #e61a1a"></label>
                 </div>
             </div>
@@ -127,12 +125,12 @@
             <div class="col d-flex align-items-center">
                 <div class="align-self-center">
                     <label>Gender: </label>
-                    <div class="form-check form-check-inline">
+                    <div class="form-check form-check-inline setting-radio-button">
                         <input class="form-check-input" type="radio" name="gender" id="Male"
                                value="M">
                         <label class="form-check-label" for="Male">Male</label>
                     </div>
-                    <div class="form-check form-check-inline">
+                    <div class="form-check form-check-inline setting-radio-button">
                         <input class="form-check-input" type="radio" name="gender"
                                id="Female"
                                value="F">

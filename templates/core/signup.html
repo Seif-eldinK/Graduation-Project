@@ -1,10 +1,9 @@
 {% extends 'layouts/base.html' %}
 {% block content %}
-
     <div class="container-fluid">
         <div class="row justify-content-center">
             <div class="col-7">
-                <div class="form-control mt-3" style="height: 540px; box-shadow: 0 0 10px red;" id="signup">
+                <div class="form-control mt-4 container" style="height: 540px;" id="signup">
                     <h1 class="text-center mb-6 pt-6 title-style">
                         Please Signup
                     </h1>
@@ -53,7 +52,7 @@
                                                            placeholder="Email address or username"
                                                            id="email" name="email" autofocus required>
                                                     <label for="email" style="font-size: 16px;top:-7px; left:-7px;">Email
-                                                        address</label>
+                                                    Address</label>
                                                 </div>
                                             </div>
                                         </div>
@@ -93,13 +92,12 @@
                                             <div class="col d-flex align-items-center">
                                                 <div class="align-self-center">
                                                     <label>Gender: </label>
-                                                    <div class="form-check form-check-inline">
+                                                    <div class="form-check form-check-inline setting-radio-button">
                                                         <input class="form-check-input" type="radio" name="gender"
-                                                               id="Male"
-                                                               value="M">
+                                                               id="Male" value="M">
                                                         <label class="form-check-label" for="Male">Male</label>
                                                     </div>
-                                                    <div class="form-check form-check-inline">
+                                                <div class="form-check form-check-inline setting-radio-button">
                                                         <input class="form-check-input" type="radio" name="gender"
                                                                id="Female"
                                                                value="F">
@@ -113,11 +111,10 @@
                                                 <div class="form-floating mb-3">
                                                     <div class="input-group">
                                                         <label class="me-3 d-flex justify-content-center align-items-center">Country</label>
-                                                        <select class="form-select form-select-md"
+                                                    <select class="form-select form-select-md personal-information"
                                                                 aria-label=".form-select-lg example" id="country"
                                                                 name="country"
-                                                                form="form"
-                                                                style="border-color: #e61a1a">
+                                                            form="form">
                                                             <option value="Egypt" selected>Egypt</option>
                                                         </select>
                                                     </div>
@@ -127,11 +124,10 @@
                                                 <div class="form-floating mb-3">
                                                     <div class="input-group">
                                                         <label class="me-3 d-flex justify-content-center align-items-center">City</label>
-                                                        <select class="form-select form-select-md"
+                                                    <select class="form-select form-select-md personal-information"
                                                                 aria-label=".form-select-lg example" id="city"
                                                                 name="city"
-                                                                form="form"
-                                                                style="border-color: #e61a1a">
+                                                            form="form">
                                                             <option value="Cairo" selected>Cairo</option>
                                                         </select>
                                                     </div>
@@ -146,7 +142,7 @@
                                                            style="border-color: #e61a1a" size="10"
                                                            id="birthdate"
                                                            placeholder="Birthdate" autocomplete="bday" required>
-                                                    <div class="input-group-text">
+                                                <div class="input-group-text personal-information">
                                                         <label class="fas fa-calendar" style="color: #e61a1a"></label>
                                                     </div>
                                                 </div>
@@ -157,8 +153,8 @@
                                         </div>
                                         <div class="row">
                                             <div class="col">
-                                                <div class="form-check">
-                                                    <input class="form-check-input" style="border-color: #e61a1a"
+                                            <div class="form-check checkbox-button">
+                                                <input class="form-check-input"
                                                            type="checkbox" value=""
                                                            id="exampleCheckbox">
                                                     <label class="form-check-label" for="exampleCheckbox">
@@ -205,12 +201,12 @@
             <div class="modal-dialog modal-xl">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h1 class="modal-title fs-5"
-                            style="-webkit-text-stroke: 1px #e61a1a; color: black;font-size: 20px" id="terms">
+                        <h1 class="modal-title fs-5 title-style"
+                            style="font-size: 20px" id="terms">
                             <i class="bi bi-clipboard-check-fill" style="color: white"
                             ></i> Terms and Conditions</h1>
                         <button type="button" data-bs-dismiss="modal" style="background-color: transparent;border: 0">
-                            <i class="bi bi-x-lg" style="color: #e61a1a;"></i>
+                            <i class="bi bi-x-lg button-close-modal-icon"></i>
                         </button>
                     </div>
                     <div class="modal-body">
@@ -243,8 +239,11 @@
                             <b>You must NOT</b>
                             <br>
                             - Republish material from Memorizers
+                            <br>
                             - Sell, rent or sublicense material from Memorizers
+                            <br>
                             - Reproduce, duplicate or copy material from Memorizers
+                            <br>
                             - Redistribute content from Memorizers
                         </div>
                     </div>

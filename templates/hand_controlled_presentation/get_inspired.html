@@ -8,10 +8,18 @@
     </style>
 {% endblock %}
 {% block content %}
-    <div class="container-fluid mt-4">
+    <div class="container-fluid">
+    <div class="row justify-content-start">
+            <div class="col-auto ms-2">
+                <button type="button" id="button" class="col-auto btn btn-outline-primary rounded-4"
+                        data-bs-toggle="modal" data-bs-target="#view_model" style="top: 40px;position: relative;">
+                    View my work
+                </button>
+            </div>
+        </div>
         <div class="row justify-content-center">
             <div class="col-auto">
-                <h3 class="">
+                <h3 class="get-inspired-title">
                     <b>Get a quick peek at Memorizers' jaw-dropping presentations!</b>
                 </h3>
             </div>
@@ -36,17 +44,16 @@
             </div>
         </div>
     </div>
-    <div class="d-flex flex-row" style="padding-left: 7px; padding-top: 5px">
-        <div class="p-2 presentations-grid "></div>
+    <div class="d-flex flex-row " style="padding-left: 7px; padding-top: 5px">
+        <div class="p-2 presentations-grid"></div>
         <div class="p-2 presentations-grid"></div>
         <div class="p-2 presentations-grid"></div>
         <div class="p-2 presentations-grid"></div>
         <div class="p-2 presentations-grid"
              style="background-image: linear-gradient(to right, transparent , grey, grey), url(https://www.w3schools.com/css/img_flwr.gif); background-blend-mode: multiply; background-position: center center; background-size: cover; display: flex; align-items: center; justify-content: center;">
-
             <button type="button" id="button"
-                    style="font-size: 40px;height: 40px; display: flex; align-items: center; justify-content: center;color: #e61a1a; background-color: white"
-                    class="btn btn-lg btn-outline-primary rounded-4"><b>+</b>
+                    style="font-size: 60px;height: 40px; display: flex; align-items: center; justify-content: center;"
+                    class="btn btn-lg get-inspired-more-btn"><b>+</b>
             </button>
 
         </div>
@@ -71,8 +78,8 @@
         <div class="p-2 presentations-grid"
              style="background-image: linear-gradient(to right, transparent , grey, grey), url(https://www.w3schools.com/css/img_flwr.gif); background-blend-mode: multiply; background-position: center center; background-size: cover; display: flex; align-items: center; justify-content: center;">
             <button type="button" id="button"
-                    style="font-size: 40px;height: 40px; display: flex; align-items: center; justify-content: center;color: #e61a1a; background-color: white"
-                    class="btn btn-lg btn-outline-primary rounded-4"><b>+</b>
+                    style="font-size: 60px;height: 40px; display: flex; align-items: center; justify-content: center;"
+                    class="btn btn-lg get-inspired-more-btn"><b>+</b>
             </button>
         </div>
 
@@ -96,8 +103,8 @@
         <div class="p-2 presentations-grid"
              style="background-image: linear-gradient(to right, transparent , grey, grey), url(https://www.w3schools.com/css/img_flwr.gif); background-blend-mode: multiply; background-position: center center; background-size: cover; display: flex; align-items: center; justify-content: center;">
             <button type="button" id="button"
-                    style="font-size: 40px;height: 40px; display: flex; align-items: center; justify-content: center; color: #e61a1a; background-color: white"
-                    class="btn btn-lg btn-outline-primary rounded-4"><b>+</b>
+                    style="font-size: 60px;height: 40px; display: flex; align-items: center; justify-content: center;"
+                    class="btn btn-lg get-inspired-more-btn"><b>+</b>
             </button>
         </div>
     </div>
@@ -156,6 +163,28 @@
                     <button type="button" id="upload-presentation-button" class="btn btn-outline-primary"
                             data-bs-dismiss="modal">Upload
                     </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="view_model" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5 title-style">
+                        My Beautiful Work
+                    </h1>
+                    <button type="button" class="button-close-modal" data-bs-dismiss="modal">
+                        <i class="bi bi-x-lg button-close-modal-icon"></i>
+                    </button>
+                </div>
+                <div class="modal-body" style="font-size: 18px">
+                    <div class="row justify-content-center">
+                        <div class="col-9">
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

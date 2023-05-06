@@ -94,6 +94,7 @@
     font-size: 20px;
     margin-top: 10px;
 }
+
 /* End Home Page Style */
 
 .title-style {
@@ -159,6 +160,10 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     --bs-btn-active-border-color: white;
 }
 
+.settings-list-title {
+    color: white;
+}
+
 .Account-Management-btn {
     --bs-btn-color: black;
     --bs-btn-border-color: transparent;
@@ -191,6 +196,53 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 #page_number {
     color: black;
 }
+
+.setting-nav {
+    box-shadow: 0 0 10px red;
+    background-color: var(--red);
+    height: 474px;
+}
+
+.personal-information {
+    border-color: var(--red);
+}
+
+.primary-color {
+    color: var(--red);
+}
+
+.secondary-color {
+    color: var(--light-red);
+}
+
+.enable-facial-icon {
+    color: var(--red);
+    background-color: var(--light-red);
+}
+
+.get-inspired-title {
+    color: black;
+}
+
+.get-inspired-more-btn {
+    color: white;
+}
+
+.get-inspired-more-btn:hover {
+    text-shadow: white 0px 0px 5px;
+    color: white;
+    --bs-btn-active-color: white;
+    --bs-btn-disabled-color: white;
+}
+
+.setting-checkbox-button > input[type="checkbox"] {
+    border-color: var(--red);
+}
+
+.container {
+    box-shadow: 0 0 10px 2px var(--red);
+}
+
 
 /* Dark */
 [data-bs-theme="dark"] {
