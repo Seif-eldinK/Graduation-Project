@@ -223,7 +223,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     border-color: var(--blue);
 }
 
-.container {
+.main-container {
     border-width: thick;
     border-radius: 0px;
     background-color: rgb(255 255 255 / 45%);
