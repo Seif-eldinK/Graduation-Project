@@ -239,10 +239,17 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     border-color: var(--red);
 }
 
-.container {
+.main-container {
     box-shadow: 0 0 10px 2px var(--red);
 }
 
+.fa-calendar{
+    color: var(--red);
+}
+
+.vDateField{
+    border-color: var(--red);
+}
 
 /* Dark */
 [data-bs-theme="dark"] {
