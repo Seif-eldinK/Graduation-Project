@@ -7,8 +7,9 @@
             <div class="col-5">
                 <label for="text-prompt" class="form-label h4 d-flex justify-content-center">The Input Text</label>
                 <div class="position-relative">
-                    <textarea class="form-control" placeholder="Enter your text:" rows="13"
-                              id="text-prompt" name="text-prompt" autofocus required></textarea>
+                    <div id="text-prompt" name="text-prompt" class="form-control"
+                         placeholder="Enter your text:" contenteditable autofocus
+                         style="height: 325px"></div>
                     <div class="position-absolute bottom-0 start-0 p-2">
                         <button type="button" id="mic-btn" class="btn btn-outline-secondary"
                                 data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Voice typing"
@@ -118,7 +119,7 @@
                 contentType: 'application/json; charset=utf-8',
                 headers: {"X-CSRFToken": "{{ csrf_token }}"}, // this is the csrf token for logged-in users
                 data: JSON.stringify({
-                    'text_prompt': $("#text-prompt").val(),
+                    'text_prompt': $("#text-prompt").text(),
                 }),
                 success: function (result) {
                     $generated_image.attr('src', result['image_base64']);

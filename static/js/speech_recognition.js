@@ -2,6 +2,7 @@ function dictate(input_field) {
     if (window.hasOwnProperty('webkitSpeechRecognition')) {
         let mic_btn = $("#mic-btn");
         let final_transcript;
+        let intermediate_result;
 
         let speech_recognition = new webkitSpeechRecognition();
         speech_recognition.continuous = true;  // keep recognizing until user stops the speech_recognition
@@ -18,10 +19,16 @@ function dictate(input_field) {
                     intermediate_transcript += event.results[i][0].transcript;
                 }
             }
-            input_field.text(final_transcript + intermediate_transcript);
+            if (intermediate_transcript.trim().length>0){
+                 intermediate_result = "<span class='intermediate_result'>"+intermediate_transcript+"</span>";
+            }
+            else {
+                intermediate_result = "";
+            }
+            input_field.html(final_transcript + intermediate_result);
         };
         speech_recognition.onstart = () => {
-            final_transcript = input_field.val();
+            final_transcript = input_field.text();
             // check if the last character is a space
             if (final_transcript.length && final_transcript.slice(-1) !== " ") {
                 final_transcript += " ";
