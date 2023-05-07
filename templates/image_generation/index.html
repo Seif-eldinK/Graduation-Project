@@ -1,5 +1,6 @@
 {% extends 'layouts/base.html' %}
 {% block content %}
+    {% load static %}
     <h1 class="text-center my-4 title-style">Image Generation</h1>
     <div class="container-fluid">
         <div class="row justify-content-center">
@@ -131,6 +132,18 @@
                     loading(false);
                 }
             });
+        });
+    </script>
+    <script src="{% static 'js/speech_recognition.js' %}"></script>
+    <script>
+        let speech_recognition = dictate($("#text-prompt"));
+        const mic_btn = $("#mic-btn");
+        mic_btn.click(() => {
+            if (mic_btn.hasClass("btn-outline-secondary")) {
+                speech_recognition.start();
+            } else {
+                speech_recognition.stop();
+            }
         });
     </script>
 {% endblock content %}
