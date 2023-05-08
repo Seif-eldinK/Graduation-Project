@@ -59,9 +59,13 @@ python manage.py createsuperuser
 ```
 
 ## 5. Usage
-- Run the server
+- Run the server with the following command
 ```bash
-python manage.py runserver
+python manage.py runserver 
+```
+- or if you want to make the server accessible from other devices in the same network, run the server with the following command
+```bash
+python manage.py runserver 0.0.0.0:8000
 ```
 
 ## 6. Team Members
