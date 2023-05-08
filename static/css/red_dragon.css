@@ -251,6 +251,11 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     border-color: var(--red);
 }
 
+.secondary-button {
+    --bs-btn-hover-bg: var(--red);
+    --bs-btn-active-bg: var(--red);
+}
+
 /* Dark */
 [data-bs-theme="dark"] {
     --bs-tertiary-bg-rgb: var(--red-rgb) !important;

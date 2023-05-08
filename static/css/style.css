@@ -64,6 +64,16 @@ textarea {
     color: gray;
 }
 
+.secondary-button {
+    color: black;
+    --bs-btn-hover-color: white;
+    --bs-btn-active-color: white;
+}
+
+.bi-mic {
+    font-size: 20px;
+}
+
 [data-bs-theme="dark"] {
     .carousel-control-prev-icon, .carousel-control-next-icon {
         filter: none !important;

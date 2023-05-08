@@ -345,6 +345,11 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     border-color: var(--blue);
 }
 
+.secondary-button {
+    --bs-btn-hover-bg: var(--blue);
+    --bs-btn-active-bg: var(--blue);
+}
+
 /* Dark */
 [data-bs-theme="dark"] {
     --bs-tertiary-bg-rgb: var(--blue-rgb) !important;
