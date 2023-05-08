@@ -21,6 +21,7 @@
                                         {% csrf_token %}
                                         <div class="form-floating mb-3">
                                             <input id="username_email" name="username_email" type="text"
+                                                   autocomplete="username"
                                                    class="form-control" style="height: 45px"
                                                    placeholder="Email address or username" autofocus required>
                                             <label for="username_email" style="font-size: 16px;top:-7px; left:-7px;">
@@ -29,6 +30,7 @@
                                         </div>
                                         <div class="form-floating">
                                             <input id="password" name="password" type="password"
+                                                   autocomplete="current-password"
                                                    class="form-control" style="height: 45px"
                                                    placeholder="Password" required>
                                             <label for="password" style="font-size: 16px;top:-7px; left:-7px;">
