@@ -8,6 +8,12 @@ import openai
 url = ""
 
 
+def preprocess_text(text):
+    if not text.endswith("."):
+        text += "."  # add a dot at the end of the text
+    return text
+
+
 def openai_chatgpt_simplifier(text):
     simplification_prompt = """
 You are a Text simplifier.
@@ -51,14 +57,13 @@ def our_simplifier(text):
 def simplify_text(text, model="chatgpt"):
     result = ""
     model = model.lower()
-    if not text.endswith("."):
-        text += "."
+    preprocessed_text = preprocess_text(text)
     if model == "chatgpt":
-        result = openai_chatgpt_simplifier(text)
+        result = openai_chatgpt_simplifier(preprocessed_text)
     elif model == "gpt3":
-        result = openai_gpt3_simplifier(text)
+        result = openai_gpt3_simplifier(preprocessed_text)
     elif model == "ours":
-        result = our_simplifier(text)
+        result = our_simplifier(text)  # no need to preprocess
     else:
         result = "Error!"
     return result.strip()
