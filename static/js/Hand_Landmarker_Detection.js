@@ -48,33 +48,47 @@ const hasGetUserMedia = () => {
 };
 // If webcam supported, add event listener to button for when user
 // wants to activate it.
-if (hasGetUserMedia()) {
+let video_stream = hasGetUserMedia();
+if (video_stream) {
     enableWebcamButton = document.getElementById("webcamButton");
-    enableWebcamButton.addEventListener("click", enableCam);
+    enableWebcamButton.addEventListener("click", toggle_webcam);
 } else {
     console.warn("getUserMedia() is not supported by your browser");
 }
 
 // Enable the live webcam view and start detection.
-function enableCam(event) {
+function toggle_webcam(event) {
     if (!handLandmarker) {
         console.log("Wait! objectDetector not loaded yet.");
         return;
     }
     if (webcamRunning === true) {
+        // hide the video and canvas elements
+        video.classList.add("d-none");
+        canvas.classList.add("d-none");
+
+        window.cancelAnimationFrame(draw_frame);
+
+        // stop webcam stream
+        video.srcObject.getTracks().forEach(track => {
+            track.stop();
+            }
+        );
         webcamRunning = false;
         enableWebcamButton.innerText = "ENABLE PREDICTIONS";
-    } else {
+    }
+    else {
         webcamRunning = true;
         enableWebcamButton.innerText = "DISABLE PREDICTIONS";
+
+        // getUsermedia parameters to force video but not audio.
+        const constraints = {video: true};
+        // Activate the webcam stream.
+        navigator.mediaDevices.getUserMedia(constraints).then((stream) => {
+            video.srcObject = stream;
+            video.addEventListener("loadeddata", predictWebcam);
+        });
     }
-    // getUsermedia parameters.
-    const constraints = {video: true};
-    // Activate the webcam stream.
-    navigator.mediaDevices.getUserMedia(constraints).then((stream) => {
-        video.srcObject = stream;
-        video.addEventListener("loadeddata", predictWebcam);
-    });
 }
 
 // Create a function to flip the handedness of the detected hand.
@@ -121,11 +135,7 @@ function hand_gesture_recognizer(handedness, landmarks) {
     }
 }
 
-// Continuously grab an image from webcam stream and detect it.
-async function predictWebcam() {
-    // show the video and canvas elements
-    video.classList.remove("d-none");
-    canvas.classList.remove("d-none");
+async function draw_frame(){
     // Now let's start detecting the stream.
     let startTimeMs = performance.now();
     const results = handLandmarker.detectForVideo(video, startTimeMs);
@@ -159,7 +169,15 @@ async function predictWebcam() {
     }
     canvas_context.restore();
     // Call this function again to keep predicting when the browser is ready.
-    if (webcamRunning === true) {
-        window.requestAnimationFrame(predictWebcam);
-    }
+    window.requestAnimationFrame(draw_frame);
+}
+
+
+// Continuously grab an image from webcam stream and detect it.
+async function predictWebcam() {
+    // show the video and canvas elements
+    video.classList.remove("d-none");
+    canvas.classList.remove("d-none");
+
+    await draw_frame();
 }
