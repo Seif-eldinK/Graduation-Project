@@ -2,7 +2,8 @@ import {FilesetResolver, HandLandmarker} from "https://cdn.skypack.dev/@mediapip
 
 let handLandmarker = undefined;
 let running_mode = "VIDEO";  // "VIDEO" for streaming video from webcam.
-const [videoWidth, videoHeight] = ["300px", "225px"];
+const [video_width, video_height] = [1280, 720];
+const [video_style_width, video_style_height] = ["300px", "225px"];
 let num_hands = 4;  // Maximum number of hands to detect.
 let flip_handedness = true;  // Flip handedness for front-facing camera.
 let delay = 1000;  // Minimum number of milliseconds between screen updates.
@@ -11,10 +12,16 @@ const right_hand_landmarks_color = "#65d1f9";
 const right_hand_connectors_color = "white";
 const left_hand_landmarks_color = "#f9a165";
 const left_hand_connectors_color = "white";
+
 let carousel = bootstrap.Carousel.getOrCreateInstance("#carousel");
 const video = document.getElementById("webcam");
-const canvasElement = document.getElementById("output_canvas");
-const canvasCtx = canvasElement.getContext("2d");
+const canvas = document.getElementById("output_canvas");
+const canvas_context = canvas.getContext("2d");
+video.width = canvas.width = video_width;
+video.height = canvas.height = video_height;
+
+video.style.width = canvas.style.width = video_style_width;
+video.style.height = canvas.style.height = video_style_height;
 
 const touchless_control_webcam = document.getElementById("touchless-control-webcam");
 let enableWebcamButton;
@@ -116,18 +123,14 @@ function hand_gesture_recognizer(handedness, landmarks) {
 
 // Continuously grab an image from webcam stream and detect it.
 async function predictWebcam() {
-    video.style.width = videoWidth;
-    video.style.height = videoHeight;
-    canvasElement.style.width = videoWidth;
-    canvasElement.style.height = videoHeight;
     // show the video and canvas elements
     video.classList.remove("d-none");
-    canvasElement.classList.remove("d-none");
+    canvas.classList.remove("d-none");
     // Now let's start detecting the stream.
     let startTimeMs = performance.now();
     const results = handLandmarker.detectForVideo(video, startTimeMs);
-    canvasCtx.save();
-    canvasCtx.clearRect(0, 0, canvasElement.width, canvasElement.height);
+    canvas_context.save();
+    canvas_context.clearRect(0, 0, canvas.width, canvas.height);
     if (results.landmarks) {
         // iterate through all detected hands
         for (let iteration = 0; iteration < results.landmarks.length; iteration++) {
@@ -144,17 +147,17 @@ async function predictWebcam() {
             hand_gesture_recognizer(handedness, landmarks);
 
             // draw the hand landmarks and connectors on the canvas
-            drawConnectors(canvasCtx, landmarks, HAND_CONNECTIONS, {
+            drawConnectors(canvas_context, landmarks, HAND_CONNECTIONS, {
                 color: hand_connectors_color,  // line color, default color #00FF00
                 lineWidth: 5,
             });
-            drawLandmarks(canvasCtx, landmarks, {
+            drawLandmarks(canvas_context, landmarks, {
                 color: hand_landmarks_color,  // outer circle color, default color #FF0000
                 lineWidth: 5, fillColor: hand_connectors_color,  // inner circle color
             });
         }
     }
-    canvasCtx.restore();
+    canvas_context.restore();
     // Call this function again to keep predicting when the browser is ready.
     if (webcamRunning === true) {
         window.requestAnimationFrame(predictWebcam);
