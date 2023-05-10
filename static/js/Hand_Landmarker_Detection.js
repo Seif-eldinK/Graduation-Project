@@ -169,7 +169,9 @@ async function draw_frame(){
     }
     canvas_context.restore();
     // Call this function again to keep predicting when the browser is ready.
-    window.requestAnimationFrame(draw_frame);
+    if (webcamRunning){
+        window.requestAnimationFrame(draw_frame);
+    }
 }
 
 
