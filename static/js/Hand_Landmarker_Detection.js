@@ -63,19 +63,18 @@ function toggle_webcam(event) {
         return;
     }
     if (webcamRunning === true) {
+        webcamRunning = false;
+        enableWebcamButton.innerText = "ENABLE PREDICTIONS";
+
         // hide the video and canvas elements
         video.classList.add("d-none");
         canvas.classList.add("d-none");
 
-        window.cancelAnimationFrame(draw_frame);
-
         // stop webcam stream
         video.srcObject.getTracks().forEach(track => {
-            track.stop();
+                track.stop();
             }
         );
-        webcamRunning = false;
-        enableWebcamButton.innerText = "ENABLE PREDICTIONS";
     }
     else {
         webcamRunning = true;
@@ -86,7 +85,13 @@ function toggle_webcam(event) {
         // Activate the webcam stream.
         navigator.mediaDevices.getUserMedia(constraints).then((stream) => {
             video.srcObject = stream;
-            video.addEventListener("loadeddata", predictWebcam);
+            video.addEventListener("loadeddata", async () => {
+                // show the video and canvas elements
+                video.classList.remove("d-none");
+                canvas.classList.remove("d-none");
+
+                await predictWebcam();
+            });
         });
     }
 }
@@ -135,7 +140,9 @@ function hand_gesture_recognizer(handedness, landmarks) {
     }
 }
 
-async function draw_frame(){
+
+// Continuously grab an image from webcam stream and detect it.
+async function predictWebcam(){
     // Now let's start detecting the stream.
     let startTimeMs = performance.now();
     const results = handLandmarker.detectForVideo(video, startTimeMs);
@@ -170,16 +177,6 @@ async function draw_frame(){
     canvas_context.restore();
     // Call this function again to keep predicting when the browser is ready.
     if (webcamRunning){
-        window.requestAnimationFrame(draw_frame);
+        window.requestAnimationFrame(predictWebcam);
     }
-}
-
-
-// Continuously grab an image from webcam stream and detect it.
-async function predictWebcam() {
-    // show the video and canvas elements
-    video.classList.remove("d-none");
-    canvas.classList.remove("d-none");
-
-    await draw_frame();
 }
