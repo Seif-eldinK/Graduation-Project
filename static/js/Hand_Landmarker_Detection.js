@@ -14,6 +14,7 @@ const left_hand_landmarks_color = "#f9a165";
 const left_hand_connectors_color = "white";
 
 let carousel = bootstrap.Carousel.getOrCreateInstance("#carousel");
+let output_container = document.getElementById("output_container");
 const video = document.getElementById("webcam");
 const canvas = document.getElementById("output_canvas");
 const canvas_context = canvas.getContext("2d");
@@ -41,6 +42,8 @@ const createHandLandmarker = async () => {
     // end edit.
 };
 createHandLandmarker();
+
+
 // Check if webcam access is supported.
 const hasGetUserMedia = () => {
     let _a;
@@ -56,6 +59,7 @@ if (video_stream) {
     console.warn("getUserMedia() is not supported by your browser");
 }
 
+
 // Enable the live webcam view and start detection.
 function toggle_webcam(event) {
     if (!handLandmarker) {
@@ -66,15 +70,16 @@ function toggle_webcam(event) {
         webcamRunning = false;
         enableWebcamButton.innerText = "ENABLE PREDICTIONS";
 
-        // hide the video and canvas elements
-        video.classList.add("d-none");
-        canvas.classList.add("d-none");
+        // hide the output container that contains the video and canvas elements
+        output_container.hidden = true;
 
-        // stop webcam stream
-        video.srcObject.getTracks().forEach(track => {
-                track.stop();
-            }
-        );
+        window.requestAnimationFrame(() => {
+            // stop webcam stream
+            video.srcObject.getTracks().forEach(track => {
+                    track.stop();
+                }
+            );
+        });
     }
     else {
         webcamRunning = true;
@@ -86,15 +91,15 @@ function toggle_webcam(event) {
         navigator.mediaDevices.getUserMedia(constraints).then((stream) => {
             video.srcObject = stream;
             video.addEventListener("loadeddata", async () => {
-                // show the video and canvas elements
-                video.classList.remove("d-none");
-                canvas.classList.remove("d-none");
+                // show the output container once the webcam is streaming.
+                output_container.hidden = false;
 
                 await predictWebcam();
             });
         });
     }
 }
+
 
 // Create a function to flip the handedness of the detected hand.
 function reverse_handedness(handedness) {
@@ -106,6 +111,7 @@ function reverse_handedness(handedness) {
     return handedness;
 }
 
+
 // Select the color of the hand landmarks and hand connections based on the handedness.
 function select_color(handedness) {
     if (handedness === "Right") {
@@ -114,6 +120,7 @@ function select_color(handedness) {
         return [left_hand_landmarks_color, left_hand_connectors_color];
     }
 }
+
 
 function hand_gesture_recognizer(handedness, landmarks) {
     // if last_time + delay >= current_time then ignore the gesture

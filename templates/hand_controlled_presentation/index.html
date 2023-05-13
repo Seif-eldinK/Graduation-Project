@@ -37,9 +37,9 @@
             <button id="webcamButton" class="btn btn-primary">
                 ENABLE WEBCAM
             </button>
-            <div class="position-relative">
-                <video id="webcam" class="d-none" autoplay playsinline></video>
-                <canvas id="output_canvas" class="output_canvas position-absolute top-0 start-0 d-none"></canvas>
+            <div id="output_container" class="position-relative" hidden>
+                <video id="webcam" autoplay playsinline></video>
+                <canvas id="output_canvas" class="output_canvas position-absolute top-0 start-0"></canvas>
             </div>
         </section>
     </div>
