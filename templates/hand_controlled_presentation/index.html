@@ -10,16 +10,20 @@
         <div class="row">
             <div class="col-12">
                 <div id="carousel" class="carousel slide positive-relative">
-                    <div class="carousel-inner">
+                    <div class="carousel-inner mx-auto"  style="width: 980px">
                         {% for page in pages_range %}
                             <div class="carousel-item text-center{% if forloop.first %} active{% endif %}">
                                 <img src="{% get_media_prefix %}presentation_files/{{ presentation.path }}/images/page_{{ forloop.counter }}.png"
-                                     width="980px">
+                                     class="w-100">
                                 <h5 class="carousel-caption d-none">
                                     <div id="page">Slide {{ forloop.counter }} / {{ number_pages }}</div>
                                 </h5>
                             </div>
                         {% endfor %}
+                        <div id="drawing-area" class="position-absolute w-100 h-100">
+                            <canvas id="drawing-canvas" class="position-absolute w-100 h-100"></canvas>
+                            <canvas id="pointer-canvas" class="position-absolute w-100 h-100"></canvas>
+                        </div>
                     </div>
                     <button class="carousel-control-prev" type="button" data-bs-target="#carousel" data-bs-slide="prev">
                         <span class="carousel-control-prev-icon"></span>
