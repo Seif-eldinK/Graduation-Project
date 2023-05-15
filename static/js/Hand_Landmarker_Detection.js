@@ -131,6 +131,76 @@ function select_color(handedness) {
 }
 
 
+// function that take the landmarks and return list of fingers that are extended upwards.
+function extended_fingers(landmarks) {
+    // Fingers = [thumb, index, middle, ring, pinky]
+    let extended_fingers = Array(5).fill(0);
+    // THUMB FINGER
+    let THUMB_TIP = landmarks[4];
+    let THUMB_IP = landmarks[3];
+
+    // INDEX FINGER
+    let INDEX_FINGER_MCP = landmarks[5];
+    let INDEX_FINGER_PIP = landmarks[6];
+    let INDEX_FINGER_TIP = landmarks[8];
+
+    // MIDDLE FINGER
+    let MIDDLE_FINGER_MCP = landmarks[9];
+    let MIDDLE_FINGER_PIP = landmarks[10];
+    let MIDDLE_FINGER_TIP = landmarks[12];
+
+    // RING FINGER
+    let RING_FINGER_MCP = landmarks[13];
+    let RING_FINGER_PIP = landmarks[14];
+    let RING_FINGER_TIP = landmarks[16];
+
+    // PINKY FINGER
+    let PINKEY_FINGER_MCP = landmarks[17];
+    let PINKEY_FINGER_PIP = landmarks[18];
+    let PINKEY_FINGER_TIP = landmarks[20];
+
+
+    if (THUMB_TIP['y'] > THUMB_IP['y']) {
+        extended_fingers[0] = 1;
+    }
+
+    if (INDEX_FINGER_TIP['y'] > INDEX_FINGER_PIP['y'] || INDEX_FINGER_PIP['y'] > INDEX_FINGER_MCP['y']) {
+        extended_fingers[1] = 1;
+    }
+
+    if (MIDDLE_FINGER_TIP['y'] > MIDDLE_FINGER_PIP['y'] || MIDDLE_FINGER_PIP['y'] > MIDDLE_FINGER_MCP['y']) {
+        extended_fingers[2] = 1;
+    }
+
+    if (RING_FINGER_TIP['y'] > RING_FINGER_PIP['y'] || RING_FINGER_PIP['y'] > RING_FINGER_MCP['y']) {
+        extended_fingers[3] = 1;
+    }
+
+    if (PINKEY_FINGER_TIP['y'] > PINKEY_FINGER_PIP['y'] || PINKEY_FINGER_PIP['y'] > PINKEY_FINGER_MCP['y']) {
+        extended_fingers[4] = 1;
+    }
+
+    extended_fingers = extended_fingers.map(finger => !finger);
+
+    return extended_fingers;
+}
+
+
+// function that take the landmarks and return the slope of the hand.
+function hand_slope(landmarks) {
+    // line between the index finger and the middle finger.
+    let INDEX_FINGER_MCP = landmarks[5];
+    let MIDDLE_FINGER_MCP = landmarks[9];
+
+    // calculate the slope of the line.
+    let slope = (MIDDLE_FINGER_MCP['y'] - INDEX_FINGER_MCP['y']) / (MIDDLE_FINGER_MCP['x'] - INDEX_FINGER_MCP['x']);
+    let radians = Math.atan(slope);
+    let degrees = radians * (180/Math.PI);
+
+    return degrees;
+}
+
+
 function hand_gesture_recognizer(handedness, landmarks) {
     // if last_time + delay >= current_time then ignore the gesture
     if (last_time + delay >= performance.now()) {
