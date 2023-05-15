@@ -197,35 +197,20 @@ function pointer(handedness, landmarks) {
 }
 
 
-function drawing(handedness, landmarks) {
-    let THUMB_TIP = landmarks[4];
+function drawing(handedness, landmarks, extended_fingers_list) {
     // INDEX_FINGER
-    let INDEX_FINGER_MCP = landmarks[5];
     let INDEX_FINGER_TIP = landmarks[8];
-    // MIDDLE_FINGER
-    let MIDDLE_FINGER_PIP = landmarks[10];
-    let MIDDLE_FINGER_TIP = landmarks[12];
 
-    // check if INDEX_FINGER is pointing down
-    if (INDEX_FINGER_TIP['y'] > INDEX_FINGER_MCP['y']) {
-        return;
-    }
-    // check if MIDDLE_FINGER is pointing down
-    if (MIDDLE_FINGER_TIP['y'] > MIDDLE_FINGER_PIP['y']) {
-        return;
-    }
+    // check if INDEX_FINGER and MIDDLE_FINGER are extended and RING_FINGER and PINKEY_FINGER are not extended
+    if (extended_fingers_list[1] && extended_fingers_list[2] && !extended_fingers_list[3] && !extended_fingers_list[4]) {
+        // get the x and y coordinates of the INDEX_FINGER_TIP and MIDDLE_FINGER_TIP landmarks
+        let INDEX_FINGER_TIP_x = INDEX_FINGER_TIP['x'] * drawing_canvas_width;
+        let INDEX_FINGER_TIP_y = INDEX_FINGER_TIP['y'] * drawing_canvas_height;
 
-    // get the x and y coordinates of the INDEX_FINGER_TIP and MIDDLE_FINGER_TIP landmarks
-    let INDEX_FINGER_TIP_x = INDEX_FINGER_TIP['x'] * drawing_canvas_width;
-    let INDEX_FINGER_TIP_y = INDEX_FINGER_TIP['y'] * drawing_canvas_height;
-
-    // invert the x-axis if selfie mode is enabled
-    if (selfie_mode) {
-        INDEX_FINGER_TIP_x = drawing_canvas_width - INDEX_FINGER_TIP_x;
-    }
-
-    // y-axis is inverted in mediapipe, the higher the y value, the lower the point is on the screen.
-    if (THUMB_TIP['y'] > MIDDLE_FINGER_TIP['y'] && THUMB_TIP['y'] > INDEX_FINGER_TIP['y']) {
+        // invert the x-axis if selfie mode is enabled
+        if (selfie_mode) {
+            INDEX_FINGER_TIP_x = drawing_canvas_width - INDEX_FINGER_TIP_x;
+        }
 
         // draw a circle at the INDEX_FINGER_TIP landmark
         drawing_canvas_context.fillStyle = "blue";
@@ -234,34 +219,10 @@ function drawing(handedness, landmarks) {
 }
 
 
-function eraser(handedness, landmarks) {
-    let THUMB_TIP = landmarks[4];
-    // INDEX_FINGER
-    let INDEX_FINGER_MCP = landmarks[5];
-    let INDEX_FINGER_TIP = landmarks[8];
-    // MIDDLE_FINGER
-    let MIDDLE_FINGER_PIP = landmarks[10];
-    let MIDDLE_FINGER_TIP = landmarks[12];
-    // RING_FINGER
-    let RING_FINGER_PIP = landmarks[14];
-    let RING_FINGER_TIP = landmarks[16];
-
-    // check if INDEX_FINGER is pointing down
-    if (INDEX_FINGER_TIP['y'] > INDEX_FINGER_MCP['y']) {
-        return;
-    }
-    // check if MIDDLE_FINGER is pointing down
-    if (MIDDLE_FINGER_TIP['y'] > MIDDLE_FINGER_PIP['y']) {
-        return;
-    }
-    // check if RING_FINGER is pointing down
-    if (RING_FINGER_TIP['y'] > RING_FINGER_PIP['y']) {
-        return;
-    }
-
-    // clear the canvas if INDEX_FINGER_TIP, MIDDLE_FINGER_TIP, and RING_FINGER_TIP are all below THUMB_TIP
-    if (THUMB_TIP['y'] > INDEX_FINGER_TIP['y'] && THUMB_TIP['y'] > MIDDLE_FINGER_TIP['y'] &&
-        THUMB_TIP['y'] > RING_FINGER_TIP['y']) {
+function eraser(handedness, landmarks, extended_fingers_list) {
+    // check if INDEX_FINGER, MIDDLE_FINGER and RING_FINGER are extended and PINKY is not extended
+    if (extended_fingers_list[1] && extended_fingers_list[2] && extended_fingers_list[3] && !extended_fingers_list[4]) {
+        // clear the canvas if INDEX_FINGER_TIP, MIDDLE_FINGER_TIP, and RING_FINGER_TIP are all extended
         drawing_canvas_context.clearRect(0, 0, drawing_canvas_width, drawing_canvas_height);
     }
 }
@@ -279,18 +240,29 @@ async function predictWebcam(){
         for (let iteration = 0; iteration < results.landmarks.length; iteration++) {
             const landmarks = results.landmarks[iteration];
             let handedness = results.handednesses[iteration][0]['categoryName'];
+            let extended_fingers_list = extended_fingers(landmarks);
+            let degrees = hand_slope(landmarks);
 
             // flip the handedness if the camera is front-facing
             if (selfie_mode) {
                 handedness = reverse_handedness(handedness);
             }
+
+            if (handedness === 'Left') {
+                degrees = degrees * -1;
+            }
+
             // select the color of the hand landmarks and hand connections based on the handedness
             const [hand_landmarks_color, hand_connectors_color] = select_color(handedness);
-
             hand_gesture_recognizer(handedness, landmarks);
+
             pointer(handedness, landmarks);
-            drawing(handedness, landmarks);
-            eraser(handedness, landmarks);
+
+            // check if the hand is at an angle between 70 and -30 degrees
+            if (degrees < 70 && degrees > -30) {
+                drawing(handedness, landmarks, extended_fingers_list);
+                eraser(handedness, landmarks, extended_fingers_list);
+            }
 
             // draw the hand landmarks and connectors on the canvas
             drawConnectors(canvas_context, landmarks, HAND_CONNECTIONS, {
