@@ -190,10 +190,10 @@ function extended_fingers(landmarks) {
 function hand_slope(landmarks) {
     // line between the index finger and the middle finger.
     let INDEX_FINGER_MCP = landmarks[5];
-    let MIDDLE_FINGER_MCP = landmarks[9];
+    let RING_FINGER_MCP = landmarks[13];
 
     // calculate the slope of the line.
-    let slope = (MIDDLE_FINGER_MCP['y'] - INDEX_FINGER_MCP['y']) / (MIDDLE_FINGER_MCP['x'] - INDEX_FINGER_MCP['x']);
+    let slope = (RING_FINGER_MCP['y'] - INDEX_FINGER_MCP['y']) / (RING_FINGER_MCP['x'] - INDEX_FINGER_MCP['x']);
     let radians = Math.atan(slope);
     let degrees = radians * (180/Math.PI);
 
@@ -318,20 +318,23 @@ async function predictWebcam(){
                 handedness = reverse_handedness(handedness);
             }
 
+            // select the color of the hand landmarks and hand connections based on the handedness
+            const [hand_landmarks_color, hand_connectors_color] = select_color(handedness);
+
             if (handedness === 'Left') {
                 degrees = degrees * -1;
             }
 
-            // select the color of the hand landmarks and hand connections based on the handedness
-            const [hand_landmarks_color, hand_connectors_color] = select_color(handedness);
-            hand_gesture_recognizer(handedness, landmarks);
-
             pointer(handedness, landmarks);
 
+            console.log(degrees);
             // check if the hand is at an angle between 70 and -30 degrees
-            if (degrees < 70 && degrees > -30) {
+            if (degrees < 40 && degrees > -55) {
                 drawing(handedness, landmarks, extended_fingers_list);
                 eraser(handedness, landmarks, extended_fingers_list);
+            }
+            if (degrees<-55) {
+                hand_gesture_recognizer(handedness, landmarks);
             }
 
             // draw the hand landmarks and connectors on the canvas
