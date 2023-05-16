@@ -1,0 +1,5 @@
+{% load static %}
+<canvas id="animated-background" class="z-n1 position-fixed" style="margin-top: 76px"></canvas>
+{% if request.COOKIES.design_mode == "Blue_Diamond" %}
+    <script src="{% static '/js/blue_diamond/animated_background.js' %}"></script>
+{% endif %}
