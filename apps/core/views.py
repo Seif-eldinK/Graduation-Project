@@ -10,7 +10,9 @@ from rest_framework.response import Response
 from .models import User
 
 # Create your views here.
-print(f"LOCAL_IP: http://{django_settings.LOCAL_IP}:8000/")
+print(f"Local Host: http://localhost:8000/")
+print(f"Local Host: http://127.0.0.1:8000/")
+print(f"Local Network IP: http://{django_settings.LOCAL_IP}:8000/")
 DEFAULT_DESIGN_MODE = "Red_Dragon"
 AVAILABLE_DESIGN_MODES = ["Red_Dragon", "Blue_Diamond", "Lavender_Love"]
 
