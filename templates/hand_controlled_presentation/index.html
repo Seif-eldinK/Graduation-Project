@@ -10,11 +10,11 @@
         <div class="row">
             <div class="col-12">
                 <div id="carousel" class="carousel slide positive-relative">
-                    <div class="carousel-inner mx-auto"  style="width: 980px">
+                    <div class="carousel-inner mx-auto"  style="width: 980px; height: 552px;">
                         {% for page in pages_range %}
-                            <div class="carousel-item text-center{% if forloop.first %} active{% endif %}">
+                            <div class="carousel-item text-center w-100 h-100{% if forloop.first %} active{% endif %}">
                                 <img src="{% get_media_prefix %}presentation_files/{{ presentation.path }}/images/page_{{ forloop.counter }}.png"
-                                     class="w-100">
+                                     class="w-100 h-100" style="object-fit: contain;">
                                 <h5 class="carousel-caption d-none">
                                     <div id="page">Slide {{ forloop.counter }} / {{ number_pages }}</div>
                                 </h5>
@@ -31,7 +31,7 @@
                     <button class="carousel-control-next" type="button" data-bs-target="#carousel" data-bs-slide="next">
                         <span class="carousel-control-next-icon"></span>
                     </button>
-                    <div class="position-absolute top-100 start-50 translate-middle h5" id="page_number">Slide 1 / 21</div>
+                    <div class="position-absolute top-100 start-50 translate-middle h5" id="page_number">Slide 1 / {{ number_pages }}</div>
                 </div>
             </div>
         </div>
