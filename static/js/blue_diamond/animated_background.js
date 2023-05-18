@@ -1,3 +1,29 @@
+const LIGHT_BACKGROUND_COLOR = "#cfcfff";
+const DARK_BACKGROUND_COLOR = "#0a0a0a";
+const LIGHT_COLORS = ["#0202cf", "#569cff", "#2f87ff"];
+const DARK_COLORS = ["#0202cf", "#569cff", "#2f87ff"];
+
+let BACKGROUND_COLOR, COLORS;
+
+// get theme from local storage
+function getThemeFromLocalStorage() {
+    return localStorage.getItem('theme');
+}
+
+// set BACKGROUND_COLOR and COLORS based on theme
+function setTheme() {
+    let theme = getThemeFromLocalStorage();
+    if (theme === "dark") {
+        BACKGROUND_COLOR = DARK_BACKGROUND_COLOR;
+        COLORS = DARK_COLORS;
+    }
+    else {
+        BACKGROUND_COLOR = LIGHT_BACKGROUND_COLOR;
+        COLORS = LIGHT_COLORS;
+    }
+}
+
+// convert degrees to radians
 function degToRad(degrees) {
     return degrees * Math.PI / 180;
 }
@@ -11,24 +37,25 @@ document.addEventListener("DOMContentLoaded", function() {
     const width = canvas.width = window.innerWidth;
     const height = canvas.height = window.innerHeight - header_height;
     const ctx = canvas.getContext("2d");
-    ctx.fillStyle = "#cfcfff";
+
+    // set background color
+    setTheme();
+    ctx.fillStyle = BACKGROUND_COLOR;
     ctx.fillRect(0, 0, width, height);
 
 
     class Diamond {
-        constructor(x, y, velocity_x, velocity_y, color, size, angle, rotation_speed) {
+        constructor(x, y, velocity_x, velocity_y, size, angle, rotation_speed) {
             this.x = x;
             this.y = y;
             this.velocity_x = velocity_x;
             this.velocity_y = velocity_y;
-            this.color = color;
             this.size = size;
             this.width = 280 * this.size;
             this.height = 260 * this.size;
             this.angle = degToRad(angle);
             this.rotation_speed = rotation_speed;
-            // this.colors = ["#0202cf", "#407ff5", "#77a2f2"];
-            this.colors = ["#0202cf", "#569cff", "#2f87ff"];
+            this.colors = COLORS;
         }
 
         draw() {
@@ -41,30 +68,30 @@ document.addEventListener("DOMContentLoaded", function() {
             ctx.translate(-(this.x + this.width / 2), -(this.y + this.height / 2));
 
             ctx.fillStyle = this.colors[0];
-            ctx.fillRect(this.x + 65 * this.size, this.y + 0 * this.size, 150 * this.size, 100 * this.size);
+            ctx.fillRect(this.x + 65 * this.size, this.y, 150 * this.size, 100 * this.size);
 
             ctx.fillStyle = this.colors[1];
             ctx.beginPath();
-            ctx.moveTo(this.x + 0 * this.size, this.y + 85 * this.size);
-            ctx.lineTo(this.x + 65 * this.size, this.y + 0 * this.size);
+            ctx.moveTo(this.x, this.y + 85 * this.size);
+            ctx.lineTo(this.x + 65 * this.size, this.y);
             ctx.lineTo(this.x + 65 * this.size, this.y + 100 * this.size);
-            ctx.lineTo(this.x + 140 * this.size, this.y + 0 * this.size);
+            ctx.lineTo(this.x + 140 * this.size, this.y);
             ctx.lineTo(this.x + 215 * this.size, this.y + 100 * this.size);
-            ctx.lineTo(this.x + 215 * this.size, this.y + 0 * this.size);
+            ctx.lineTo(this.x + 215 * this.size, this.y);
             ctx.lineTo(this.x + 280 * this.size, this.y + 85 * this.size);
             ctx.lineTo(this.x + 215 * this.size, this.y + 100 * this.size);
             ctx.lineTo(this.x + 65 * this.size, this.y + 100 * this.size);
-            ctx.moveTo(this.x + 0 * this.size, this.y + 85 * this.size);
+            ctx.moveTo(this.x, this.y + 85 * this.size);
             ctx.fill();
 
             ctx.fillStyle = this.colors[0];
             ctx.beginPath();
-            ctx.moveTo(this.x + 0 * this.size, this.y + 85 * this.size);
+            ctx.moveTo(this.x, this.y + 85 * this.size);
             ctx.lineTo(this.x + 65 * this.size, this.y + 100 * this.size);
             ctx.lineTo(this.x + 215 * this.size, this.y + 100 * this.size);
             ctx.lineTo(this.x + 280 * this.size, this.y + 85 * this.size);
             ctx.lineTo(this.x + 140 * this.size, this.y + 260 * this.size);
-            ctx.moveTo(this.x + 0 * this.size, this.y + 85 * this.size);
+            ctx.moveTo(this.x, this.y + 85 * this.size);
             ctx.fill();
 
             ctx.fillStyle = this.colors[2];
@@ -80,9 +107,30 @@ document.addEventListener("DOMContentLoaded", function() {
         update() {
             // respawn on new random position after full exit from canvas
             if (this.x + this.width < 0 || this.x > width || this.y + this.height < 0 || this.y > height) {
-                this.x = Math.random() * width;
-                this.y = Math.random() * height;
+                // random edge
+                let edge = Math.floor(Math.random() * 4);
+                if (edge === 0) {
+                    // left edge
+                    this.x = -this.width;
+                    this.y = Math.random() * height;
+                }
+                else if (edge === 1) {
+                    // top edge
+                    this.x = Math.random() * width;
+                    this.y = -this.height;
+                }
+                else if (edge === 2) {
+                    // right edge
+                    this.x = width;
+                    this.y = Math.random() * height;
+                }
+                else if (edge === 3) {
+                    // bottom edge
+                    this.x = Math.random() * width;
+                    this.y = height;
+                }
 
+                // random velocity
                 this.velocity_x = Math.random() * 5 - 2.5;
                 this.velocity_y = Math.random() * 5 - 2.5;
             }
@@ -90,6 +138,9 @@ document.addEventListener("DOMContentLoaded", function() {
             // move
             this.x += this.velocity_x;
             this.y += this.velocity_y;
+
+            // change color
+            this.colors = COLORS;
 
             // rotate
             this.angle += degToRad(this.rotation_speed);
@@ -113,12 +164,13 @@ document.addEventListener("DOMContentLoaded", function() {
         // rotation_speed
         let rotation_speed = Math.random() * 4 - 2;
 
-        diamonds.push(new Diamond(x, y, velocity_x, velocity_y, color, size, angle, rotation_speed));
+        diamonds.push(new Diamond(x, y, velocity_x, velocity_y, size, angle, rotation_speed));
     }
 
     // animate
     function loop() {
-        ctx.fillStyle = "#cfcfff";
+        setTheme();
+        ctx.fillStyle = BACKGROUND_COLOR;
         ctx.fillRect(0, 0, width, height);
         for (let i = 0; i < diamonds.length; i++) {
             diamonds[i].draw();
