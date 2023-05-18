@@ -155,8 +155,6 @@ document.addEventListener("DOMContentLoaded", function() {
         // velocity_x and velocity_y
         let velocity_x = Math.random() * 5 - 2.5;
         let velocity_y = Math.random() * 5 - 2.5;
-        // color
-        let color = Math.random() * 360;
         // size
         let size = Math.random() * 0.1 + 0.05;
         // angle
