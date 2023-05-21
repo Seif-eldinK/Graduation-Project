@@ -74,6 +74,36 @@ textarea {
     font-size: 20px;
 }
 
+.presentations-grid {
+    margin: 0 12px;
+    height: 150px;
+}
+
+.presentation-thumbnail {
+    object-fit: contain;
+}
+
+.presentation-link, .presentation-link > * {
+    display: none;
+}
+
+.presentation-thumbnail:hover + .presentation-link, .presentation-link:hover{
+    display: block;
+    background-image: linear-gradient(to right, transparent , black);
+}
+
+.presentation-thumbnail:hover + .presentation-link > *, .presentation-link:hover > *{
+    display: block;
+    font-size: 60px;
+    color: white;
+}
+
+.control {
+    background-color: transparent;
+    border: 0;
+    font-size: 30px;
+}
+
 [data-bs-theme="dark"] {
     .carousel-control-prev-icon, .carousel-control-next-icon {
         filter: none !important;

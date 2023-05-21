@@ -8,8 +8,10 @@
     </style>
 {% endblock %}
 {% block content %}
+    {% load static %}
+    {% load custom_tags %}
     <div class="container-fluid">
-    <div class="row justify-content-start">
+        <div class="row justify-content-start">
             <div class="col-auto ms-2">
                 <button type="button" id="button" class="col-auto btn btn-outline-primary rounded-4 secondary-btn"
                         data-bs-toggle="modal" data-bs-target="#view_model" style="top: 40px;position: relative;">
@@ -34,80 +36,40 @@
         </div>
     </div>
 
-
-    <div class="container-fluid">
-        <div class="row justify-content-left">
-            <div class="col-5 ms-2">
-                <label for="medical-field" class="form-label h4 d-flex justify-content-left title-style">
-                    Education field
-                </label>
+    {% for field in fields %}
+        {% comment %}
+            iterate over all fields and get the presentations for each field
+        {% endcomment %}
+        <div class="container-fluid p-0 mb-3">
+            <h4 class="title-style ps-4">
+                {{ field.name|capfirst }} field
+            </h4>
+            <div id="field-{{ field.id }}" field-id="{{ field.id }}" current-page="1" total_pages="1"
+                 class="position-relative">
+                <div id="presentations" class="row m-0" style="padding: 0 22px;">
+                    {% for presentation in presentations|get_item:field.id %}
+                        <div class="col-auto p-0 presentations-grid position-relative">
+                            <img src="{% get_media_prefix %}presentation_files/{{ presentation.path }}/images/page_1.png"
+                                 class="w-100 h-100 presentation-thumbnail">
+                            <a href="{% url 'view_presentation' presentation.id %}"
+                               class="presentation-link position-absolute start-0 top-0 w-100 h-100 d-flex justify-content-center align-items-center">
+                                <i class="bi bi-play-fill"></i>
+                            </a>
+                        </div>
+                    {% endfor %}
+                </div>
+                {% if num_presentations_per_field|get_item:field.id > 5%}
+                    <button class="control previous-button position-absolute top-0 start-0 h-100 p-0"
+                            style="display: none">
+                        <i class="bi bi-chevron-left"></i>
+                    </button>
+                    <button class="control next-button position-absolute top-0 end-0 h-100 p-0">
+                        <i class="bi bi-chevron-right"></i>
+                    </button>
+                {% endif %}
             </div>
         </div>
-    </div>
-    <div class="d-flex flex-row " style="padding-left: 7px; padding-top: 5px">
-        <div class="p-2 presentations-grid"></div>
-        <div class="p-2 presentations-grid"></div>
-        <div class="p-2 presentations-grid"></div>
-        <div class="p-2 presentations-grid"></div>
-        <div class="p-2 presentations-grid"
-             style="background-image: linear-gradient(to right, transparent , grey, grey), url(https://www.w3schools.com/css/img_flwr.gif); background-blend-mode: multiply; background-position: center center; background-size: cover; display: flex; align-items: center; justify-content: center;">
-            <button type="button" id="button"
-                    style="font-size: 60px;height: 40px; display: flex; align-items: center; justify-content: center;"
-                    class="btn btn-lg get-inspired-more-btn"><b>+</b>
-            </button>
-
-        </div>
-    </div>
-    <br>
-
-    <div class="container-fluid">
-        <div class="row justify-content-left">
-            <div class="col-5 ms-2">
-                <label for="medical-field" class="form-label h4 d-flex justify-content-left title-style">
-                    Healthcare field
-                </label>
-            </div>
-        </div>
-    </div>
-
-    <div class="d-flex flex-row" style="padding-left: 7px; padding-top: 5px">
-        <div class="p-2 presentations-grid "></div>
-        <div class="p-2 presentations-grid"></div>
-        <div class="p-2 presentations-grid"></div>
-        <div class="p-2 presentations-grid"></div>
-        <div class="p-2 presentations-grid"
-             style="background-image: linear-gradient(to right, transparent , grey, grey), url(https://www.w3schools.com/css/img_flwr.gif); background-blend-mode: multiply; background-position: center center; background-size: cover; display: flex; align-items: center; justify-content: center;">
-            <button type="button" id="button"
-                    style="font-size: 60px;height: 40px; display: flex; align-items: center; justify-content: center;"
-                    class="btn btn-lg get-inspired-more-btn"><b>+</b>
-            </button>
-        </div>
-
-    </div>
-    <br>
-
-    <div class="container-fluid">
-        <div class="row justify-content-left">
-            <div class="col-5 ms-2">
-                <label for="medical-field" class="form-label h4 d-flex justify-content-left title-style">
-                    Business field
-                </label>
-            </div>
-        </div>
-    </div>
-    <div class="d-flex flex-row" style="padding-left: 7px; padding-top: 5px; padding-bottom: 20px">
-        <div class="p-2 presentations-grid "></div>
-        <div class="p-2 presentations-grid"></div>
-        <div class="p-2 presentations-grid"></div>
-        <div class="p-2 presentations-grid"></div>
-        <div class="p-2 presentations-grid"
-             style="background-image: linear-gradient(to right, transparent , grey, grey), url(https://www.w3schools.com/css/img_flwr.gif); background-blend-mode: multiply; background-position: center center; background-size: cover; display: flex; align-items: center; justify-content: center;">
-            <button type="button" id="button"
-                    style="font-size: 60px;height: 40px; display: flex; align-items: center; justify-content: center;"
-                    class="btn btn-lg get-inspired-more-btn"><b>+</b>
-            </button>
-        </div>
-    </div>
+    {% endfor %}
 
     <!-- Modal -->
     <div class="modal fade" id="add_model" tabindex="-1">
@@ -248,5 +210,107 @@
                 show_alert("warning", "Please select a file and a field");
             }
         });
+
+        async function get_field_presentations(field_id, page) {
+            // call get_field_presentations url to get the presentation file
+            $.ajax({
+                url: "{% url "get_field_presentations" %}",
+                type: "POST",
+                headers: {"X-CSRFToken": "{{ csrf_token }}"},
+                data: {
+                    field_id: field_id,
+                    page: page,
+                },
+                dataType: "json",
+                success: async function (response) {
+                    response = await response;
+                    replace_page(field_id, response.presentations, response.current_page, response.total_pages);
+                },
+                error: function (xhr) {
+                    show_alert("danger", xhr.responseJSON.message);
+                }
+            });
+        }
+
+        // add event listener to all the previous and next buttons
+        $('.next-button').on('click', function () {
+            // get the current page from the parent element
+            let current_page = $(this).parent().attr('current-page');
+            // get the field id
+            let field_id = parseInt($(this).parent().attr('field-id'));
+
+            // get the next page
+            let next_page = parseInt(current_page) + 1;
+
+            // get the field presentations
+            let result = get_field_presentations(field_id, next_page);
+        });
+
+        $('.previous-button').on('click', function () {
+            // get the current page from the parent element
+            let current_page = $(this).parent().attr('current-page');
+            // get the field id
+            let field_id = parseInt($(this).parent().attr('field-id'));
+
+            // get the next page
+            let previous_page = parseInt(current_page) - 1;
+
+            // get the field presentations
+            let result = get_field_presentations(field_id, previous_page);
+        });
+
+        // replace the current page with the new page
+        function replace_page(field_id, presentations, new_page, total_pages) {
+            // get the parent element
+            let $parent = $('#field-' + field_id);
+            let current_page = parseInt($parent.attr('current-page'));
+
+            // check if the new page is the last page
+            if (new_page === total_pages) {
+                // hide the next button
+                $parent.find('.next-button').hide();
+            }
+            else {
+                // show the next button
+                $parent.find('.next-button').show();
+            }
+
+            // check if the new page is the first page
+            if (new_page === 1) {
+                // hide the previous button
+                $parent.find('.previous-button').hide();
+            }
+            else {
+                // show the previous button
+                $parent.find('.previous-button').show();
+            }
+
+            // check if the new page is the current page
+            if (new_page === current_page) {
+                // do nothing
+                return;
+            }
+            // set the current page to the new page
+            $parent.attr('current-page', new_page);
+
+            // remove all the previous presentations from the parent element
+            $parent.find('.presentations-grid').remove();
+
+            // create a new presentations element
+            let $presentations = $parent.find('#presentations');
+
+            // iterate over the presentations
+            $.each(presentations, function (index, presentation) {
+                // create a new presentation element
+                let $new_presentation = $('<div class="col-auto p-0 presentations-grid position-relative"></div>');
+                let $new_presentation_thumbnail = $('<img src="{% get_media_prefix %}presentation_files/' + presentation.path + '/images/page_1.png" class="w-100 h-100 presentation-thumbnail">');
+                let $new_peseentation_link = $('<a href="{% url "view_presentation" %}/' + presentation.id + '" class="presentation-link position-absolute start-0 top-0 w-100 h-100 d-flex justify-content-center align-items-center"><i class="bi bi-play-fill"></i></a>');
+
+                // add the new presentations to the parent element
+                $new_presentation.append($new_presentation_thumbnail);
+                $new_presentation.append($new_peseentation_link);
+                $presentations.append($new_presentation);
+            });
+        }
     </script>
 {% endblock %}

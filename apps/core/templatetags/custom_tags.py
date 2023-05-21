@@ -18,3 +18,9 @@ def active_in(current_link, active_link):
         return "active"
     else:
         return ""
+
+
+# Get value of dictionary by key
+@register.filter
+def get_item(dictionary, key):
+    return dictionary[key]

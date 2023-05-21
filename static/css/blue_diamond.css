@@ -275,10 +275,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 }
 
 .presentations-grid {
-    margin: 0 15px;
     border: 1px solid var(--blue);
-    width: 270px;
-    height: 152px;
 }
 
 .setting-radio-button > input[type="radio"] {

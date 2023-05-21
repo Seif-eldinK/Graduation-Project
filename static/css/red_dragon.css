@@ -183,10 +183,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 }
 
 .presentations-grid {
-    margin: 0 15px;
     border: 1px solid var(--red);
-    width: 270px;
-    height: 152px;
 }
 
 .setting-radio-button > input[type="radio"] {
@@ -254,6 +251,10 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 .secondary-button {
     --bs-btn-hover-bg: var(--red);
     --bs-btn-active-bg: var(--red);
+}
+
+.control {
+    color: var(--red);
 }
 
 /* Dark */
