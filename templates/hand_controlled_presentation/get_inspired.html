@@ -58,7 +58,7 @@
                         </div>
                     {% endfor %}
                 </div>
-                {% if num_presentations_per_field|get_item:field.id > 5%}
+                {% if num_presentations_per_field|get_item:field.id > 5 %}
                     <button class="control previous-button position-absolute top-0 start-0 h-100 p-0"
                             style="display: none">
                         <i class="bi bi-chevron-left"></i>
@@ -151,6 +151,7 @@
             </div>
         </div>
     </div>
+
     <script>
         let $field = $('#field');
         let $add_field = $('#add_field');
@@ -211,8 +212,8 @@
             }
         });
 
+        // send a request to the server to get the presentations of the field with the given id and the given page
         async function get_field_presentations(field_id, page) {
-            // call get_field_presentations url to get the presentation file
             $.ajax({
                 url: "{% url "get_field_presentations" %}",
                 type: "POST",
@@ -224,6 +225,7 @@
                 dataType: "json",
                 success: async function (response) {
                     response = await response;
+                    // replace the page with the new page content and update the current page and the total pages
                     replace_page(field_id, response.presentations, response.current_page, response.total_pages);
                 },
                 error: function (xhr) {
@@ -234,7 +236,7 @@
 
         // add event listener to all the previous and next buttons
         $('.next-button').on('click', function () {
-            // get the current page from the parent element
+            // get the current page from the parent element for this field
             let current_page = $(this).parent().attr('current-page');
             // get the field id
             let field_id = parseInt($(this).parent().attr('field-id'));
@@ -242,21 +244,21 @@
             // get the next page
             let next_page = parseInt(current_page) + 1;
 
-            // get the field presentations
-            let result = get_field_presentations(field_id, next_page);
+            // get the field presentations for the next page
+            get_field_presentations(field_id, next_page);
         });
 
         $('.previous-button').on('click', function () {
-            // get the current page from the parent element
+            // get the current page from the parent element for this field
             let current_page = $(this).parent().attr('current-page');
             // get the field id
             let field_id = parseInt($(this).parent().attr('field-id'));
 
-            // get the next page
+            // get the previous page
             let previous_page = parseInt(current_page) - 1;
 
-            // get the field presentations
-            let result = get_field_presentations(field_id, previous_page);
+            // get the field presentations for the previous page
+            get_field_presentations(field_id, previous_page);
         });
 
         // replace the current page with the new page
@@ -304,11 +306,11 @@
                 // create a new presentation element
                 let $new_presentation = $('<div class="col-auto p-0 presentations-grid position-relative"></div>');
                 let $new_presentation_thumbnail = $('<img src="{% get_media_prefix %}presentation_files/' + presentation.path + '/images/page_1.png" class="w-100 h-100 presentation-thumbnail">');
-                let $new_peseentation_link = $('<a href="{% url "view_presentation" %}/' + presentation.id + '" class="presentation-link position-absolute start-0 top-0 w-100 h-100 d-flex justify-content-center align-items-center"><i class="bi bi-play-fill"></i></a>');
+                let $new_presentation_link = $('<a href="{% url "view_presentation" %}/' + presentation.id + '" class="presentation-link position-absolute start-0 top-0 w-100 h-100 d-flex justify-content-center align-items-center"><i class="bi bi-play-fill"></i></a>');
 
                 // add the new presentations to the parent element
                 $new_presentation.append($new_presentation_thumbnail);
-                $new_presentation.append($new_peseentation_link);
+                $new_presentation.append($new_presentation_link);
                 $presentations.append($new_presentation);
             });
         }
