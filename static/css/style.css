@@ -104,6 +104,19 @@ textarea {
     font-size: 30px;
 }
 
+.my-presentations-grid {
+    height: 150px;
+    margin-right: 10px;
+}
+
+.bi-unlock-fill.presentation-privacy-icon {
+    color: red;
+}
+
+.bi-lock-fill.presentation-privacy-icon {
+    color: green;
+}
+
 [data-bs-theme="dark"] {
     .carousel-control-prev-icon, .carousel-control-next-icon {
         filter: none !important;

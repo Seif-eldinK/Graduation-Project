@@ -327,7 +327,6 @@ async function predictWebcam(){
 
             pointer(handedness, landmarks);
 
-            console.log(degrees);
             // check if the hand is at an angle between 70 and -30 degrees
             if (degrees < 40 && degrees > -55) {
                 drawing(handedness, landmarks, extended_fingers_list);

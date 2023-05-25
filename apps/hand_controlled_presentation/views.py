@@ -11,10 +11,12 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 PAGE_SIZE = 5
 
 
-# Create your views here.
 def get_inspired(request):
     # Get all the fields
     fields = Field.objects.all()
+
+    # Get the user's presentations
+    user_presentations = Presentation.objects.filter(user=request.user)
 
     # Get all the presentations that are public for each field and the number of presentations per field
     presentations = {}
@@ -40,7 +42,7 @@ def get_inspired(request):
         messages.warning(request, 'Warning: There are no public presentations.')
 
     context = {"title": "Get Inspired", 'fields': fields, 'presentations': presentations,
-               'num_presentations_per_field': num_presentations_per_field}
+               'num_presentations_per_field': num_presentations_per_field, 'user_presentations': user_presentations}
     return render(request, 'hand_controlled_presentation/get_inspired.html', context)
 
 
@@ -78,6 +80,24 @@ def field_presentations(request):
         'current_page': int(page),
         'total_pages': paginator.num_pages,
     })
+
+
+# API view to toggle the public status of a presentation
+# The request should contain the presentation_id and the new public status (True or False)
+# The response contains the new public status of the presentation (True or False) True for public and False for private
+@api_view(['POST'])
+def toggle_presentation_privacy(request):
+    presentation_id = request.data.get('presentation_id', '')
+    public = request.data.get('privacy', '')
+
+    try:
+        presentation = Presentation.objects.get(id=presentation_id)
+    except Presentation.DoesNotExist:
+        return Response({'error': 'Presentation does not exist.'})
+
+    presentation.public = public
+    presentation.save()
+    return Response({'privacy': public})
 
 
 def upload_presentation(request):

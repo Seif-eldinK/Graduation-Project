@@ -132,7 +132,7 @@
 
     <!-- Modal -->
     <div class="modal fade" id="view_model" tabindex="-1">
-        <div class="modal-dialog">
+        <div class="modal-dialog modal-xl modal-dialog-scrollable">
             <div class="modal-content">
                 <div class="modal-header">
                     <h1 class="modal-title fs-5 title-style">
@@ -145,6 +145,39 @@
                 <div class="modal-body" style="font-size: 18px">
                     <div class="row justify-content-center">
                         <div class="col-9">
+                            {% comment %}
+                                    iterate over all user's presentations and show them in a grid view 3 per row with a link to view each one
+                                {% endcomment %}
+                            <div class="row">
+                                {% for presentation in user_presentations %}
+                                    <div class="col-auto my-presentations-grid position-relative p-0 mb-3" presentation-id="{{ presentation.id }}">
+                                        <img src="{% get_media_prefix %}presentation_files/{{ presentation.path }}/images/page_1.png"
+                                             class="w-100 h-100 presentation-thumbnail">
+                                        <a href="{% url 'view_presentation' presentation.id %}"
+                                           class="presentation-link position-absolute start-0 top-0 w-100 h-100 d-flex justify-content-center align-items-center">
+                                            <i class="bi bi-play-fill"></i>
+                                        </a>
+                                        {% comment %}
+                                            show a lock icon if the presentation is private and a unlock icon if it's public
+                                            when the user clicks on the icon it will change the presentation's privacy
+                                        {% endcomment %}
+                                        <div class="position-absolute end-0 top-0 p-1">
+                                            <button class="presentation-privacy">
+                                                {% if presentation.public %}
+                                                    <i class="presentation-privacy-icon bi bi-unlock-fill"></i>
+                                                {% else %}
+                                                    <i class="presentation-privacy-icon bi bi-lock-fill"></i>
+                                                {% endif %}
+                                            </button>
+                                        </div>
+                                    </div>
+                                {% empty %}
+                                    {% comment %}
+                                            if user has no presentations show a message.
+                                    {% endcomment %}
+                                    <h4 class="text-center">No presentations available. Upload your first presentation now!</h4>
+                                {% endfor %}
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -314,5 +347,53 @@
                 $presentations.append($new_presentation);
             });
         }
+
+        // add event listener to all .presentation-privacy buttons
+        $('.presentation-privacy').on('click', function () {
+            // get the button
+            let $this = $(this);
+
+            // get the presentation id
+            let presentation_id = $this.parent().parent().attr('presentation-id');
+            // get the presentation privacy (public or true) -> (private or false)
+            // if the button has the bi-unlock-fill class then the presentation is public
+            let presentation_privacy = $this.children().hasClass('bi-unlock-fill');
+
+            // reverse the privacy to change it
+            presentation_privacy = !presentation_privacy;
+
+            // convert true to 1 and false to 0
+            presentation_privacy = presentation_privacy ? 1 : 0;
+
+            // send a request to the server to change the presentation privacy
+            $.ajax({
+                url: "{% url "toggle_presentation_privacy" %}",
+                type: "POST",
+                headers: {"X-CSRFToken": "{{ csrf_token }}"},
+                data: {
+                    presentation_id: presentation_id,
+                    privacy: presentation_privacy,
+                },
+                dataType: "json",
+                success: async function (response) {
+                    response = await response;
+                    // change the presentation privacy and replace the old privacy with the new privacy
+
+                    // read the new privacy from the response as boolean
+                    let privacy = Boolean(Number(response.privacy));
+                    if (privacy) {
+                        // change the presentation privacy to public
+                        $this.children().removeClass('bi-lock-fill').addClass('bi-unlock-fill');
+                    }
+                    else {
+                        // change the presentation privacy to private
+                        $this.children().removeClass('bi-unlock-fill').addClass('bi-lock-fill');
+                    }
+                },
+                error: function (xhr) {
+                    show_alert("danger", xhr.responseJSON.message);
+                }
+            });
+        });
     </script>
 {% endblock %}

@@ -257,6 +257,10 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     color: var(--red);
 }
 
+.my-presentations-grid {
+    border: 1px solid var(--red);
+}
+
 /* Dark */
 [data-bs-theme="dark"] {
     --bs-tertiary-bg-rgb: var(--red-rgb) !important;
