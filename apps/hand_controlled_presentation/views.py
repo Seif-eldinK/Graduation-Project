@@ -11,13 +11,16 @@ from django.contrib.auth.decorators import login_required
 PAGE_SIZE = 5
 
 
-@login_required
 def get_inspired(request):
     # Get all the fields
     fields = Field.objects.all()
 
-    # Get the user's presentations
-    user_presentations = Presentation.objects.filter(user=request.user)
+    # Check if the user is authenticated
+    if request.user.is_authenticated:
+        # Get the user's presentations
+        user_presentations = Presentation.objects.filter(user=request.user)
+    else:
+        user_presentations = None
 
     # Get all the presentations that are public for each field and the number of presentations per field
     presentations = {}
@@ -91,16 +94,26 @@ def toggle_presentation_privacy(request):
     presentation_id = request.data.get('presentation_id', '')
     public = request.data.get('privacy', '')
 
+    # Check if the user is authenticated
+    if not request.user.is_authenticated:
+        return Response({'error': 'You are not authenticated.'})
+
+    # Check if the presentation exists
     try:
         presentation = Presentation.objects.get(id=presentation_id)
     except Presentation.DoesNotExist:
         return Response({'error': 'Presentation does not exist.'})
+
+    # Check if the user is the owner of the presentation
+    if request.user != presentation.user:
+        return Response({'error': 'You are not the owner of this presentation.'})
 
     presentation.public = public
     presentation.save()
     return Response({'privacy': public})
 
 
+@login_required
 def upload_presentation(request):
     if request.method == "POST":
         presentation_file = request.FILES.get('presentation_file', '')

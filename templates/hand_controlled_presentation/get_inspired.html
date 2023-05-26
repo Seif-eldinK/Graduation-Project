@@ -86,38 +86,44 @@
                 <div class="modal-body" style="font-size: 18px">
                     <div class="row justify-content-center">
                         <div class="col-9">
-                            <form action="{% url "upload_presentation" %}" method="post" id="form"
-                                  enctype="multipart/form-data">
-                                {% csrf_token %}
-                                <input type="file" name="presentation_file" id="upload-presentation-element"
-                                       accept="application/pdf,
-                                   application/vnd.ms-powerpoint,
-                                   application/vnd.openxmlformats-officedocument.presentationml.slideshow,
-                                   application/vnd.openxmlformats-officedocument.presentationml.presentation"
-                                       onchange="show_file_name()" hidden/>
-                                <label id="upload-btn" class="btn btn-outline-secondary w-100"
-                                       for="upload-presentation-element"
-                                       data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Upload">
-                                    <i class="bi bi-upload"></i> Upload your presentation file
-                                </label>
-                                <div class="form-floating mt-3">
-                                    <select id="field" class="select2"
-                                            style="background-color: #e61a1a;border-color: transparent">
-                                        <option></option>
-                                        <option value="Education">Education</option>
-                                        <option value="Healthcare">Healthcare</option>
-                                        <option value="Business">Business</option>
-                                        <option value="Other">Other</option>
-                                    </select>
-                                </div>
-                                <div class="form-floating mt-3" id="add_field" style="display: none;">
-                                    <input type="text" class="form-control" style="height: 45px" placeholder="add"
-                                           id="add" name="add" autofocus required>
-                                    <label for="add" style="font-size: 16px;top:-7px; left:-7px;">
-                                        Add A New Field
+                            {% if user.is_authenticated %}
+                                <form action="{% url "upload_presentation" %}" method="post" id="form"
+                                      enctype="multipart/form-data">
+                                    {% csrf_token %}
+                                    <input type="file" name="presentation_file" id="upload-presentation-element"
+                                           accept="application/pdf,
+                                       application/vnd.ms-powerpoint,
+                                       application/vnd.openxmlformats-officedocument.presentationml.slideshow,
+                                       application/vnd.openxmlformats-officedocument.presentationml.presentation"
+                                           onchange="show_file_name()" hidden/>
+                                    <label id="upload-btn" class="btn btn-outline-secondary w-100"
+                                           for="upload-presentation-element"
+                                           data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Upload">
+                                        <i class="bi bi-upload"></i> Upload your presentation file
                                     </label>
+                                    <div class="form-floating mt-3">
+                                        <select id="field" class="select2"
+                                                style="background-color: #e61a1a;border-color: transparent">
+                                            <option></option>
+                                            <option value="Education">Education</option>
+                                            <option value="Healthcare">Healthcare</option>
+                                            <option value="Business">Business</option>
+                                            <option value="Other">Other</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-floating mt-3" id="add_field" style="display: none;">
+                                        <input type="text" class="form-control" style="height: 45px" placeholder="add"
+                                               id="add" name="add" autofocus required>
+                                        <label for="add" style="font-size: 16px;top:-7px; left:-7px;">
+                                            Add A New Field
+                                        </label>
+                                    </div>
+                                </form>
+                            {% else %}
+                                <div class="alert alert-danger" role="alert">
+                                    You must be logged in to upload your presentation!
                                 </div>
-                            </form>
+                            {% endif %}
                         </div>
                     </div>
                 </div>
@@ -149,34 +155,41 @@
                                     iterate over all user's presentations and show them in a grid view 3 per row with a link to view each one
                                 {% endcomment %}
                             <div class="row">
-                                {% for presentation in user_presentations %}
-                                    <div class="col-auto my-presentations-grid position-relative p-0 mb-3" presentation-id="{{ presentation.id }}">
-                                        <img src="{% get_media_prefix %}presentation_files/{{ presentation.path }}/images/page_1.png"
-                                             class="w-100 h-100 presentation-thumbnail">
-                                        <a href="{% url 'view_presentation' presentation.id %}"
-                                           class="presentation-link position-absolute start-0 top-0 w-100 h-100 d-flex justify-content-center align-items-center">
-                                            <i class="bi bi-play-fill"></i>
-                                        </a>
-                                        {% comment %}
-                                            show a lock icon if the presentation is private and a unlock icon if it's public
-                                            when the user clicks on the icon it will change the presentation's privacy
-                                        {% endcomment %}
-                                        <div class="position-absolute end-0 top-0 p-1">
-                                            <button class="presentation-privacy">
-                                                {% if presentation.public %}
-                                                    <i class="presentation-privacy-icon bi bi-unlock-fill"></i>
-                                                {% else %}
-                                                    <i class="presentation-privacy-icon bi bi-lock-fill"></i>
-                                                {% endif %}
-                                            </button>
+                                {% if user.is_authenticated %}
+                                    {% for presentation in user_presentations %}
+                                        <div class="col-auto my-presentations-grid position-relative p-0 mb-3" presentation-id="{{ presentation.id }}">
+                                            <img src="{% get_media_prefix %}presentation_files/{{ presentation.path }}/images/page_1.png"
+                                                 class="w-100 h-100 presentation-thumbnail">
+                                            <a href="{% url 'view_presentation' presentation.id %}"
+                                               class="presentation-link position-absolute start-0 top-0 w-100 h-100 d-flex justify-content-center align-items-center">
+                                                <i class="bi bi-play-fill"></i>
+                                            </a>
+                                            {% comment %}
+                                                show a lock icon if the presentation is private and a unlock icon if it's public
+                                                when the user clicks on the icon it will change the presentation's privacy
+                                            {% endcomment %}
+                                            <div class="position-absolute end-0 top-0 p-1">
+                                                <button class="presentation-privacy">
+                                                    {% if presentation.public %}
+                                                        <i class="presentation-privacy-icon bi bi-unlock-fill"></i>
+                                                    {% else %}
+                                                        <i class="presentation-privacy-icon bi bi-lock-fill"></i>
+                                                    {% endif %}
+                                                </button>
+                                            </div>
                                         </div>
-                                    </div>
-                                {% empty %}
+                                    {% empty %}
+                                        {% comment %}
+                                                if user has no presentations show a message.
+                                        {% endcomment %}
+                                        <h4 class="text-center">No presentations available. Upload your first presentation now!</h4>
+                                    {% endfor %}
+                                {% else %}
                                     {% comment %}
-                                            if user has no presentations show a message.
+                                            if user is not authenticated show a message.
                                     {% endcomment %}
-                                    <h4 class="text-center">No presentations available. Upload your first presentation now!</h4>
-                                {% endfor %}
+                                    <h4 class="text-center">You must be logged in to view your presentations.</h4>
+                                {% endif %}
                             </div>
                         </div>
                     </div>
