@@ -6,11 +6,12 @@ from .serializers import PresentationSerializer
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-
+from django.contrib.auth.decorators import login_required
 
 PAGE_SIZE = 5
 
 
+@login_required
 def get_inspired(request):
     # Get all the fields
     fields = Field.objects.all()
