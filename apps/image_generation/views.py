@@ -1,3 +1,4 @@
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
@@ -5,9 +6,7 @@ from rest_framework.response import Response
 from .utils import generate_image
 
 
-# Create your views here.
-
-
+@login_required
 def image_generation(request):
     context = {"title": "Image Generation"}
     return render(request, 'image_generation/index.html', context)

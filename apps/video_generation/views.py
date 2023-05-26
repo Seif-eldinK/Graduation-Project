@@ -1,10 +1,10 @@
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
 from .utils import *
 
-# Create your views here.
 # create a dictionary of characters with their names
 characters_root = "images/characters/"
 characters = {
@@ -18,6 +18,7 @@ characters = {
 }
 
 
+@login_required
 def video_generation(request):
     context = {"title": "Video Conversion", "characters": characters}
     return render(request, 'video_generation/index.html', context)

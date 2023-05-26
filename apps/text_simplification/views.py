@@ -1,3 +1,4 @@
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
@@ -5,9 +6,7 @@ from rest_framework.response import Response
 from .utils import simplify_text
 
 
-# Create your views here.
-
-
+@login_required
 def text_simplification(request):
     context = {"title": "Text Simplification"}
     return render(request, 'text_simplification/index.html', context)
