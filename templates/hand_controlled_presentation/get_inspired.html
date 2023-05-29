@@ -120,16 +120,16 @@
                                     </div>
                                 </form>
                             {% else %}
-                                <div class="alert alert-danger" role="alert">
+                                <h5 class="text-center">
                                     You must be logged in to upload your presentation!
-                                </div>
+                                </h5>
                             {% endif %}
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer justify-content-center">
                     <button type="button" id="upload-presentation-button" class="btn btn-outline-primary"
-                            data-bs-dismiss="modal">Upload
+                            data-bs-dismiss="modal">{% if user.is_authenticated %}Upload{% else %}Close{% endif %}
                     </button>
                 </div>
             </div>
@@ -182,13 +182,17 @@
                                         {% comment %}
                                                 if user has no presentations show a message.
                                         {% endcomment %}
-                                        <h4 class="text-center">No presentations available. Upload your first presentation now!</h4>
+                                        <h5 class="text-center">
+                                            No presentations available. Upload your first presentation now!
+                                        </h5>
                                     {% endfor %}
                                 {% else %}
                                     {% comment %}
                                             if user is not authenticated show a message.
                                     {% endcomment %}
-                                    <h4 class="text-center">You must be logged in to view your presentations.</h4>
+                                    <h5 class="text-center">
+                                        You must be logged in to view your presentations.
+                                    </h5>
                                 {% endif %}
                             </div>
                         </div>
