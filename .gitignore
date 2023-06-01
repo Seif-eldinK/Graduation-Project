@@ -9,3 +9,4 @@
 /static/fonts
 /static/scss
 /venv
+.env
