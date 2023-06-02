@@ -127,7 +127,8 @@ def upload_presentation(request):
         presentation_folder = handle_uploaded_file(presentation_file, presentation_file.name)
 
         # Check the file extension
-        if presentation_file.name.endswith('.pptx'):
+        if presentation_file.name.endswith('.pptx') or presentation_file.name.endswith('.ppt') or \
+                presentation_file.name.endswith('.ppsx'):
             # Convert the file to PDF
             presentation_file = powerpoint_to_pdf(presentation_folder / presentation_file.name)
             presentation_file = presentation_folder / presentation_file
