@@ -1,7 +1,7 @@
 :root {
     --blue: #000080;
     --blue-rgb: 0, 0, 128;
-    --bluelight: #e6e6ff;
+    --bluelight: #ceceff;
 }
 
 .bg-body {
@@ -74,6 +74,22 @@
     border-radius: 10px;
 }
 
+.main-btn:hover {
+    background: rgba(255, 206, 63, 0.51);
+    color: var(--blue);
+}
+
+.main-btn:hover:before {
+    opacity: 1;
+    animation-play-state: paused;
+    background-size: 2000%;
+}
+
+.main-btn:hover:after {
+    background: rgba(255, 206, 63, 0.51);
+
+}
+
 .secondary-btn {
     border: none;
     outline: none;
@@ -128,12 +144,23 @@
 }
 
 .secondary-btn:hover {
-    color: var(--blue);
+    background: rgba(255, 206, 63, 0.51);
+    color: white;
+}
+
+.secondary-btn:hover:before {
+    opacity: 1;
+    animation-play-state: paused;
+    background-size: 2000%;
+}
+
+.secondary-btn:hover:after {
+    background: rgba(255, 206, 63, 0.51);
 }
 
 .success-btn {
-    --bs-btn-color: #71D456;
-    border-color: #71D456;
+    --bs-btn-color: #219900;
+    border-color: #219900;
     --bs-btn-hover-color: #fff;
     --bs-btn-hover-bg: #71D456
 }
@@ -149,6 +176,7 @@
 
 .input-group-text:has(.social-media-icon) {
     padding: 0.1rem 0.5rem;
+    background-color: white;
 }
 
 /* Home Page Style */
@@ -170,7 +198,6 @@
     background-color: var(--bluelight);
     padding: 10px;
     font-size: 40px;
-
 }
 
 .contacts-title-style {
@@ -241,15 +268,17 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 }
 
 .settings-list {
-    color: var(--blue);
-    border-color: transparent;
-    background-color: transparent;
+    color: white;
+    border-color: var(--blue);
+    background-color: var(--blue);
     font-size: x-large;
     text-align: left;
-    --bs-btn-hover-bg: var(--very-dark-red);
+    --bs-btn-hover-color: var(--blue);
+    --bs-btn-hover-bg: var(--bluelight);
     --bs-btn-hover-border-color: transparent;
+    --bs-btn-active-color: var(--blue);
     --bs-btn-active-bg: var(--very-dark-red);
-    --bs-btn-active-border-color: var(--very-dark-red);
+    --bs-btn-active-border-color: var(--blue);
 }
 
 .settings-list-title {
@@ -260,7 +289,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     --bs-btn-color: black;
     --bs-btn-border-color: transparent;
     --bs-btn-hover-color: black;
-    --bs-btn-hover-bg: var(--bluelight);
+    --bs-btn-hover-bg: #89b4fc;
     --bs-btn-hover-border-color: transparent;
     --bs-btn-active-color: black;
     --bs-btn-active-bg: var(--bluelight);
@@ -294,6 +323,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 
 .personal-information {
     border-color: var(--blue);
+    background-color: transparent;
 }
 
 .primary-color {
@@ -307,6 +337,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 .enable-facial-icon {
     color: var(--blue);
     background-color: #cfcfff;
+    border-color: var(--blue);
 }
 
 .get-inspired-title {
@@ -331,7 +362,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 .main-container {
     border-width: thick;
     border-radius: 0px;
-    background-color: rgb(255 255 255 / 45%);
+    background-color: var(--bluelight);
 }
 
 .fa-calendar {
@@ -347,16 +378,30 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     --bs-btn-active-bg: var(--blue);
 }
 
+.carousel-control-prev-icon, .carousel-control-next-icon {
+    filter: none;
+}
+
+.carousel-indicators [data-bs-target] {
+    background-color: white !important;
+}
+
+
+.contact-img-shadow {
+    box-shadow: -30px 30px #ffffff5c;
+}
+
 /* Dark */
 [data-bs-theme="dark"] {
     --bs-tertiary-bg-rgb: var(--blue-rgb) !important;
 
     .bg-body {
-        background-color: black !important;
+        background-color: #00004DFF !important;
     }
 
     .form-control {
-        background-color: #1b1b1b !important;
+        background-color: #00004DFF;
+        border-color: var(--bluelight);
     }
 
     .title-style {
@@ -364,16 +409,102 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     }
 
     .main-btn, .secondary-btn, .btn-outline-primary {
-        --bs-btn-color: white;
+        --bs-btn-color: white !important;
     }
 
     .Account-Management-btn {
         --bs-btn-color: white;
         --bs-btn-hover-color: white;
         --bs-btn-active-color: white;
+        --bs-btn-active-bg: transparent;
+        --bs-btn-active-border-color: white;
     }
 
     #page_number {
         color: white;
+    }
+
+    .settings-list-title {
+        color: white;
+    }
+
+    .settings-list {
+        --bs-btn-hover-bg: #00004d;
+        --bs-btn-hover-color: white;
+        --bs-btn-active-color: white;
+        --bs-btn-active-border-color: white;
+    }
+
+    .get-inspired-title {
+        color: white;
+    }
+
+    .main-container {
+        background-color: #00005a;
+        border-color: white;
+        border-width: thin;
+    }
+
+    .secondary-button {
+        color: white;
+    }
+
+    .title-style {
+        -webkit-text-stroke: 1px #569cff;
+    }
+
+    .checkbox-button > input[type="checkbox"] {
+        border-color: var(--blue);
+        background-color: var(--bluelight);
+    }
+
+    .setting-radio-button > input[type="radio"] {
+        border-color: var(--blue);
+        background-color: var(--bluelight);
+    }
+
+    .setting-radio-button > input[type="radio"] {
+        border-color: var(--blue);
+        background-color: var(--bluelight);
+    }
+
+    .form-control:focus {
+        border-color: white;
+        box-shadow: 0 0 0 0.1rem white;
+    }
+
+    .personal-information {
+        border-color: var(--bluelight);
+        background-color: transparent;
+    }
+
+    .fa-calendar {
+        color: var(--bluelight);
+    }
+
+    .success-btn {
+        --bs-btn-color: #71D456;
+        border-color: #71D456;
+    }
+
+    .account-management-icon-bg {
+        background-color: #89b4fc;
+        border-radius: 3px;
+    }
+
+    .button-close-modal-icon {
+        color: white;
+    }
+
+    .contacts-icon-style {
+        background-color: #89b4fc;
+    }
+
+    .contact-img-shadow{
+        box-shadow: -30px 30px #89b4fc45
+    }
+
+    .enable-facial-icon {
+        background-color: #89b4fc;
     }
 }

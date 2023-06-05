@@ -139,9 +139,13 @@ footer {
 }
 
 input::file-selector-button {
-    background-color: var(--pink);
+    background-color: white;
     color: var(--red);
     border-color: var(--red);
+}
+
+input[type="file"] {
+    background-color: transparent;
 }
 
 input[type="date"]::-webkit-calendar-picker-indicator {
@@ -172,7 +176,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     --bs-btn-hover-border-color: transparent;
     --bs-btn-active-color: black;
     --bs-btn-active-bg: var(--very-dark-red);
-    --bs-btn-active-border-color: white;
+    --bs-btn-active-border-color: var(--red);
 }
 
 .Design-radio {
@@ -232,7 +236,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     --bs-btn-disabled-color: white;
 }
 
-.setting-checkbox-button > input[type="checkbox"] {
+input[type="checkbox"] {
     border-color: var(--red);
 }
 
@@ -285,9 +289,14 @@ input[type="date"]::-webkit-calendar-picker-indicator {
         --bs-btn-color: white;
         --bs-btn-hover-color: white;
         --bs-btn-active-color: white;
+        --bs-btn-active-border-color: white;
     }
 
     #page_number {
+        color: white;
+    }
+
+    .get-inspired-title {
         color: white;
     }
 }

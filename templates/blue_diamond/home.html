@@ -25,16 +25,16 @@
                         <div class="carousel-item active" data-bs-interval="2000">
                             <div class="text-center">
                                 <div class="d-flex flex-column justify-content-center cards-style border border-5">
-                                    <div class="h1 text-white text-capitalize">TEXT</div>
-                                    <div class="text-white">Simplify your text by another text</div>
+                                    <div class="h1 text-white text-capitalize">IMAGE</div>
+                                    <div class="text-white">Make an image of your text</div>
                                 </div>
                             </div>
                         </div>
                         <div class="carousel-item" data-bs-interval="2000">
                             <div class="text-center">
                                 <div class="d-flex flex-column justify-content-center cards-style border border-5">
-                                    <div class="h1 text-white text-capitalize">IMAGE</div>
-                                    <div class="text-white">Make an image of your text</div>
+                                    <div class="h1 text-white text-capitalize">TEXT</div>
+                                    <div class="text-white">Simplify your text by another text</div>
                                 </div>
                             </div>
                         </div>
@@ -95,43 +95,47 @@
         </div>
     </div>
 
-    <div class="container-fluid p-0" id="Home" style="margin-top: 86px;padding-left: 100px; margin-left: -50px">
-        <img src="{% static 'images/blue_diamond/contacts.jpg' %}" class="img-fluid ms-5 mt-5 border border-2"
-             alt="image" style="width: 551px;
-                                 position: relative;right: -100px; box-shadow: -30px 30px #b0b0ff;">
-    </div>
-    <div class="container-fluid p-0">
-        <div class="row m-0">
-            <div class="text-center">
-                <div class="d-flex flex-column justify-content-center ms-5 mb-5" style="height: 350px;
-                    width: 900px; position: relative; bottom: 250px;left: 550px; background-color: white; border-color: black; z-index: -1">
-                    <div class="row justify-content-evenly m-0 pt-2 text-center">
-                        <div class="col-3">
+    <div class="container-fluid p-0" id="Home" style="margin-top: 86px;">
+        <div class="position-relative contact-img-shadow" style="width: 470px; bottom: -223px ;right: -356px;">
+            <img src="{% static 'images/blue_diamond/contacts.jpg' %}" class="img-fluid"
+                 alt="image">
+            <div class="position-absolute top-50 start-50 translate-middle-y h1 text-capitalize text-white">contact us
+            </div>
+        </div>
+        <div class="d-flex flex-column justify-content-center ms-5" style="height: 660px;
+                    width: 500px; position: relative; bottom: 250px; left: 645px; background-color: white; border-color: black; z-index: -1">
+            <div class="row justify-content-center m-0 pt-2 text-center">
+                <div class="col-6">
+                    <div class="row mb-5">
+                        <div class="col-12">
                             <i class="bi bi-geo-alt-fill contacts-icon-style rounded-5"></i>
-                            <div class="contacts-title-style">Address</div>
-                            <div>
-                                7 Memorizers Buildings,<br>
-                                90th Street,<br>
-                                Fifth Settlement,<br>
-                                New Cairo, Egypt<br>
-                            </div>
                         </div>
-                        <div class="col-3">
+                        <div class="contacts-title-style">Address</div>
+                        <div style="color: black">
+                            7 Memorizers Buildings,<br>
+                            90th Street, Fifth Settlement,<br>
+                            New Cairo, Egypt<br>
+                        </div>
+                    </div>
+                    <div class="row mb-5">
+                        <div class="col-12">
                             <i class="bi bi-telephone-fill contacts-icon-style rounded-5"></i>
-                            <div class="contacts-title-style">Phone</div>
-                            <div>
-                                Hotline: 1111111<br>
-                                Number: +02 111 256 1721
-                            </div>
                         </div>
-                        <div class="col-3">
+                        <div class="contacts-title-style">Phone</div>
+                        <div style="color: black">
+                            Hotline: 1111111<br>
+                            Number: +20 111 256 1721
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
                             <i class="bi bi-envelope contacts-icon-style rounded-5"></i>
-                            <div class="contacts-title-style">Email</div>
-                            <div>
-                                <a class="link-primary" href="mailto:MemorizersGroup@gmail.com">
-                                    MemorizersGroup@gmail.com
-                                </a>
-                            </div>
+                        </div>
+                        <div class="contacts-title-style">Email</div>
+                        <div>
+                            <a class="link-primary" href="mailto:MemorizersGroup@gmail.com">
+                                MemorizersGroup@gmail.com
+                            </a>
                         </div>
                     </div>
                 </div>

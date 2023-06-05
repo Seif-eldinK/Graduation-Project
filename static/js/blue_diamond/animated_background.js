@@ -1,7 +1,7 @@
 const LIGHT_BACKGROUND_COLOR = "#cfcfff";
-const DARK_BACKGROUND_COLOR = "#0a0a0a";
-const LIGHT_COLORS = ["#0202cf", "#569cff", "#2f87ff"];
-const DARK_COLORS = ["#0202cf", "#569cff", "#2f87ff"];
+const DARK_BACKGROUND_COLOR = "#00004d";
+const LIGHT_COLORS = ["#000080", "#569cff", "#2f87ff"];
+const DARK_COLORS = ["#000080", "#569cff", "#2f87ff"];
 
 let BACKGROUND_COLOR, COLORS;
 
