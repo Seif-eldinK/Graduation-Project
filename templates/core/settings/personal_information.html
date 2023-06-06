@@ -6,6 +6,7 @@
         <div class="col">
             <div class="form-floating mt-2 mb-3">
                 <input id="first_name" name="first_name" type="text"
+                       value="{{ user.first_name }}"
                        class="form-control" style="height: 45px"
                        placeholder="First Name" autofocus required>
                 <label for="first_name" style="font-size: 16px;top:-7px; left:-7px;">
@@ -16,6 +17,7 @@
         <div class="col">
             <div class="form-floating mt-2">
                 <input id="last_name" name="last_name" type="text"
+                       value="{{ user.last_name }}"
                        class="form-control" style="height: 45px"
                        placeholder="Last Name" required>
                 <label for="last_name" style="font-size: 16px;top:-7px; left:-7px;">
@@ -28,6 +30,7 @@
         <div class="col">
             <div class="form-floating mb-3">
                 <input id="username" name="username" type="text"
+                       value="{{ user.username }}"
                        class="form-control" style="height: 45px"
                        placeholder="Username" required>
                 <label for="username" style="font-size: 16px;top:-7px; left:-7px;">
@@ -38,6 +41,7 @@
         <div class="col">
             <div class="form-floating mb-3">
                 <input id="email" name="email" type="email"
+                       value="{{ user.email }}"
                        class="form-control" style="height: 45px"
                        placeholder="Email address" required>
                 <label for="email" style="font-size: 16px;top:-7px; left:-7px;">
@@ -50,6 +54,7 @@
         <div class="col">
             <div class="form-floating">
                 <input id="phone_number" name="phone_number" type="text"
+                       value="{{ user.phone }}"
                        class="form-control" style="height: 45px"
                        placeholder="Phone Number" required>
                 <label for="phone_number" style="font-size: 16px;top:-7px; left:-7px;">
@@ -59,7 +64,8 @@
         </div>
         <div class="col">
             <div class="form-floating mb-3">
-                <input id="password" name="password" type="password"
+                <input id="old_password" name="password" type="password"
+                       autocomplete="current-password"
                        class="form-control" style="height: 45px"
                        placeholder="Old Password" required>
                 <label for="old_password" style="font-size: 16px;top:-7px; left:-7px;">
@@ -72,6 +78,7 @@
         <div class="col">
             <div class="form-floating mb-3">
                 <input id="new_password" name="new_password" type="password"
+                       autocomplete="new-password"
                        class="form-control" style="height: 45px"
                        placeholder="New Password" required>
                 <label for="new_password" style="font-size: 16px;top:-7px; left:-7px;">
@@ -82,6 +89,7 @@
         <div class="col">
             <div class="form-floating mb-3">
                 <input id="confirm_new_password" name="confirm_new_password" type="password"
+                       autocomplete="new-password"
                        class="form-control" style="height: 45px"
                        placeholder="Confirm New Password" required>
                 <label for="confirm_new_password" style="font-size: 16px;top:-7px; left:-7px;">
@@ -94,7 +102,7 @@
         <div class="col">
             <div class="form-floating mb-3">
                 <div class="input-group">
-                    <label class="me-3 d-flex justify-content-center align-items-center">Country</label>
+                    <label class="me-3 d-flex justify-content-center align-items-center" for="country">Country</label>
                     <select id="country" name="country" form="form"
                             class="form-select form-select-md personal-information">
                         <option value="Egypt" selected>Egypt</option>
@@ -105,7 +113,7 @@
         <div class="col">
             <div class="form-floating mb-3">
                 <div class="input-group">
-                    <label class="me-3 d-flex justify-content-center align-items-center">City</label>
+                    <label class="me-3 d-flex justify-content-center align-items-center" for="city">City</label>
                     <select id="city" name="city" form="form"
                             class="form-select form-select-md personal-information">
                         <option value="Cairo" selected>Cairo</option>
@@ -117,8 +125,9 @@
     <div class="row mb-3">
         <div class="col">
             <div class="input-group">
-                <label class="me-3 d-flex justify-content-center align-items-center">Birthdate: </label>
+                <label class="me-3 d-flex justify-content-center align-items-center" for="birthdate">Birthdate: </label>
                 <input id="birthdate" name="birthdate" type="date"
+                       value="{{ user.birthdate|date:"Y-m-d" }}"
                        class="vDateField" size="10"
                        placeholder="Birthdate" required>
                 <div class="input-group-text personal-information">
@@ -131,12 +140,16 @@
                 <div class="align-self-center">
                     <label>Gender: </label>
                     <div class="form-check form-check-inline setting-radio-button">
-                        <input id="Male" name="gender" value="M" type="radio"
+                        <input id="Male" name="gender" type="radio"
+                                value="M"
+                               {% if user.gender == "M" %}checked{% endif %}
                                class="form-check-input">
                         <label class="form-check-label" for="Male">Male</label>
                     </div>
                     <div class="form-check form-check-inline setting-radio-button">
-                        <input id="Female" name="gender" value="F" type="radio"
+                        <input id="Female" name="gender" type="radio"
+                               value="F"
+                               {% if user.gender == "F" %}checked{% endif %}
                                class="form-check-input">
                         <label class="form-check-label" for="Female">Female</label>
                     </div>
