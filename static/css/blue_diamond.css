@@ -2,6 +2,7 @@
     --blue: #000080;
     --blue-rgb: 0, 0, 128;
     --bluelight: #ceceff;
+    --red: #E61A1A;
 }
 
 .bg-body {
@@ -374,8 +375,14 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 }
 
 .secondary-button {
-    --bs-btn-hover-bg: var(--blue);
-    --bs-btn-active-bg: var(--blue);
+    --bs-btn-hover-bg: gold;
+    --bs-btn-active-bg: gold;
+}
+
+.btn-danger {
+    --bs-btn-bg: var(--red)!important;
+    --bs-btn-hover-bg: var(--red);
+    --bs-btn-active-bg: var(--red);
 }
 
 .carousel-control-prev-icon, .carousel-control-next-icon {
@@ -389,6 +396,18 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 
 .contact-img-shadow {
     box-shadow: -30px 30px #ffffff5c;
+}
+
+#mic-btn {
+    --bs-btn-border-radius: 0rem 0px;
+    --bs-btn-border-color: var(--blue);
+    --bs-btn-bg: var(--bluelight);
+}
+
+#copy-to-clipboard{
+     --bs-btn-border-radius: 0rem 0px;
+    --bs-btn-border-color: var(--blue);
+    --bs-btn-bg: var(--bluelight);
 }
 
 /* Dark */
@@ -449,6 +468,10 @@ input[type="date"]::-webkit-calendar-picker-indicator {
         color: white;
     }
 
+    .secondary-button:hover {
+        color: black;
+    }
+
     .title-style {
         -webkit-text-stroke: 1px #569cff;
     }
@@ -500,11 +523,23 @@ input[type="date"]::-webkit-calendar-picker-indicator {
         background-color: #89b4fc;
     }
 
-    .contact-img-shadow{
+    .contact-img-shadow {
         box-shadow: -30px 30px #89b4fc45
     }
 
     .enable-facial-icon {
         background-color: #89b4fc;
+    }
+
+    #mic-btn{
+        --bs-btn-border-radius: 0rem 0px;
+        --bs-btn-border-color: white;
+        --bs-btn-bg: #00004d;
+    }
+
+    #copy-to-clipboard{
+      --bs-btn-border-radius: 0rem 0px;
+        --bs-btn-border-color: white;
+        --bs-btn-bg: #00004d;
     }
 }

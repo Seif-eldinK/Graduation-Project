@@ -9,9 +9,10 @@
                 <div class="position-relative">
                     <div id="text-to-simplify" name="text-to-simplify" class="form-control"
                          placeholder="Enter your text:" contenteditable autofocus
-                         style="height: 325px"></div>
-                    <div class="position-absolute bottom-0 start-0 p-2">
-                        <button type="button" id="mic-btn" class="btn btn-outline-secondary border-0 secondary-button"
+                         style="height: 325px; overflow: auto;"></div>
+                    <div class="position-absolute top-100 start-0 translate-middle"
+                         style="padding-right: 45px; padding-bottom: 70px">
+                        <button type="button" id="mic-btn" class="btn btn-outline-secondary secondary-button rounded-start border-end-0"
                                 data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Voice typing">
                             <i class="bi bi-mic"></i>
                         </button>
@@ -24,9 +25,10 @@
                 </label>
                 <div class="position-relative">
                     <textarea class="form-control" id="simplified-text" readonly
-                              style="height: 325px"></textarea>
-                    <div class="position-absolute top-0 end-0 p-2">
-                        <button type="button" id="copy-to-clipboard" class="btn btn-outline-secondary border-0 secondary-button"
+                              style="height: 325px; overflow: auto;"></textarea>
+                    <div class="position-absolute top-0 start-100 translate-middle"
+                         style="padding-left: 41px; padding-top: 65px">
+                        <button type="button" id="copy-to-clipboard" class="btn btn-outline-secondary secondary-button rounded-end border-start-0"
                                 data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Copy to clipboard">
                             <i class="bi bi-clipboard"></i>
                         </button>
