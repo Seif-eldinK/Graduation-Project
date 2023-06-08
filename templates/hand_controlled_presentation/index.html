@@ -38,12 +38,16 @@
     </div>
     <div class="z-2 position-fixed bottom-0 end-0 m-2">
         <section id="touchless-control-webcam" class="invisible">
+            <div class="form-check form-switch">
+                <input class="form-check-input" type="checkbox" name="selfie-mode" id="selfie-mode" checked>
+                <label class="form-check-label" for="selfie-mode">Selfie Mode</label>
+            </div>
             <button id="webcamButton" class="btn btn-primary">
-                ENABLE WEBCAM
+                Enable Webcam
             </button>
             <div id="output_container" class="position-relative" hidden>
-                <video id="webcam" autoplay playsinline></video>
-                <canvas id="output_canvas" class="output_canvas position-absolute top-0 start-0"></canvas>
+                <video id="webcam" autoplay playsinline class="selfie-mode"></video>
+                <canvas id="output_canvas" class="output_canvas position-absolute top-0 start-0 selfie-mode"></canvas>
             </div>
         </section>
     </div>

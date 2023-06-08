@@ -36,6 +36,22 @@ const drawing_canvas_height = drawing_canvas.height = drawing_canvas.getBounding
 
 let enableWebcamButton;
 let webcamRunning = false;
+
+// Enable Selfie Mode when the checkbox is checked
+$("#selfie-mode").on('change', function() {
+    selfie_mode = $(this).is(':checked');
+    // flip the video and canvas horizontally if selfie mode is enabled
+    if (selfie_mode) {
+        video.classList.add('selfie-mode');
+        canvas.classList.add('selfie-mode');
+    }
+    else {
+        video.classList.remove('selfie-mode');
+        canvas.classList.remove('selfie-mode');
+    }
+});
+
+
 // Before we can use HandLandmarker class, we must wait for it to finish
 // loading. Machine Learning models can be large and take a moment to
 // get everything needed to run.
