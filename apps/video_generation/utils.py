@@ -4,8 +4,7 @@ import json
 import requests
 from django.conf import settings as django_settings
 
-# url = input("Please enter Video Conversion server link: ")
-url = ""
+url = django_settings.VIDEO_GENERATION_API_URL
 character_voice_name = {
     "character_1": "rock",
     "character_2": "Tom",

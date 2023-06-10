@@ -1,8 +1,8 @@
 import requests
 import json
+from django.conf import settings as django_settings
 
-# url = input("Please enter image generation server link: ")
-url = ""
+url = django_settings.IMAGE_GENERATION_API_URL
 
 
 def generate_image(text_prompt: str, steps: int):

@@ -2,10 +2,10 @@ import json
 
 import requests
 import openai
+from django.conf import settings as django_settings
 
-# url = input("Please enter text simplification server link: ")
-# openai.api_key = ""
-url = ""
+openai.api_key = django_settings.OPENAI_API_KEY
+url = django_settings.TEXT_SIMPLIFICATION_API_URL
 
 
 def preprocess_text(text):
