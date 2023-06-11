@@ -111,32 +111,34 @@
                                     {% load socialaccount %}
                                     <div class="row mb-3 text-center justify-content-between">
                                         <div class="col-lg-4 zero-padding">
-                                            <div class="input-group col-lg-12 mt-3 mb-2">
-                                                <div class="input-group-text">
-                                                    <div class="fa-brands fa-google social-media-icon"
-                                                         style="background-color: white;"></div>
+                                            <form action="{% provider_login_url "google" %}" method="post"
+                                                  class="social_button_style">
+                                                {% csrf_token %}
+                                                <div class="input-group col-lg-12 mt-3 mb-2">
+                                                    <div class="input-group-text">
+                                                        <div class="fa-brands fa-google social-media-icon"
+                                                             style="background-color: white;"></div>
+                                                    </div>
+                                                    <button class="btn btn-reddit btn-social-media col"
+                                                            type="submit">
+                                                        Google
+                                                    </button>
                                                 </div>
-                                                <button class="btn btn-reddit btn-social-media col"
-                                                        type="submit">
-                                                    Google
-                                                </button>
-                                            </div>
-                                            {#                                                    </form>#}
-                                            {% comment %}<form action="{% provider_login_url "twitter" %}" method="post"
-                          class="social_button_style">
-                        {% csrf_token %}{% endcomment %}
-                                            <div class="input-group col-lg-12 mt-3 mb-2">
-                                                <div class="input-group-text">
-                                                    <div class="fa-brands fa-twitter social-media-icon"
-                                                         style="color: #55ACEE"></div>
+                                            </form>
+                                            <form action="{% provider_login_url "twitter" %}" method="post"
+                                                  class="social_button_style">
+                                                {% csrf_token %}
+                                                <div class="input-group col-lg-12 mt-3 mb-2">
+                                                    <div class="input-group-text">
+                                                        <div class="fa-brands fa-twitter social-media-icon"
+                                                             style="color: #55ACEE"></div>
+                                                    </div>
+                                                    <button class="btn btn-twitter btn-social-media col"
+                                                            type="submit">
+                                                        Twitter
+                                                    </button>
                                                 </div>
-                                                <button class="btn btn-twitter btn-social-media col"
-                                                        type="submit">
-                                                    Twitter
-                                                </button>
-                                            </div>
-
-                                            {#                                                    </form>#}
+                                            </form>
                                         </div>
                                         <div class="col-lg-4 zero-padding">
                                             {% comment %} <form action="{% provider_login_url "facebook" method="oauth2" %}" method="post"
