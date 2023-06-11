@@ -12,4 +12,6 @@ urlpatterns = [
     path('settings/', views.settings, name='settings'),
     path('get_design_mode', views.get_design_mode, name='get_design_mode'),
     path('set_design_mode', views.set_design_mode, name='set_design_mode'),
+    path('update_personal_info', views.update_personal_info, name='update_personal_info'),
+    path('facial_login', views.facial_login, name='facial_login'),
 ]

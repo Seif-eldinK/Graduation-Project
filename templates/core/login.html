@@ -5,6 +5,34 @@
           crossorigin="anonymous" referrerpolicy="no-referrer">
 {% endblock head %}
 {% block content %}
+    <div class="modal fade" tabindex="-1" id="facial-login" style="color: black">
+        <div class="modal-dialog modal-dialog-centered modal-xl" style="">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title text-capitalize">
+                        ⚠️ we will take a photo automatically just don't move
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row justify-content-center">
+                        <video class="col" autoplay playsinline id="videoElement"></video>
+                        <div style="height: 0px;visibility: hidden;" id="confirm-div"
+                             class="d-flex align-items-center justify-content-center h1">
+                            <a class="btn btn-lg btn-default" style="color: white;" href="{% url "home" %}"
+                               id="result-div-login">
+                                Done
+                            </a>
+                        </div>
+                    </div>
+                    <canvas id="canvas" width="400" height="300" hidden></canvas>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="container-fluid">
         <div class="row justify-content-center">
             <div class="col-7">
@@ -40,9 +68,9 @@
                                         <div class="text-end">
                                             <a href="#" class="text-center" style="color: #3379E1;">Forgot password?</a>
                                         </div>
-                                    <div class="form-check checkbox-button">
-                                        <input class="form-check-input" type="checkbox"
-                                               value=""
+                                        <div class="form-check checkbox-button">
+                                            <input class="form-check-input" type="checkbox"
+                                                   value=""
                                                    id="exampleCheckbox">
                                             <label class="form-check-label" for="exampleCheckbox">
                                                 Remember me
@@ -74,7 +102,8 @@
 
                                     <div class="d-flex justify-content-center">
                                         <button class="btn btn-light rounded-5 p-0 enable-facial-icon"
-                                                style="width:60px; height: 40px">
+                                                style="width:60px; height: 40px" data-bs-toggle="modal"
+                                                data-bs-target="#facial-login">
                                             <i class="bi bi-camera" style="font-size:30px"></i>
                                         </button>
                                     </div>
@@ -190,4 +219,77 @@
             </div>
         </div>
     </div>
+    <script>
+        const myModalEl = document.getElementById('facial-login')
+        var timerId;
+        myModalEl.addEventListener('shown.bs.modal', event => {
+            var canvas = document.getElementById('canvas');
+            var context = canvas.getContext('2d');
+            const video = document.querySelector("#videoElement");
+
+            video.width = 400;
+            video.height = 300;
+            if (navigator.mediaDevices.getUserMedia) {
+                {# Start user camera #}
+                navigator.mediaDevices.getUserMedia({
+                    video: true
+                })
+                    .then(function (stream) {
+                        video.srcObject = stream;
+                        video.play();
+                        window.localStream = stream;
+                    })
+                    .catch(function (err0r) {
+                    });
+            }
+            var count = 0;
+            timerId = setInterval(send_image, 5000);
+
+            function send_image() {
+                width = video.width;
+                height = video.height;
+                context.drawImage(video, 0, 0, width, height);
+                var image_data = canvas.toDataURL('image/jpeg', 0.5);
+                context.clearRect(0, 0, width, height);
+                $.ajax({
+                    type: 'POST',
+                    url: "{% url "facial_login" %}",
+                    headers: {"X-CSRFToken": "{{ csrf_token }}"},
+                    data: {
+                        'image': image_data,
+                    },
+                    success: function (data) {
+                        {# when success stop sending image #}
+                        {# Stop Sending Data #}
+                        clearInterval(timerId);
+
+                        {# close user camera #}
+                        localStream.getTracks().forEach(function (track) {
+                            track.stop();
+                        });
+                        $("#videoElement").hide();
+                        $("#confirm-div").attr({style: "visibility: show;height: 300px"});
+                        if (data['result'] === 'Done') {
+                            location.reload();
+                        } else {
+                            $("#result-div-login").text("Face is not Identified, Try Again later");
+                            $("#result-div-login").prop("href", "{% url "login" %}");
+                        }
+                    },
+                    error: function (response) {
+                        console.log('Error')
+                    },
+                });
+            }
+        })
+        myModalEl.addEventListener('hidden.bs.modal', event => {
+            {# Stop Sending Data #}
+            clearInterval(timerId);
+
+            {# close user camera #}
+            localStream.getTracks().forEach(function (track) {
+                track.stop();
+            });
+        })
+    </script>
 {% endblock content %}

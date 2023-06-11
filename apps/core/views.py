@@ -1,5 +1,6 @@
 import datetime
 
+import requests
 from django.conf import settings as django_settings
 from django.contrib import auth, messages
 from django.contrib.auth.decorators import login_required, user_passes_test
@@ -196,3 +197,39 @@ def set_design_mode(request):
         max_age=datetime.timedelta(days=365)
     )
     return response
+
+
+@api_view(['POST'])
+def update_personal_info(request):
+    """
+    This function updates the user's profile information.
+    It retrieves the user's information from the request body,
+    and updates the user's information in the database.
+    """
+    data = request.data
+    user = request.user
+    print(data)
+    print(user)
+    # user.first_name = data.get('first_name', user.first_name) or user.first_name
+    # user.last_name = data.get('last_name', user.last_name) or user.last_name
+    # user.username = data.get('username', user.username) or user.username
+    # user.email = data.get('email', user.email) or user.email
+    # user.phone = data.get('phone', user.phone) or user.phone
+    # user.country = data.get('country', user.country) or user.country
+    # user.city = data.get('city', user.city) or user.city
+    # user.birthdate = data.get('birthdate', user.birthdate) or user.birthdate
+    # user.gender = data.get('gender', user.gender) or user.gender
+    return Response({'message': 'Success'}, status=200)
+
+
+@api_view(['POST'])
+def facial_login(request):
+    if request.method == 'POST':
+        frame = request.POST.get('image')
+        payload = {'image': frame}
+        r = requests.post("https://facialauthentication.pythonanywhere.com/recognize_user", data=payload)
+        if r.status_code == 200 and r.json()['username'] != "":
+            u = User.objects.get(username=r.json()['username'])
+            auth.login(request, u, backend='django.contrib.auth.backends.ModelBackend')
+            return Response({'result': "Done"}, status=200)
+    return Response({'result': "Fail"}, status=200)

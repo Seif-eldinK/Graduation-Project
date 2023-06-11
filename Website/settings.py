@@ -182,8 +182,14 @@ SOCIALACCOUNT_PROVIDERS = {
             'access_type': 'online',
         },
         "APP": {
-            "client_id": "",
-            "secret": " ",
+            "client_id": config('GOOGLE_CLIENT_ID', default=''),
+            "secret": config('GOOGLE_CLIENT_SECRET', default=''),
+        },
+    },
+    'twitter': {
+        "APP": {
+            "client_id": config('TWITTER_CLIENT_ID', default=''),
+            "secret": config('TWITTER_CLIENT_SECRET', default=''),
         },
     },
 }
