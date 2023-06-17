@@ -1,10 +1,10 @@
 {% extends 'layouts/base.html' %}
 {% block head %}
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-social/5.1.1/bootstrap-social.css"
-          integrity="sha512-sopmFEmRVsWt542K+yzH3FQ1KJfdosOJG+bGLs9ZJT07b/3gUxRA9ICuJg2JtoZ9WeknAUuwJ0ggnmrV1YL6kQ=="
           crossorigin="anonymous" referrerpolicy="no-referrer">
 {% endblock head %}
 {% block content %}
+    {% load static %}
     <div class="modal fade" tabindex="-1" id="facial-login" style="color: black">
         <div class="modal-dialog modal-dialog-centered modal-xl" style="">
             <div class="modal-content">
@@ -16,7 +16,10 @@
                 </div>
                 <div class="modal-body">
                     <div class="row justify-content-center">
-                        <video class="col" autoplay playsinline id="videoElement"></video>
+                        <section id="Face_Detector_Webcam" class="col-auto position-relative p-0">
+                            <video class="selfie-mode" autoplay playsinline id="webcam" width="600px"></video>
+                            <canvas id="output_canvas" class="position-absolute top-0 start-0 selfie-mode"></canvas>
+                        </section>
                         <div style="height: 0px;visibility: hidden;" id="confirm-div"
                              class="d-flex align-items-center justify-content-center h1">
                             <a class="btn btn-lg btn-default" style="color: white;" href="{% url "home" %}"
@@ -27,8 +30,12 @@
                     </div>
                     <canvas id="canvas" width="400" height="300" hidden></canvas>
                 </div>
-                <div class="modal-footer">
+                <div class="modal-footer position-relative justify-content-center">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <div class="form-check form-switch position-absolute top-50 end-0 translate-middle-y">
+                        <input class="form-check-input" type="checkbox" name="selfie-mode" id="selfie-mode" checked>
+                        <label class="form-check-label" for="selfie-mode">Selfie Mode</label>
+                    </div>
                 </div>
             </div>
         </div>
@@ -101,9 +108,8 @@
 
 
                                     <div class="d-flex justify-content-center">
-                                        <button class="btn btn-light rounded-5 p-0 enable-facial-icon"
-                                                style="width:60px; height: 40px" data-bs-toggle="modal"
-                                                data-bs-target="#facial-login">
+                                        <button id="facial-login-button" class="btn btn-light rounded-5 p-0 enable-facial-icon"
+                                                style="width:60px; height: 40px">
                                             <i class="bi bi-camera" style="font-size:30px"></i>
                                         </button>
                                     </div>
@@ -222,11 +228,9 @@
         </div>
     </div>
     <script>
-        const myModalEl = document.getElementById('facial-login')
-        var timerId;
-        myModalEl.addEventListener('shown.bs.modal', event => {
-            var canvas = document.getElementById('canvas');
-            var context = canvas.getContext('2d');
+        {% comment %}
+            let canvas = document.getElementById('canvas');
+            let context = canvas.getContext('2d');
             const video = document.querySelector("#videoElement");
 
             video.width = 400;
@@ -244,14 +248,14 @@
                     .catch(function (err0r) {
                     });
             }
-            var count = 0;
+            let count = 0;
             timerId = setInterval(send_image, 5000);
 
             function send_image() {
                 width = video.width;
                 height = video.height;
                 context.drawImage(video, 0, 0, width, height);
-                var image_data = canvas.toDataURL('image/jpeg', 0.5);
+                let image_data = canvas.toDataURL('image/jpeg', 0.5);
                 context.clearRect(0, 0, width, height);
                 $.ajax({
                     type: 'POST',
@@ -293,5 +297,7 @@
                 track.stop();
             });
         })
+    {% endcomment %}
     </script>
+    <script type="module" src="{% static 'js/Face_Detector.js' %}"></script>
 {% endblock content %}
