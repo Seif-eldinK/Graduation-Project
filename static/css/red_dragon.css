@@ -58,10 +58,6 @@
     font-size: 25px;
 }
 
-.input-group-text:has(.social-media-icon) {
-    padding: 0.1rem 0.5rem;
-}
-
 /* Home Page Style */
 .cards-style {
     background-color: var(--red);
