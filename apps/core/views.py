@@ -224,12 +224,23 @@ def update_personal_info(request):
 
 @api_view(['POST'])
 def facial_login(request):
-    if request.method == 'POST':
-        frame = request.POST.get('image')
-        payload = {'image': frame}
-        r = requests.post("https://facialauthentication.pythonanywhere.com/recognize_user", data=payload)
-        if r.status_code == 200 and r.json()['username'] != "":
-            u = User.objects.get(username=r.json()['username'])
-            auth.login(request, u, backend='django.contrib.auth.backends.ModelBackend')
-            return Response({'result': "Done"}, status=200)
+    frame = request.POST.get('image')
+    payload = {'image': frame}
+    r = requests.post("https://facialauthentication.pythonanywhere.com/recognize_user", data=payload)
+    if r.status_code == 200 and r.json()['username'] != "":
+        u = User.objects.get(username=r.json()['username'])
+        auth.login(request, u, backend='django.contrib.auth.backends.ModelBackend')
+        return Response({'result': "Done"}, status=200)
+    return Response({'result': "Fail"}, status=200)
+
+
+@api_view(['POST'])
+def enable_facial_login(request):
+    frame = request.POST.get('image')
+    payload = {'image': frame, 'username': request.user.username}
+    r = requests.post("https://facialauthentication.pythonanywhere.com/add_user", data=payload)
+    if r.status_code == 200:
+        request.user.facial_login = True
+        request.user.save()
+        return Response({'result': "Done"}, status=200)
     return Response({'result': "Fail"}, status=200)

@@ -123,6 +123,15 @@ textarea {
     -moz-transform: scale(-1, 1);
 }
 
+.input-group-text:has(.social-media-icon) {
+    padding: 0.1rem 0.5rem;
+    background-color: white;
+}
+
+.enable-facial-icon {
+    border-color: transparent!important;
+}
+
 [data-bs-theme="dark"] {
     .carousel-control-prev-icon, .carousel-control-next-icon {
         filter: none !important;

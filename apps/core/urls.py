@@ -14,4 +14,5 @@ urlpatterns = [
     path('set_design_mode', views.set_design_mode, name='set_design_mode'),
     path('update_personal_info', views.update_personal_info, name='update_personal_info'),
     path('facial_login', views.facial_login, name='facial_login'),
+    path('facial_login/enable', views.enable_facial_login, name='enable_facial_login'),
 ]

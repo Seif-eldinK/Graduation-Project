@@ -3,6 +3,35 @@
           integrity="sha512-sopmFEmRVsWt542K+yzH3FQ1KJfdosOJG+bGLs9ZJT07b/3gUxRA9ICuJg2JtoZ9WeknAUuwJ0ggnmrV1YL6kQ=="
           crossorigin="anonymous" referrerpolicy="no-referrer">
 {% endblock head %}
+{% load static %}
+<div class="modal fade" tabindex="-1" id="facial-login" style="color: black">
+    <div class="modal-dialog modal-dialog-centered modal-xl" style="">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title text-capitalize">
+                    ⚠️ we will take a photo automatically just don't move
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row justify-content-center">
+                    <section id="Face_Detector_Webcam" class="col-auto position-relative p-0">
+                        <video class="selfie-mode" autoplay playsinline id="webcam" width="600px"></video>
+                        <canvas id="output_canvas" class="position-absolute top-0 start-0 selfie-mode"></canvas>
+                        <canvas id="canvas" hidden></canvas>
+                    </section>
+                </div>
+            </div>
+            <div class="modal-footer position-relative justify-content-center">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <div class="form-check form-switch position-absolute top-50 end-0 translate-middle-y">
+                    <input class="form-check-input" type="checkbox" name="selfie-mode" id="selfie-mode" checked>
+                    <label class="form-check-label" for="selfie-mode">Selfie Mode</label>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 <h3 class="text-left text-capitalize mb-1 title-style">
     login Management
 </h3>
@@ -116,10 +145,69 @@
     </div>
     <div class="row my-2">
         <div>
-            <button class="btn btn-light rounded-pill rounded-5 p-0 enable-facial-icon"
-                    style=" width:90px; height: 50px">
-                <i class="bi bi-camera" style="font-size:35px"></i>
-            </button>
+            {% if user.facial_login %}
+                <button id="facial-login-button"
+                        class="btn btn-light rounded-pill rounded-5 p-0 enable-facial-icon d-flex align-items-center justify-content-center"
+                        style=" width:130px; height: 50px; font-size: 18px; --bs-btn-disabled-bg: #dbdde0;" disabled>
+                    Enabled &nbsp;
+                    <i class="bi bi-camera" style="font-size:35px"></i>
+                </button>
+            {% else %}
+                <button id="facial-login-button" class="btn btn-light rounded-pill rounded-5 p-0 enable-facial-icon"
+                        style=" width:90px; height: 50px">
+                    <i class="bi bi-camera" style="font-size:35px"></i>
+                </button>
+            {% endif %}
         </div>
     </div>
 </div>
+<script type="module" src="{% static 'js/Face_Detector.js' %}"></script>
+<script>
+    let facial_login_modal = document.getElementById("facial-login");
+    const video = document.getElementById("webcam");
+    let canvas = document.getElementById('canvas');
+    let context = canvas.getContext('2d');
+    let running = false;
+    let camera_button = $("#facial-login-button");
+    window.on_face_detection = async function () {
+        if (!running) {
+            running = true;
+            width = canvas.width = video.offsetWidth;
+            height = canvas.height = video.offsetHeight;
+            context.clearRect(0, 0, width, height);
+            context.drawImage(video, 0, 0, width, height);
+            let image = canvas.toDataURL('image/jpeg', 1);
+            $.ajax({
+                type: 'POST',
+                url: "{% url "enable_facial_login" %}",
+                headers: {"X-CSRFToken": "{{ csrf_token }}"},
+                data: {'image': image},
+                success: async function (response) {
+                    console.log(response)
+                    if (response["result"] === "Done") {
+                        // add disabled attr to camera button
+                        camera_button.attr("disabled", true);
+                        // add the button classes for disabled
+                        camera_button.addClass("d-flex align-items-center justify-content-center");
+                        // change the button width
+                        camera_button.css("width", "130px");
+                        // change button font size
+                        camera_button.css("font-size", "18px");
+                        // change button background color
+                        camera_button.css("--bs-btn-disabled-bg", "#dbdde0");
+                        // add "enabled" text word on the camera button beside the camera icon
+                        camera_button.html('Enabled &nbsp; <i class="bi bi-camera" style="font-size:35px"></i>');
+                        // close the modal
+                        await bootstrap.Modal.getOrCreateInstance(facial_login_modal).hide();
+                    }
+                },
+                error: function () {
+                    console.log("error");
+                },
+                complete: function () {
+                    running = false;
+                }
+            })
+        }
+    }
+</script>

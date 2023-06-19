@@ -19,16 +19,9 @@
                         <section id="Face_Detector_Webcam" class="col-auto position-relative p-0">
                             <video class="selfie-mode" autoplay playsinline id="webcam" width="600px"></video>
                             <canvas id="output_canvas" class="position-absolute top-0 start-0 selfie-mode"></canvas>
+                            <canvas id="canvas" hidden></canvas>
                         </section>
-                        <div style="height: 0px;visibility: hidden;" id="confirm-div"
-                             class="d-flex align-items-center justify-content-center h1">
-                            <a class="btn btn-lg btn-default" style="color: white;" href="{% url "home" %}"
-                               id="result-div-login">
-                                Done
-                            </a>
-                        </div>
                     </div>
-                    <canvas id="canvas" width="400" height="300" hidden></canvas>
                 </div>
                 <div class="modal-footer position-relative justify-content-center">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -108,7 +101,8 @@
 
 
                                     <div class="d-flex justify-content-center">
-                                        <button id="facial-login-button" class="btn btn-light rounded-5 p-0 enable-facial-icon"
+                                        <button id="facial-login-button"
+                                                class="btn btn-light rounded-5 p-0 enable-facial-icon"
                                                 style="width:60px; height: 40px">
                                             <i class="bi bi-camera" style="font-size:30px"></i>
                                         </button>
@@ -227,77 +221,38 @@
             </div>
         </div>
     </div>
+    <script type="module" src="{% static 'js/Face_Detector.js' %}"></script>
     <script>
-        {% comment %}
-            let canvas = document.getElementById('canvas');
-            let context = canvas.getContext('2d');
-            const video = document.querySelector("#videoElement");
-
-            video.width = 400;
-            video.height = 300;
-            if (navigator.mediaDevices.getUserMedia) {
-                {# Start user camera #}
-                navigator.mediaDevices.getUserMedia({
-                    video: true
-                })
-                    .then(function (stream) {
-                        video.srcObject = stream;
-                        video.play();
-                        window.localStream = stream;
-                    })
-                    .catch(function (err0r) {
-                    });
-            }
-            let count = 0;
-            timerId = setInterval(send_image, 5000);
-
-            function send_image() {
-                width = video.width;
-                height = video.height;
-                context.drawImage(video, 0, 0, width, height);
-                let image_data = canvas.toDataURL('image/jpeg', 0.5);
+        const video = document.getElementById("webcam");
+        let canvas = document.getElementById('canvas');
+        let context = canvas.getContext('2d');
+        let running = false;
+        window.on_face_detection = async function () {
+            if (!running) {
+                running = true;
+                width = canvas.width = video.offsetWidth;
+                height = canvas.height = video.offsetHeight;
                 context.clearRect(0, 0, width, height);
+                context.drawImage(video, 0, 0, width, height);
+                let image = canvas.toDataURL('image/jpeg', 1);
                 $.ajax({
                     type: 'POST',
                     url: "{% url "facial_login" %}",
                     headers: {"X-CSRFToken": "{{ csrf_token }}"},
-                    data: {
-                        'image': image_data,
-                    },
-                    success: function (data) {
-                        {# when success stop sending image #}
-                        {# Stop Sending Data #}
-                        clearInterval(timerId);
-
-                        {# close user camera #}
-                        localStream.getTracks().forEach(function (track) {
-                            track.stop();
-                        });
-                        $("#videoElement").hide();
-                        $("#confirm-div").attr({style: "visibility: show;height: 300px"});
-                        if (data['result'] === 'Done') {
+                    data: {'image': image},
+                    success: function (response) {
+                        if (response["result"] === "Done") {
                             location.reload();
-                        } else {
-                            $("#result-div-login").text("Face is not Identified, Try Again later");
-                            $("#result-div-login").prop("href", "{% url "login" %}");
                         }
                     },
-                    error: function (response) {
-                        console.log('Error')
+                    error: function () {
+                        console.log("error");
                     },
-                });
+                    complete: function () {
+                        running = false;
+                    }
+                })
             }
-        })
-        myModalEl.addEventListener('hidden.bs.modal', event => {
-            {# Stop Sending Data #}
-            clearInterval(timerId);
-
-            {# close user camera #}
-            localStream.getTracks().forEach(function (track) {
-                track.stop();
-            });
-        })
-    {% endcomment %}
+        }
     </script>
-    <script type="module" src="{% static 'js/Face_Detector.js' %}"></script>
 {% endblock content %}
