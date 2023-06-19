@@ -164,5 +164,3 @@ function display_video_detections(detections) {
         window.on_face_detection();
     }
 }
-
-window.on_face_detection = function () {};
