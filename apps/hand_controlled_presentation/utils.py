@@ -1,10 +1,15 @@
 import os
-import pythoncom
+import platform
+import subprocess
 
-from win32com.client import constants
-from win32com.client.gencache import EnsureDispatch
-from fitz import open as open_pdf
 from django.conf import settings as django_settings
+from fitz import open as open_pdf
+
+is_windows = platform.system() == 'Windows'
+if is_windows:
+    import pythoncom
+    from win32com.client import constants
+    from win32com.client.gencache import EnsureDispatch
 
 # root directory for the uploaded files
 UPLOAD_ROOT = django_settings.MEDIA_ROOT / 'presentation_files'
@@ -55,6 +60,47 @@ class PowerPointApplication:
         self.close()
 
 
+def convert_powerpoint_to_pdf_libreoffice(filename: str, save_filename: str = ""):
+    # If the save_filename is not provided, use the filename
+    if not save_filename:
+        save_filename = os.path.splitext(filename)[0] + '.pdf'
+    saved_filename = save_filename
+
+    # Convert the relative path to an absolute path
+    filename = os.path.abspath(filename)
+
+    # Construct the command
+    command = ["libreoffice", "--headless", "--convert-to", "pdf", filename, "--outdir", os.path.dirname(filename)]
+
+    # Run the command
+    subprocess.run(command, check=True)
+    return saved_filename
+
+
+def is_libreoffice_installed():
+    try:
+        # Try to call libreoffice
+        subprocess.run(['libreoffice', '--version'], check=True, stdout=subprocess.DEVNULL, stderr=subprocess.STDOUT)
+        return True
+    except (subprocess.CalledProcessError, FileNotFoundError):
+        # If the call fails, libreoffice is not installed
+        return False
+
+
+def install_libreoffice():
+    try:
+        # Define the command as a list
+        cmd = ['sudo', 'apt-get', 'install', '-y', 'libreoffice']
+
+        # Run the command
+        subprocess.run(cmd, check=True)
+
+        print('Successfully installed LibreOffice.')
+
+    except subprocess.CalledProcessError as e:
+        print(f'Failed to install LibreOffice. Error: {e}')
+
+
 # Handle the uploaded file
 def handle_uploaded_file(file, filename):
     # get the number of folders in the upload folder
@@ -74,10 +120,16 @@ def handle_uploaded_file(file, filename):
 
 # Convert the PowerPoint file to PDF
 def powerpoint_to_pdf(filename: str, save_filename: str = "") -> str:
-    powerpoint_application = PowerPointApplication()
-    saved_filename = powerpoint_application.powerpoint_to_pdf(filename, save_filename)
-    powerpoint_application.close()
-    return saved_filename
+    if is_windows:
+        powerpoint_application = PowerPointApplication()
+        saved_filename = powerpoint_application.powerpoint_to_pdf(filename, save_filename)
+        powerpoint_application.close()
+        return saved_filename
+    else:
+        # Install libreoffice if it's not already installed
+        if not is_libreoffice_installed():
+            install_libreoffice()
+        return convert_powerpoint_to_pdf_libreoffice(filename, save_filename)
 
 
 # Convert the PDF to PNGs
