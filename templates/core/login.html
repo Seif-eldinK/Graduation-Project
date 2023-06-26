@@ -1,7 +1,14 @@
 {% extends 'layouts/base.html' %}
 {% block head %}
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-social/5.1.1/bootstrap-social.css"
-          crossorigin="anonymous" referrerpolicy="no-referrer">
+          crossorigin="anonymous" referrerpolicy="no-referrer" >
+    {% if request.COOKIES.design_mode == "Lavender_Love" %}
+        <style>
+        .main-container {
+            background-size: 110% !important;
+        }
+        </style>
+    {% endif %}
 {% endblock head %}
 {% block content %}
     {% load static %}

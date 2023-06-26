@@ -1,6 +1,22 @@
 {% extends 'layouts/base.html' %}
+{% load static %}
+{% block head %}
+    {% if request.COOKIES.design_mode == "Lavender_Love" %}
+        <style>
+            body {
+                background-image: url('{% static "images/lavender_love/top_left_light.png" %}'), url('{% static "images/lavender_love/bottom_right_light.png" %}');
+                background-size: auto, contain;
+                background-repeat: no-repeat, no-repeat;
+                background-position: top left, right bottom;
+            }
+
+            [data-bs-theme="dark"] body {
+                background-image: url('{% static "images/lavender_love/top_left_dark.png" %}'), url('{% static "images/lavender_love/bottom_right_dark.png" %}');
+            }
+        </style>
+    {% endif %}
+{% endblock head %}
 {% block content %}
-    {% load static %}
     <h1 class="text-center my-4 title-style">Image Generation</h1>
     <div class="container-fluid">
         <div class="row justify-content-center">
@@ -59,7 +75,6 @@
             </div>
         </div>
     </div>
-
     <script>
         let $button = $("#button");
         let $generated_image = $("#generated-image");
