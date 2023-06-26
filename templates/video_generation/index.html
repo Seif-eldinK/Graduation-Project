@@ -1,5 +1,21 @@
 {% extends "layouts/base.html" %}
 {% load static %}
+{% block head %}
+    {% if request.COOKIES.design_mode == "Lavender_Love" %}
+        <style>
+            body {
+                background-image: url('{% static "images/lavender_love/top_left_light.png" %}'), url('{% static "images/lavender_love/bottom_right_light.png" %}');
+                background-size: auto, contain;
+                background-repeat: no-repeat, no-repeat;
+                background-position: top left, right bottom;
+            }
+
+            [data-bs-theme="dark"] body {
+                background-image: url('{% static "images/lavender_love/top_left_dark.png" %}'), url('{% static "images/lavender_love/bottom_right_dark.png" %}');
+            }
+        </style>
+    {% endif %}
+{% endblock head %}
 {% block content %}
     <h1 class="text-center my-4 title-style">Video Conversion</h1>
     <div class="container-fluid">
@@ -17,7 +33,8 @@
                     <div class="position-absolute top-50 start-50 translate-middle">
                         <input type="file" id="upload-video-input-element" accept="video/*"
                                onchange="show_uploaded_video()" hidden/>
-                        <label id="upload-btn" class="btn btn-outline-secondary border-0 secondary-button" for="upload-video-input-element"
+                        <label id="upload-btn" class="btn btn-outline-secondary border-0 secondary-button"
+                               for="upload-video-input-element"
                                data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Upload">
                             <i class="bi bi-upload"></i>
                         </label>
@@ -35,14 +52,16 @@
                         </video>
                     </div>
                     <div class="position-absolute top-0 end-0 p-2">
-                        <a id="download" class="btn btn-outline-secondary border-0 secondary-button" href="" download="output"
+                        <a id="download" class="btn btn-outline-secondary border-0 secondary-button" href=""
+                           download="output"
                            data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Download"
                            style="display: none">
                             <i class="bi bi-download"></i>
                         </a>
                     </div>
                     <div class="position-absolute bottom-0 end-0 p-2">
-                        <button id="full-screen" class="btn btn-outline-secondary border-0 secondary-button" style="display: none"
+                        <button id="full-screen" class="btn btn-outline-secondary border-0 secondary-button"
+                                style="display: none"
                                 data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Full Screen">
                             <i class="bi bi-arrows-fullscreen"></i>
                         </button>

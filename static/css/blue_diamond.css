@@ -252,6 +252,7 @@ footer {
 
 .contacts-title-style {
     color: var(--blue);
+    font-weight: bold;
 }
 
 input::file-selector-button {
