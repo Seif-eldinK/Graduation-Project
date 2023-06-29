@@ -90,7 +90,7 @@ def is_libreoffice_installed():
 def install_libreoffice():
     try:
         # Define the command as a list
-        cmd = ['sudo', 'apt-get', 'install', '-y', 'libreoffice']
+        cmd = ['apt', 'install', '-y', 'libreoffice-impress']
 
         # Run the command
         subprocess.run(cmd, check=True)
