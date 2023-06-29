@@ -28,6 +28,10 @@ SECRET_KEY = config('SECRET_KEY', default='django_secret_key')
 DEBUG = config('DEBUG', default=True, cast=bool)
 LOCAL_IP = gethostbyname(gethostname())
 ALLOWED_HOSTS = ['localhost', '127.0.0.1', LOCAL_IP]
+CSRF_TRUSTED_ORIGINS = [
+    'https://127.0.0.1', 'http://127.0.0.1',
+    'https://localhost', 'http://localhost',
+]
 
 # APIs URLs
 IMAGE_GENERATION_API_URL = config('IMAGE_GENERATION_API_URL', default='')
