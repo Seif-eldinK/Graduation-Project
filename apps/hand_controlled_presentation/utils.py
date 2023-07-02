@@ -1,11 +1,13 @@
 import os
 import platform
 import subprocess
+import time
 
 from django.conf import settings as django_settings
 from fitz import open as open_pdf
 
 is_windows = platform.system() == 'Windows'
+is_linux = platform.system() == 'Linux'
 if is_windows:
     import pythoncom
     from win32com.client import constants
@@ -89,16 +91,27 @@ def is_libreoffice_installed():
 
 def install_libreoffice():
     try:
+        print('Installing LibreOffice...')
+        start = time.time()
         # Define the command as a list
         cmd = ['apt', 'install', '-y', 'libreoffice-impress']
 
         # Run the command
         subprocess.run(cmd, check=True)
-
+        end = time.time()
         print('Successfully installed LibreOffice.')
+        print(f'Time taken: {end - start:.2f}s')
 
     except subprocess.CalledProcessError as e:
         print(f'Failed to install LibreOffice. Error: {e}')
+
+
+# Install libreoffice if it's not already installed
+def check_libreoffice():
+    if is_linux and not is_libreoffice_installed():
+        install_libreoffice()
+    elif is_libreoffice_installed():
+        print('LibreOffice is already installed.')
 
 
 # Handle the uploaded file
@@ -125,11 +138,11 @@ def powerpoint_to_pdf(filename: str, save_filename: str = "") -> str:
         saved_filename = powerpoint_application.powerpoint_to_pdf(filename, save_filename)
         powerpoint_application.close()
         return saved_filename
-    else:
-        # Install libreoffice if it's not already installed
-        if not is_libreoffice_installed():
-            install_libreoffice()
+    elif is_linux:
+        check_libreoffice()
         return convert_powerpoint_to_pdf_libreoffice(filename, save_filename)
+    else:
+        raise NotImplementedError(f"Conversion from PowerPoint to PDF is not supported on {platform.system()}")
 
 
 # Convert the PDF to PNGs
