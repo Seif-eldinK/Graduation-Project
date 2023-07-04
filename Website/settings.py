@@ -13,7 +13,7 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 from pathlib import Path
 from socket import gethostbyname, gethostname
 
-from decouple import config
+from decouple import config, Csv
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -27,11 +27,17 @@ SECRET_KEY = config('SECRET_KEY', default='django_secret_key')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config('DEBUG', default=True, cast=bool)
 LOCAL_IP = gethostbyname(gethostname())
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', LOCAL_IP]
-CSRF_TRUSTED_ORIGINS = [
-    'https://127.0.0.1', 'http://127.0.0.1',
-    'https://localhost', 'http://localhost',
-]
+ALLOWED_HOSTS = config(
+    'WEBSITE_HOSTNAME',
+    default=f'localhost, 127.0.0.1, {LOCAL_IP}',
+    cast=Csv()
+)
+CSRF_TRUSTED_ORIGINS = config(
+    'CSRF_TRUSTED_ORIGINS',
+    default='https://localhost, http://localhost,'
+            'https://127.0.0.1, http://127.0.0.1',
+    cast=Csv()
+)
 
 # APIs URLs
 IMAGE_GENERATION_API_URL = config('IMAGE_GENERATION_API_URL', default='')
@@ -67,7 +73,6 @@ INSTALLED_APPS = [
 
     'rest_framework',
     'django_filters',
-
 ]
 
 MIDDLEWARE = [
@@ -109,10 +114,9 @@ WSGI_APPLICATION = 'Website.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'NAME': config('DB_NAME', default=BASE_DIR / 'db.sqlite3'),
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
@@ -132,7 +136,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/4.1/topics/i18n/
 
@@ -148,10 +151,12 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
 STATIC_URL = 'static/'
-# STATIC_ROOT = BASE_DIR / 'static'
-STATICFILES_DIRS = (
-    BASE_DIR / 'static',
-)
+if DEBUG:
+    STATICFILES_DIRS = (
+        BASE_DIR / 'static',
+    )
+else:
+    STATIC_ROOT = BASE_DIR / 'static'
 
 MEDIA_URL = 'media/'
 MEDIA_ROOT = BASE_DIR / 'media'
