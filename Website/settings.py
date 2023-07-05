@@ -114,7 +114,7 @@ WSGI_APPLICATION = 'Website.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': config('DB_NAME', default=BASE_DIR / 'db.sqlite3'),
+        'NAME': config('DB_NAME', default=BASE_DIR / 'db.sqlite3', cast=Path),
     }
 }
 
@@ -159,7 +159,7 @@ else:
     STATIC_ROOT = BASE_DIR / 'static'
 
 MEDIA_URL = 'media/'
-MEDIA_ROOT = config('MEDIA_ROOT', default=BASE_DIR / 'media')
+MEDIA_ROOT = config('MEDIA_ROOT', default=BASE_DIR / 'media', cast=Path)
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
