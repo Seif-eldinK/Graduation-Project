@@ -28,7 +28,7 @@ SECRET_KEY = config('SECRET_KEY', default='django_secret_key')
 DEBUG = config('DEBUG', default=True, cast=bool)
 LOCAL_IP = gethostbyname(gethostname())
 ALLOWED_HOSTS = config(
-    'WEBSITE_HOSTNAME',
+    'WEBSITE_HOST_NAME',
     default=f'localhost, 127.0.0.1, {LOCAL_IP}',
     cast=Csv()
 )
