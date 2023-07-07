@@ -16,6 +16,10 @@ if is_windows:
 # root directory for the uploaded files
 UPLOAD_ROOT = django_settings.MEDIA_ROOT / 'presentation_files'
 
+# Check if the UPLOAD_ROOT directory exists, if not create it
+if not os.path.exists(UPLOAD_ROOT):
+    os.makedirs(UPLOAD_ROOT, exist_ok=True)
+
 
 # Class to convert PowerPoint files to PDFs
 class PowerPointApplication:
