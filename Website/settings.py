@@ -29,9 +29,10 @@ DEBUG = config('DEBUG', default=True, cast=bool)
 LOCAL_IP = gethostbyname(gethostname())
 ALLOWED_HOSTS = config(
     'WEBSITE_HOST_NAME',
-    default=f'localhost, 127.0.0.1, {LOCAL_IP}',
+    default=f'localhost, 127.0.0.1',
     cast=Csv()
 )
+ALLOWED_HOSTS += [LOCAL_IP]
 CSRF_TRUSTED_ORIGINS = config(
     'CSRF_TRUSTED_ORIGINS',
     default='https://localhost, http://localhost,'
