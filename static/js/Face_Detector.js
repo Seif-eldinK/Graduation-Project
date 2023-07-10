@@ -143,8 +143,8 @@ function display_video_detections(detections) {
     // Set canvas dimensions to match video dimensions
     canvas.width = video.offsetWidth;
     canvas.height = video.offsetHeight;
-    const width_ratio = video.offsetWidth / 640;
-    const height_ratio = video.offsetHeight / 480;
+    const width_ratio = video.offsetWidth / video.videoWidth;
+    const height_ratio = video.offsetHeight / video.videoHeight;
 
     // Clear canvas
     context.clearRect(0, 0, canvas.width, canvas.height);
