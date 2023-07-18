@@ -48,6 +48,9 @@ VIDEO_GENERATION_API_URL = config('VIDEO_GENERATION_API_URL', default='')
 # API Keys
 OPENAI_API_KEY = config('OPENAI_API_KEY', default='')
 
+# Image Generation Settings
+IMAGE_GENERATION_STEPS = config('IMAGE_GENERATION_STEPS', default=25, cast=int)
+
 # Application definition
 
 INSTALLED_APPS = [
