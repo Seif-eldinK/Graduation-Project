@@ -97,11 +97,11 @@ def install_libreoffice():
     try:
         print('Installing LibreOffice...')
         start = time.time()
-        # Define the command as a list
-        cmd = ['apt', 'install', '-y', 'libreoffice-impress']
+        # Define the command to install libreoffice-impress in linux without any output
+        cmd = "apt-get -qq install libreoffice-impress &> /dev/null"
 
         # Run the command
-        subprocess.run(cmd, check=True)
+        subprocess.run(cmd.split(), check=True)
         end = time.time()
         print('Successfully installed LibreOffice.')
         print(f'Time taken: {end - start:.2f}s')
