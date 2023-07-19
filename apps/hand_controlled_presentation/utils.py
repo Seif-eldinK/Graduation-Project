@@ -86,7 +86,8 @@ def convert_powerpoint_to_pdf_libreoffice(filename: str, save_filename: str = ""
 def is_libreoffice_installed():
     try:
         # Try to call libreoffice
-        subprocess.run(['libreoffice', '--version'], check=True, stdout=subprocess.DEVNULL, stderr=subprocess.STDOUT)
+        command = "libreoffice --version"
+        subprocess.run(command.split(), check=True, stdout=subprocess.DEVNULL, stderr=subprocess.STDOUT)
         return True
     except (subprocess.CalledProcessError, FileNotFoundError):
         # If the call fails, libreoffice is not installed
@@ -97,11 +98,11 @@ def install_libreoffice():
     try:
         print('Installing LibreOffice...')
         start = time.time()
-        # Define the command to install libreoffice-impress in linux without any output
-        cmd = "apt-get -qq install libreoffice-impress &> /dev/null"
+        # Define the command to install libreoffice-impress in linux
+        command = "apt-get -qq install libreoffice-impress"
 
-        # Run the command
-        subprocess.run(cmd.split(), check=True)
+        # Run the command without printing the output to the console
+        subprocess.run(command.split(), check=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
         end = time.time()
         print('Successfully installed LibreOffice.')
         print(f'Time taken: {end - start:.2f}s')
