@@ -40,6 +40,10 @@ CSRF_TRUSTED_ORIGINS = config(
     cast=Csv()
 )
 
+# Contacts
+CONTACT_EMAIL = config('CONTACT_EMAIL', default="NY.Tech.World@gmail.com")
+CONTACT_PHONE = config('CONTACT_PHONE', default="+20 106 912 9335")
+
 # APIs URLs
 IMAGE_GENERATION_API_URL = config('IMAGE_GENERATION_API_URL', default='')
 TEXT_SIMPLIFICATION_API_URL = config('TEXT_SIMPLIFICATION_API_URL', default='')
