@@ -16,6 +16,8 @@ print(f"Local Host: http://127.0.0.1:8000/")
 print(f"Local Network IP: http://{django_settings.LOCAL_IP}:8000/")
 DEFAULT_DESIGN_MODE = "Red_Dragon"
 AVAILABLE_DESIGN_MODES = ["Red_Dragon", "Blue_Diamond", "Lavender_Love"]
+CONTACT_EMAIL = django_settings.CONTACT_EMAIL
+CONTACT_PHONE = django_settings.CONTACT_PHONE
 
 
 def anonymous_required(function=None, redirect_url=None):
@@ -114,7 +116,7 @@ def login(request):
 
 
 def home(request):
-    context = {"title": "Home"}
+    context = {"title": "Home", "contact_email": CONTACT_EMAIL, "contact_phone": CONTACT_PHONE}
     return render(request, 'core/home.html', context)
 
 
