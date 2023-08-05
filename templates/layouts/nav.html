@@ -89,12 +89,14 @@
                                 {{ user.get_username }}
                             </a>
                             <ul class="dropdown-menu dropdown-menu-end end-0" style="--bs-dropdown-min-width: 8.5rem;">
+                                {% comment %}
                                 <li>
                                     <a class="dropdown-item {% active request.path "profile" %}"
                                        href="{% url "profile" %}">
                                         <i class='fa fa-user icon-style'></i> Profile
                                     </a>
                                 </li>
+                                {% endcomment %}
                                 <li>
                                     <a class="dropdown-item {% active_in request.path "settings" %}"
                                        href="{% url "settings" %}">
