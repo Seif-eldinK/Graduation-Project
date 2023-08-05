@@ -20,7 +20,7 @@ characters = {
 
 @login_required
 def video_generation(request):
-    context = {"title": "Video Conversion", "characters": characters}
+    context = {"title": "Character Transformation", "characters": characters}
     return render(request, 'video_generation/index.html', context)
 
 
