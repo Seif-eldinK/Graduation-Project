@@ -129,27 +129,61 @@
             $download.show();
         }
 
+        function get_status(task_id) {
+            $.ajax({
+                type: "POST",
+                url: '{% url "get_status_image" %}',
+                contentType: 'application/json; charset=utf-8',
+                headers: {"X-CSRFToken": "{{ csrf_token }}"}, // this is the csrf token for logged-in users
+                data: JSON.stringify({
+                    'task_id': task_id,
+                }),
+                success: function (result) {
+                    if (result['status'] === 'Finished') {
+                        get_image(task_id);
+                    } else {
+                        setTimeout(function () {
+                            get_status(task_id);
+                        }, 2000);
+                    }
+                },
+            });
+        }
+
+        function get_image(task_id) {
+            $.ajax({
+                type: "POST",
+                url: '{% url "get_image" %}',
+                contentType: 'application/json; charset=utf-8',
+                headers: {"X-CSRFToken": "{{ csrf_token }}"}, // this is the csrf token for logged-in users
+                data: JSON.stringify({
+                    'task_id': task_id,
+                }),
+                success: function (result) {
+                    $generated_image.attr('src', result['image_base64']);
+                    show_image();
+                    loading(false);
+                },
+            });
+        }
+
         $button.click(function (e) {
             loading(true);
             $.ajax({
                 type: "POST",
-                url: '{% url "image_generation_api" %}',
+                url: '{% url "generate_image" %}',
                 contentType: 'application/json; charset=utf-8',
                 headers: {"X-CSRFToken": "{{ csrf_token }}"}, // this is the csrf token for logged-in users
                 data: JSON.stringify({
                     'text_prompt': $("#text-prompt").text(),
                 }),
                 success: function (result) {
-                    $generated_image.attr('src', result['image_base64']);
-                    show_image();
+                    get_status(result['task_id']);
                 },
                 error: function (result) {
                     show_alert("error", "Error");
-                },
-                complete: function () {
-                    // this block will be executed after success or error block
                     loading(false);
-                }
+                },
             });
         });
     </script>
