@@ -17,7 +17,7 @@
     {% endif %}
 {% endblock head %}
 {% block content %}
-    <h1 class="text-center my-4 title-style">Video Conversion</h1>
+    <h1 class="text-center my-4 title-style">Character Transformation</h1>
     <div class="container-fluid">
         <div class="row justify-content-center">
             <div class="col-5">
@@ -43,7 +43,7 @@
             </div>
             <div class="col-5">
                 <label class="form-label h4 d-flex justify-content-center">
-                    Converted Video
+                    Transformed Video
                 </label>
                 <div class="position-relative">
                     <div class="form-control" style="height: 325px">
@@ -81,7 +81,7 @@
             </div>
             <div class="col-auto">
                 <button type="button" id="button" class="btn btn-lg btn-outline-primary main-btn"
-                        style="width: 140px;">Convert
+                        style="width: 140px;">Transform
                 </button>
             </div>
         </div>
@@ -163,7 +163,7 @@
                 $button.prop('disabled', true);
             } else {
                 // hide loading indicator
-                $button.text('Convert');
+                $button.text('Transform');
                 $button.prop('disabled', false);
             }
         }
@@ -202,7 +202,7 @@
                     }),
                     success: function (result) {
                         // show success alert if request is successful
-                        show_alert("success", "Video converted successfully!");
+                        show_alert("success", "Video transformed successfully!");
 
                         // set generated video as source of video element
                         $generated_video.attr('src', result["generated_video"]);
