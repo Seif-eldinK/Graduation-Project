@@ -25,7 +25,7 @@ def video_generation(request):
 
 
 @api_view(['POST'])
-def video_generation_api(request):
+def transform_character_api(request):
     uploaded_video = request.data.get('video', '')  # json-encoded data
     video_base64 = uploaded_video.split(',')[1]  # Extract the Base64-encoded data portion of the string
 
@@ -35,7 +35,20 @@ def video_generation_api(request):
 
     chosen_character = image_absolute_path(chosen_character + '.png')  # absolute path
     chosen_character = image_to_base64(chosen_character)  # base64
-    video_base64 = generate_video(video_base64, chosen_character_name, chosen_character)
+    task_id = transform_character(video_base64, chosen_character_name, chosen_character)
+    return Response({'task_id': task_id, }, status=200)
 
+
+@api_view(['POST'])
+def get_status_api(request):
+    task_id = request.data.get('task_id', '')
+    status = get_status(task_id)
+    return Response(status, status=200)
+
+
+@api_view(['POST'])
+def get_video_api(request):
+    task_id = request.data.get('task_id', '')
+    video_base64 = get_video(task_id)
     video_base64 = 'data:video/mp4;base64,' + video_base64  # Add the data type header to the base64-encoded data
-    return Response({'uploaded_video': uploaded_video, 'generated_video': video_base64, }, status=200)
+    return Response({'output_video': video_base64, }, status=200)
