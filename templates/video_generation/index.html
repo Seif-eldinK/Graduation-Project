@@ -185,6 +185,53 @@
             }
         }
 
+        function get_status(task_id) {
+            $.ajax({
+                type: "POST",
+                url: '{% url "get_status_video" %}',
+                contentType: 'application/json; charset=utf-8',
+                headers: {"X-CSRFToken": "{{ csrf_token }}"}, // this is the csrf token for logged-in users
+                data: JSON.stringify({
+                    'task_id': task_id,
+                }),
+                success: function (result) {
+                    if (result['status'] === 'COMPLETED') {
+                        get_video(task_id);
+                    } else {
+                        setTimeout(function () {
+                            get_status(task_id);
+                        }, 10000);
+                    }
+                },
+            });
+        }
+
+
+        function get_video(task_id) {
+            $.ajax({
+                type: "POST",
+                url: '{% url "get_video" %}',
+                contentType: 'application/json; charset=utf-8',
+                headers: {"X-CSRFToken": "{{ csrf_token }}"}, // this is the csrf token for logged-in users
+                data: JSON.stringify({
+                    'task_id': task_id,
+                }),
+                success: function (result) {
+                    // show success alert if request is successful
+                    show_alert("success", "Video transformed successfully!");
+
+                    // set generated video as source of video element
+                    $generated_video.attr('src', result["output_video"]);
+                    $generated_video.show();
+                    // hide loading indicator
+                    loading(false);
+                    // show full screen and download button
+                    $full_screen.show();
+                    $download.show();
+                },
+            });
+        }
+
         $button.click(function () {
             let base64String = $video.attr('src');
             if (base64String && $character) {
@@ -192,7 +239,7 @@
                 // send video file as string base 64 and character as string in json data to server using ajax
                 $.ajax({
                     type: "POST",
-                    url: '{% url "video_generation_api" %}',
+                    url: '{% url "transform_character" %}',
                     contentType: 'application/json; charset=utf-8',
                     // send csrf token in request header. csrf token is required for ajax post request
                     headers: {"X-CSRFToken": "{{ csrf_token }}"},
@@ -202,25 +249,18 @@
                     }),
                     success: function (result) {
                         // show success alert if request is successful
-                        show_alert("success", "Video transformed successfully!");
-
-                        // set generated video as source of video element
-                        $generated_video.attr('src', result["generated_video"]);
-                        $generated_video.show();
-
-                        // show full screen button
-                        $full_screen.show();
-                        // show download button
-                        $download.show();
+                        show_alert("success", "Video uploaded successfully!");
+                        // get task id from response
+                        let task_id = result["task_id"];
+                        // get status of the task
+                        get_status(task_id);
                     },
                     error: function () {
                         // show error alert if error occurs
                         show_alert("error", "Error");
-                    },
-                    complete: function () {
-                        // this block will be executed after success or error block
+                        // hide loading indicator
                         loading(false);
-                    }
+                    },
                 });
             }
             if (!base64String && !$character) {
