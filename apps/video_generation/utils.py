@@ -5,16 +5,6 @@ import requests
 from django.conf import settings as django_settings
 
 url = django_settings.VIDEO_GENERATION_API_URL
-character_voice_name = {
-    "character_1": "rock",
-    "character_2": "Tom",
-    "character_3": "SpongeBob",
-}
-
-
-# function to get voice name from character name
-def get_voice_name(character_name):
-    return character_voice_name.get(character_name, "")
 
 
 # function to get base64 from image name
@@ -23,11 +13,6 @@ def image_to_base64(image):
         image = image_file.read()
         image_base64 = base64.b64encode(image).decode('utf-8')
     return image_base64
-
-
-# function to get absolute path from image name
-def image_absolute_path(image):
-    return django_settings.STATICFILES_DIRS[0] / 'images' / 'characters' / image
 
 
 def transform_character(video, character_name, character):
