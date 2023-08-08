@@ -99,14 +99,14 @@
                 </div>
                 <div class="modal-body">
                     <div class="row">
-                        {% for character, name in characters.items %}
+                        {% for character in characters %}
                             <div class="col-4 mb-2">
                                 <input type="radio" class="btn-check" name="Character" autocomplete="off"
-                                       id="character_{{ forloop.counter }}" value="character_{{ forloop.counter }}">
+                                       id="character_{{ forloop.counter }}" value="{{ character.id }}">
                                 <label class="btn btn-outline-primary character-img-container"
                                        for="character_{{ forloop.counter }}">
-                                    <div class="text-center text-capitalize">{{ name }}</div>
-                                    <img src="{% static character %}" class="img-fluid character-img" alt="{{ name }}">
+                                    <div class="text-center text-capitalize">{{ character.name }}</div>
+                                    <img src="{{ character.image.url }}" class="img-fluid character-img" alt="{{ character.name }}">
                                 </label>
                             </div>
                         {% endfor %}
@@ -200,7 +200,7 @@
                     } else {
                         setTimeout(function () {
                             get_status(task_id);
-                        }, 10000);
+                        }, 30000);
                     }
                 },
             });
