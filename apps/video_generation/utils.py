@@ -15,8 +15,8 @@ def image_to_base64(image):
     return image_base64
 
 
-def transform_character(video, character_name, character):
-    data = {"video": video, "character_name": character_name, "character": character, }
+def transform_character(video, character_name, character, mode):
+    data = {"video": video, "character_name": character_name, "character": character, "mode": mode}
     response = requests.post(url + "transform_character", json=data)
     try:
         task_id = json.loads(response.content.decode('utf-8'))['task_id']

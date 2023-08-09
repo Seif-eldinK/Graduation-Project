@@ -22,7 +22,8 @@ def transform_character_api(request):
 
     character = Character.objects.get(id=character_id)
     character_image = image_to_base64(character.image.path)  # base64
-    task_id = transform_character(video_base64, character.voice, character_image)
+    task_id = transform_character(video_base64, character.voice, character_image,
+                                  django_settings.CHARACTER_TRANSFORMATION_MODE)
     return Response({'task_id': task_id, }, status=200)
 
 
