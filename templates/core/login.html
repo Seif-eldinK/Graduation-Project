@@ -1,12 +1,12 @@
 {% extends 'layouts/base.html' %}
 {% block head %}
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-social/5.1.1/bootstrap-social.css"
-          crossorigin="anonymous" referrerpolicy="no-referrer" >
+          crossorigin="anonymous" referrerpolicy="no-referrer">
     {% if request.COOKIES.design_mode == "Lavender_Love" %}
         <style>
-        .main-container {
-            background-size: 110% !important;
-        }
+            .main-container {
+                background-size: 110% !important;
+            }
         </style>
     {% endif %}
 {% endblock head %}
@@ -148,65 +148,65 @@
                                             </form>
                                         </div>
                                         <div class="col-lg-4 zero-padding">
-                                            {% comment %} <form action="{% provider_login_url "facebook" method="oauth2" %}" method="post"
-                          class="social_button_style">
-                        {% csrf_token %}{% endcomment %}
-                                            <div class="input-group col-lg-12 mt-3 mb-2">
-                                                <div class="input-group-text">
-                                                    <div class="fa-brands fa-facebook-f social-media-icon"
-                                                         style="color: #3B5998"></div>
-                                                </div>
-                                                <button class="btn btn-facebook btn-social-media col"
-                                                        type="submit">
-                                                    Facebook
-                                                </button>
-                                            </div>
-                                            {#                                                    </form>#}
-                                            {% comment %}<form action="{% provider_login_url "microsoft" %}" method="post"
-                          class="social_button_style">
-                        {% csrf_token %}{% endcomment %}
-                                            <div class="input-group col-lg-12 mt-3 mb-2">
-                                                <div class="input-group-text">
-                                                    <div class="fa-brands social-media-icon">
-                                                        <img style="height: 25px"
-                                                             src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAeklEQVR4nO3UMQqAMBBE0QUL7+F5LOxyxlSewTvZj/10Q8AI/gfbBpb8pAoAPklt08j4eft5aGSKBRo3IBJK8IgNv1CKhAwJpUjIkFCKhGYnBPzd0m+NjJ+na9XIFAt0bkAklOARG36hFAkZEkqRkCGhFAnNTggA6g0PsZwml5fu+o4AAAAASUVORK5CYII=">
+                                            <form action="{% provider_login_url "facebook" method="oauth2" %}"
+                                                  method="post" class="social_button_style">
+                                                {% csrf_token %}
+                                                <div class="input-group col-lg-12 mt-3 mb-2">
+                                                    <div class="input-group-text">
+                                                        <div class="fa-brands fa-facebook-f social-media-icon"
+                                                             style="color: #3B5998"></div>
                                                     </div>
+                                                    <button class="btn btn-facebook btn-social-media col"
+                                                            type="submit">
+                                                        Facebook
+                                                    </button>
                                                 </div>
-                                                <button class="btn btn-microsoft btn-social-media col"
-                                                        type="submit">
-                                                    Microsoft
-                                                </button>
-                                            </div>
-                                            {#                                                    </form>#}
+                                            </form>
+                                            <form action="{% provider_login_url "microsoft" %}" method="post"
+                                                  class="social_button_style">
+                                                {% csrf_token %}
+                                                <div class="input-group col-lg-12 mt-3 mb-2">
+                                                    <div class="input-group-text">
+                                                        <div class="fa-brands social-media-icon">
+                                                            <img style="height: 25px"
+                                                                 src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAeklEQVR4nO3UMQqAMBBE0QUL7+F5LOxyxlSewTvZj/10Q8AI/gfbBpb8pAoAPklt08j4eft5aGSKBRo3IBJK8IgNv1CKhAwJpUjIkFCKhGYnBPzd0m+NjJ+na9XIFAt0bkAklOARG36hFAkZEkqRkCGhFAnNTggA6g0PsZwml5fu+o4AAAAASUVORK5CYII=">
+                                                        </div>
+                                                    </div>
+                                                    <button class="btn btn-microsoft btn-social-media col"
+                                                            type="submit">
+                                                        Microsoft
+                                                    </button>
+                                                </div>
+                                            </form>
                                         </div>
                                         <div class="col-lg-4 zero-padding">
-                                            {% comment %}<form action="{% provider_login_url "github" %}" method="post"
-                          class="social_button_style">
-                        {% csrf_token %}{% endcomment %}
-                                            <div class="input-group col-lg-12 mt-3 mb-2">
-                                                <div class="input-group-text">
-                                                    <div class="fa-brands fa-github social-media-icon"
-                                                         style="color: #444444"></div>
+                                            <form action="{% provider_login_url "github" %}" method="post"
+                                                  class="social_button_style">
+                                                {% csrf_token %}
+                                                <div class="input-group col-lg-12 mt-3 mb-2">
+                                                    <div class="input-group-text">
+                                                        <div class="fa-brands fa-github social-media-icon"
+                                                             style="color: #444444"></div>
+                                                    </div>
+                                                    <button class="btn btn-github btn-social-media col"
+                                                            type="submit">
+                                                        Github
+                                                    </button>
                                                 </div>
-                                                <button class="btn btn-github btn-social-media col"
-                                                        type="submit">
-                                                    Github
-                                                </button>
-                                            </div>
-                                            {#                                                    </form>#}
-                                            {% comment %}<form action="{% provider_login_url "github" %}" method="post"
-                          class="social_button_style">
-                        {% csrf_token %}{% endcomment %}
-                                            <div class="input-group col-lg-12 mt-3 mb-2">
-                                                <div class="input-group-text">
-                                                    <div class="fa-brands fa-linkedin social-media-icon"
-                                                         style="color: #007BB6"></div>
+                                            </form>
+                                            <form action="{% provider_login_url "linkedin_oauth2" %}" method="post"
+                                                  class="social_button_style">
+                                                {% csrf_token %}
+                                                <div class="input-group col-lg-12 mt-3 mb-2">
+                                                    <div class="input-group-text">
+                                                        <div class="fa-brands fa-linkedin social-media-icon"
+                                                             style="color: #007BB6"></div>
+                                                    </div>
+                                                    <button class="btn btn-linkedin btn-social-media col"
+                                                            type="submit">LinkedIn
+                                                    </button>
                                                 </div>
-                                                <button class="btn btn-linkedin btn-social-media col"
-                                                        type="submit">LinkedIn
-                                                </button>
-                                            </div>
-                                            {#                                                    </form>#}
+                                            </form>
                                         </div>
                                     </div>
 
