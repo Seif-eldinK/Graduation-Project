@@ -5,16 +5,6 @@ import requests
 from django.conf import settings as django_settings
 
 url = django_settings.VIDEO_GENERATION_API_URL
-character_voice_name = {
-    "character_1": "rock",
-    "character_2": "Tom",
-    "character_3": "SpongeBob",
-}
-
-
-# function to get voice name from character name
-def get_voice_name(character_name):
-    return character_voice_name.get(character_name, "")
 
 
 # function to get base64 from image name
@@ -25,13 +15,8 @@ def image_to_base64(image):
     return image_base64
 
 
-# function to get absolute path from image name
-def image_absolute_path(image):
-    return django_settings.STATICFILES_DIRS[0] / 'images' / 'characters' / image
-
-
-def transform_character(video, character_name, character):
-    data = {"video": video, "character_name": character_name, "character": character, }
+def transform_character(video, character_name, character, mode):
+    data = {"video": video, "character_name": character_name, "character": character, "mode": mode}
     response = requests.post(url + "transform_character", json=data)
     try:
         task_id = json.loads(response.content.decode('utf-8'))['task_id']
