@@ -55,6 +55,9 @@ OPENAI_API_KEY = config('OPENAI_API_KEY', default='')
 # Image Generation Settings
 IMAGE_GENERATION_STEPS = config('IMAGE_GENERATION_STEPS', default=25, cast=int)
 
+# Character Transformation Settings
+CHARACTER_TRANSFORMATION_MODE = config('CHARACTER_TRANSFORMATION_MODE', default='ultra_fast')
+
 # Application definition
 
 INSTALLED_APPS = [
