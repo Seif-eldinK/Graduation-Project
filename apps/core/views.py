@@ -249,4 +249,4 @@ def enable_facial_login(request):
 
 
 def health_check(request):
-    return None
+    return Response("OK", status=200)
