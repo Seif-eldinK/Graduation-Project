@@ -246,3 +246,7 @@ def enable_facial_login(request):
         request.user.save()
         return Response({'result': "Done"}, status=200)
     return Response({'result': "Fail"}, status=200)
+
+
+def health_check(request):
+    return None
