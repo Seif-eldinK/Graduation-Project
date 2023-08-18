@@ -4,7 +4,8 @@ import requests
 from django.conf import settings as django_settings
 from django.contrib import auth, messages
 from django.contrib.auth.decorators import login_required, user_passes_test
-from django.shortcuts import render, redirect
+from django.http import HttpResponse
+from django.shortcuts import redirect, render
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
@@ -249,4 +250,4 @@ def enable_facial_login(request):
 
 
 def health_check(request):
-    return Response("OK", status=200)
+    return HttpResponse("OK", status=200)
