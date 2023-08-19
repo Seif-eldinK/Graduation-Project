@@ -173,6 +173,7 @@
                                                         </div>
                                                     </div>
                                                     <button class="btn btn-microsoft btn-social-media col"
+                                                            onclick="microsoft_button()"
                                                             type="submit">
                                                         Microsoft
                                                     </button>
@@ -203,6 +204,7 @@
                                                              style="color: #007BB6"></div>
                                                     </div>
                                                     <button class="btn btn-linkedin btn-social-media col"
+                                                            onclick="linkedin_button()"
                                                             type="submit">LinkedIn
                                                     </button>
                                                 </div>
@@ -259,6 +261,24 @@
                         running = false;
                     }
                 })
+            }
+        }
+
+        function microsoft_button() {
+            event.preventDefault();
+            if ("{{ SOCIAL_MICROSOFT_PREMIUM }}" === "True") {
+                show_alert("warning", "Please upgrade to premium to continue using the service.");
+            } else {
+                event.target.form.submit();
+            }
+        }
+
+        function linkedin_button() {
+            event.preventDefault();
+            if ("{{ SOCIAL_LINKEDIN_PREMIUM }}" === "True") {
+                show_alert("warning", "Please upgrade to premium to continue using the service.");
+            } else {
+                event.target.form.submit();
             }
         }
     </script>

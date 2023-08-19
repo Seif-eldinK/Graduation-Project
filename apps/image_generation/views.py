@@ -14,6 +14,8 @@ def image_generation(request):
 
 @api_view(['POST'])
 def generate_image_api(request):
+    if django_settings.IMAGE_GENERATION_PREMIUM == True:
+        return Response({'premium': True}, status=200)
     text_prompt = request.data.get('text_prompt', '')  # json-encoded data
     task_id = generate_image(text_prompt, django_settings.IMAGE_GENERATION_STEPS)
     print(f"{text_prompt = }")  # log to console

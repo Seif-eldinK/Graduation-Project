@@ -58,8 +58,14 @@ IMAGE_GENERATION_STEPS = config('IMAGE_GENERATION_STEPS', default=25, cast=int)
 # Character Transformation Settings
 CHARACTER_TRANSFORMATION_MODE = config('CHARACTER_TRANSFORMATION_MODE', default='ultra_fast')
 
-# Application definition
+# Premium Plan Settings
+IMAGE_GENERATION_PREMIUM = config('IMAGE_GENERATION_PREMIUM', default=False, cast=bool)
+TEXT_SIMPLIFICATION_PREMIUM = config('TEXT_SIMPLIFICATION_PREMIUM', default=False, cast=bool)
+CHARACTER_TRANSFORMATION_PREMIUM = config('CHARACTER_TRANSFORMATION_PREMIUM', default=False, cast=bool)
+SOCIAL_MICROSOFT_PREMIUM = config('SOCIAL_MICROSOFT_PREMIUM', default=False, cast=bool)
+SOCIAL_LINKEDIN_PREMIUM = config('SOCIAL_LINKEDIN_PREMIUM', default=False, cast=bool)
 
+# Application definition
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',

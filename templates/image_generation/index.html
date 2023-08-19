@@ -178,7 +178,13 @@
                     'text_prompt': $("#text-prompt").text(),
                 }),
                 success: function (result) {
-                    get_status(result['task_id']);
+                    if (result['premium'] === true){
+                        show_alert("warning", "Please upgrade to premium to continue using the service.");
+                        loading(false);
+                    }
+                    else {
+                        get_status(result['task_id']);
+                    }
                 },
                 error: function (result) {
                     show_alert("error", "Error");

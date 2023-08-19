@@ -248,12 +248,18 @@
                         character: $character,
                     }),
                     success: function (result) {
-                        // show success alert if request is successful
-                        show_alert("success", "Video uploaded successfully!");
-                        // get task id from response
-                        let task_id = result["task_id"];
-                        // get status of the task
-                        get_status(task_id);
+                        if (result['premium'] === true) {
+                            show_alert("warning", "Please upgrade to premium to continue using the service.");
+                            loading(false);
+                        }
+                        else {
+                            // show success alert if request is successful
+                            show_alert("success", "Video uploaded successfully!");
+                            // get task id from response
+                            let task_id = result["task_id"];
+                            // get status of the task
+                            get_status(task_id);
+                        }
                     },
                     error: function () {
                         // show error alert if error occurs
