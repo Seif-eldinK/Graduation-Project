@@ -90,7 +90,8 @@ def signup(request):
 
 @anonymous_required
 def login(request):
-    context = {"title": "Login"}
+    context = {"title": "Login", 'SOCIAL_MICROSOFT_PREMIUM': django_settings.SOCIAL_MICROSOFT_PREMIUM,
+               'SOCIAL_LINKEDIN_PREMIUM': django_settings.SOCIAL_LINKEDIN_PREMIUM}
     if request.method == "POST":
         username_email = request.POST.get("username_email", "")
         password = request.POST.get("password", "")
@@ -135,7 +136,8 @@ def profile(request):
 
 @login_required
 def settings(request, template="personal_information"):
-    context = {"title": "Settings"}
+    context = {"title": "Settings", 'SOCIAL_MICROSOFT_PREMIUM': django_settings.SOCIAL_MICROSOFT_PREMIUM,
+               'SOCIAL_LINKEDIN_PREMIUM': django_settings.SOCIAL_LINKEDIN_PREMIUM}
     root = "core/settings/"
     if template == "personal_information":
         context['template'] = root + "personal_information.html"

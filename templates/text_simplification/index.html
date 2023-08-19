@@ -115,7 +115,12 @@
                     'input_text': $("#text-to-simplify").text(),
                 }),
                 success: function (result) {
-                    $("#simplified-text").text(result['simplified_text']);
+                    if (result['premium'] === true){
+                        show_alert("warning", "Please upgrade to premium to continue using the service.");
+                    }
+                    else {
+                        $("#simplified-text").text(result['simplified_text']);
+                    }
                 },
                 error: function (result) {
                     show_alert("error", "Error");

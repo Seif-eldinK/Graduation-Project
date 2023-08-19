@@ -16,6 +16,8 @@ def video_generation(request):
 
 @api_view(['POST'])
 def transform_character_api(request):
+    if django_settings.CHARACTER_TRANSFORMATION_PREMIUM == True:
+        return Response({'premium': True}, status=200)
     uploaded_video = request.data.get('video', '')  # json-encoded data
     video_base64 = uploaded_video.split(',')[1]  # Extract the Base64-encoded data portion of the string
     character_id = request.data.get('character', '')
